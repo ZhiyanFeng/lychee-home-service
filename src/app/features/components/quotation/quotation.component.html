@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <form [formGroup]="quotationForm" (ngSubmit)="onSubmit(quotationForm)">
+      <div class="mb-3">
+        <label for="origin-input" class="form-label">From:</label>
+        <input #from type="text" class="form-control" id="origin-input"
+               placeholder="Enter an origin location" aria-describedby="" formControlName="from">
+      </div>
+      <div class="mb-3">
+        <label for="destination-input" class="form-label">To</label>
+        <input #to type="text" class="form-control" id="destination-input"
+               placeholder="Enter an destination location" formControlName="to">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+  </div>
+  <div class="row">
+    <google-map height="400px"
+                width="100%"
+                [center]="center"
+                [zoom]="zoom">
+      <map-directions-renderer *ngIf="(directionsResults$ | async) as directionsResults"
+                               [directions]="directionsResults"></map-directions-renderer>
+    </google-map>
+  </div>
+</div>
