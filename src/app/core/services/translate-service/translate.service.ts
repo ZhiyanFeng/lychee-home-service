@@ -1,35 +1,33 @@
-import { Injectable } from '@angular/core';
-import {TranslationSet} from "./translationSet";
+import {Injectable, OnInit} from '@angular/core';
+import {Dictionary, TranslationSet} from "./translationSet";
+import {Store} from "@ngrx/store";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TranslateService {
-  languages = ['zh-cn', 'en'];
-  language = 'zh-en';
+export class TranslateService implements OnInit{
+  language: string;
+  private dictionary: Dictionary;
 
-  private dictionary: { [key: string]: TranslationSet } = {
-    'zh-en': {
-       language : 'zh-en',
-        values : {
-           service: '服务'
-        }
-    },
-
-    en: {
-      language: 'en',
-      values: {
-        service: 'service'
-      }
-    }
+  constructor(private store: Store<{language:  Dictionary}>) {
+    this.store.select('language').subscribe((dict)=>{
+      this.dictionary = dict;
+    });
   }
 
-  constructor() { }
+  ngOnInit(): void {
+    localStorage.setItem('lan', 'en');
+  }
 
   translate( value: string) : string {
+    this.language = localStorage.getItem('lan');
     if(this.dictionary[this.language] != null){
       return this.dictionary[this.language].values[value]
     }
     return "";
+  }
+
+  setLanguage(lan: string){
+    localStorage.setItem('lan', lan);
   }
 }

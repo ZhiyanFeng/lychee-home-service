@@ -1,0 +1,13 @@
+import { languageReducer, initialState } from './language.reducer';
+
+describe('Language Reducer', () => {
+  describe('an unknown action', () => {
+    it('should return the previous state', () => {
+      const action = {} as any;
+
+      const result = reducer(initialState, action);
+
+      expect(result).toBe(initialState);
+    });
+  });
+});

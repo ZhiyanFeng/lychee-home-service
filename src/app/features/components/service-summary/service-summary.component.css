@@ -7,9 +7,15 @@
 }
 
 .button-row {
-  justify-content: center;
   flex-direction: row;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  max-width: 600px;
-  margin: 8px 8px 8px 0;
+}
+.summary-header {
+  color: #7e8d9f;
+  font-size: 20px;
 }

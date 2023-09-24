@@ -1,20 +1,32 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from "@angular/forms";
 import {GoogleMapsModule, MapDirectionsService} from '@angular/google-maps';
 import {catchError, map, Observable, of, tap} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {MatStepperModule} from "@angular/material/stepper";
+import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
+import {ServiceSummaryComponent} from "../service-summary/service-summary.component";
+import {N} from "@angular/cdk/keycodes";
+import {RouteDetail} from "../../../core/models/route-detail";
 
 @Component({
   selector: 'app-quotation',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule, MatStepperModule, MatSelectModule, MatButtonModule, ServiceSummaryComponent],
   templateUrl: "./quotation.component.html",
   styleUrls: ['./quotation.component.css']
 })
-export class QuotationComponent implements OnInit, AfterViewInit{
+export class QuotationComponent implements OnInit, AfterViewInit {
   placeHolder: string;
   @ViewChild('from', {static: false}) from: ElementRef;
   @ViewChild('to', {static: false}) to: ElementRef;
@@ -26,46 +38,105 @@ export class QuotationComponent implements OnInit, AfterViewInit{
   center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
   zoom = 4;
 
-  directionsResults$: Observable<google.maps.DirectionsResult|undefined>;
+  directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
+  toChange=false;
 
-  quotationForm: FormGroup;
+  formGroup: FormGroup;
+  properties = [
+    {value: 'condo', viewValue: 'Condo'},
+    {value: 'town house', viewValue: 'Town house'},
+    {value: 'house', viewValue: 'Semi/Detached'}
+  ];
 
-  constructor(private fb: FormBuilder, private mapDirectionsService: MapDirectionsService) {
+  rooms=  [
+    {value: '0', viewValue: '0'},
+    {value: '1', viewValue: '1'},
+    {value: '2', viewValue: '2'},
+    {value: '3', viewValue: '3'},
+    {value: '4', viewValue: '4'},
+    {value: '5', viewValue: '5'},
+    {value: '6', viewValue: '6'}
+  ];
+
+
+  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService) {
 
   }
+
+  get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
+
+
 
   ngOnInit(): void {
-    this.quotationForm = this.fb.group({
-      from: '',
-      to: '',
+    this.formGroup = this._formBuilder.group({
+      formArray: this._formBuilder.array([
+        this._formBuilder.group({
+          from: ['', [Validators.required]],
+          to: ['', [Validators.required]],
+          distance: [''],
+          duration: ['']
+        }),
+        this._formBuilder.group({
+            residentialType: ['', [Validators.required]],
+            rooms: ['', [Validators.required]]
+          }
+        ),
+        this._formBuilder.group({
+            type: ['', [Validators.required]]
+          }
+        )
+      ])
     })
   }
-
 
 
   ngAfterViewInit(): void {
     this.originalLocation = new google.maps.places.Autocomplete(this.from.nativeElement);
-    this.originalLocation.addListener("place_changed", ()=>{
-      const place = this.originalLocation.getPlace();
-      console.log(place);
-    })
+    // this.originalLocation.addListener("place_changed", () => {
+    //   const fromPlace = this.originalLocation.getPlace();
+    //   routeDetail.value['from'] = fromPlace.formatted_address;
+    // })
 
     this.destinationLocation = new google.maps.places.Autocomplete(this.to.nativeElement);
-    this.destinationLocation.addListener("place_changed", ()=>{
-      const place = this.destinationLocation.getPlace();
-      console.log(place);
-    })
+    // this.destinationLocation.addListener("place_changed", () => {
+    //   const toPlace = this.destinationLocation.getPlace();
+    //   routeDetail.value['to'] = toPlace.formatted_address;
+    // })
   }
 
-  onSubmit(form: FormGroup){
+  setAddress(){
+    let routeDetail = this.formGroup.get('formArray').get([0]);
+    routeDetail.value['from'] = this.originalLocation.getPlace().formatted_address;
+    routeDetail.value['to'] = this.destinationLocation.getPlace().formatted_address;
+  }
+  step1Complete() {
+    this.setAddress();
     const request: google.maps.DirectionsRequest = {
-      destination: {lat: this.destinationLocation.getPlace().geometry.location.lat(), lng: this.destinationLocation.getPlace().geometry.location.lng()},
-      origin: {lat: this.originalLocation.getPlace().geometry.location.lat(), lng: this.originalLocation.getPlace().geometry.location.lng()},
-      travelMode: google.maps.TravelMode.DRIVING
+      destination: {
+        lat: this.destinationLocation.getPlace().geometry.location.lat(),
+        lng: this.destinationLocation.getPlace().geometry.location.lng()
+      },
+      origin: {
+        lat: this.originalLocation.getPlace().geometry.location.lat(),
+        lng: this.originalLocation.getPlace().geometry.location.lng()
+      },
+      travelMode: google.maps.TravelMode.DRIVING,
     };
-    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result), tap((response)=> {
-      console.log(response)
-    }));
+    this.directionsResults$ = this.mapDirectionsService.route(request)
+      .pipe(
+        map(response => response.result),
+        tap((response) => {
+          this.formGroup.get('formArray').get([0]).value['distance'] = response.routes[0].legs[0].distance.text;
+          this.formGroup.get('formArray').get([0]).value['duration'] = response.routes[0].legs[0].duration.text;
+        }
+        ));
+  }
+  step2Complete(){
+    this.toChange = true;
+    console.log(this.formGroup.get('formArray').get([1]));
+  }
+  onSubmit(formGroup: FormGroup){
 
   }
+
 }

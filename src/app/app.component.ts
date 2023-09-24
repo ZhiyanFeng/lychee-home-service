@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import {NavbarComponent} from "./core/layout/navbar/navbar.component";
+import {Store} from "@ngrx/store";
+import {languageActions} from "./core/store/languages/language.actions";
 
 @Component({
   selector: 'app-root',
@@ -10,6 +12,12 @@ import {NavbarComponent} from "./core/layout/navbar/navbar.component";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'professional-moving';
+
+  constructor(private store: Store) {
+  }
+  ngOnInit(): void {
+    this.store.dispatch(languageActions.loadLanguages());
+  }
 }
