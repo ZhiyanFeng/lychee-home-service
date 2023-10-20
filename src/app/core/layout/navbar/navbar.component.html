@@ -1,52 +1,60 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<header>
+
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <a class="navbar-brand" >{{"Canton Moving" | translate}}</a>
+    <div class="brand">
+
+    <a class="navbar-brand" >
+      <img src="../../assets/icons/logo.png" alt="Canton Moving">
+    </a>
+    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
             aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;" >
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" (click)="goHome()" >{{'Home' | translate}}</a>
+          <a class="nav-link active" aria-current="page" (click)="goHome()" mat-button>{{'Home' | translate}}</a>
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ 'Our Services' | translate }}
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" >Office Moving</a></li>
-            <li><a class="dropdown-item" >Residential Moving</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" >Something else here</a></li>
-          </ul>
+        <li class="nav-item">
+        <button mat-button [matMenuTriggerFor]="menu" aria-label="menu">
+          <span> {{ 'Our Services' | translate }} </span>
+          <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>local_shipping</mat-icon>
+            <span>Residential Moving</span>
+          </button>
+
+          <button mat-menu-item>
+            <mat-icon>trolley</mat-icon>
+            <span>Small Moving</span>
+          </button>
+        </mat-menu>
         </li>
       </ul>
-      <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        <li class="nav-item dropdown ms-auto d-flex">
-          <a [hidden]="!isEnglish" class="nav-link dropdown-toggle" id="Dropdown" role="button" data-bs-toggle="dropdown"
-             aria-expanded="false">
+      <div>
+        <button mat-button [matMenuTriggerFor]="languageMenu" aria-label="menu">
+          <mat-icon>language</mat-icon>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #languageMenu="matMenu">
+          <button mat-menu-item (click)="setLanguage('en')">
             <i class="fi fi-ca"></i>
-          </a>
+            <span>English</span>
+          </button>
 
-          <a [hidden]="isEnglish" class="nav-link dropdown-toggle" id="Dropdown-cn" role="button" data-bs-toggle="dropdown"
-             aria-expanded="false">
+          <button mat-menu-item (click)="setLanguage('zh-en')">
             <i class="fi fi-cn"></i>
-          </a>
+            <span>中文</span>
+          </button>
+        </mat-menu>
+      </div>
 
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="Dropdown">
-            <li [hidden]='isEnglish'>
-              <a class="dropdown-item"  (click)="setLanguage('en')"><i class="fi fi-ca"></i> English</a>
-            </li>
-            <li [hidden]="!isEnglish">
-              <a class="dropdown-item" (click)="setLanguage('zh-en')"><i class="fi fi-cn"></i> 中文</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
     </div>
   </div>
 </nav>
+</header>

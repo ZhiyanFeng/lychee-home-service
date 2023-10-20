@@ -16,7 +16,7 @@ export class TranslateService implements OnInit{
   }
 
   ngOnInit(): void {
-    localStorage.setItem('lan', 'en');
+
   }
 
   translate( value: string) : string {

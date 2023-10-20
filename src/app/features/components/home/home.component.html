@@ -1,4 +1,6 @@
-<div class="container">
+<main clase="moving">
+
+<section id="carousel">
   <div id="carouselCaptions" class="carousel slide" data-bs-ride="false">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -6,22 +8,22 @@
       <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active">
+      <div class="carousel-item active item-1">
         <img src="https://www.compassoffices.com/media/filer_public/42/4e/424e0b0e-6d06-4d71-920f-c852eb7db1f0/nailing-the-office-relocation.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h5>First slide label</h5>
           <p>Some representative placeholder content for the first slide.</p>
         </div>
       </div>
-      <div class="carousel-item">
+      <div class="carousel-item item-2">
         <img src="https://www.firemenmovers.com/wp-content/uploads/2019/02/iStock-846374178.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h5>Second slide label</h5>
           <p>Some representative placeholder content for the second slide.</p>
         </div>
       </div>
-      <div class="carousel-item">
-        <img src="https://www.enterprisetrucks.ca/content/dam/truckrental/en_us/staticPageImages/Truck_T16_Eng_Branch.Lineup.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-item item-3">
+        <img src="../../assets/images/fleet.jpg" class="d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h5>Third slide label</h5>
           <p>Some representative placeholder content for the third slide.</p>
@@ -37,4 +39,41 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-</div>
+</section>
+
+<section id="service-list">
+  <mat-card class="service-card">
+    <mat-card-header fxLayoutAlign="center">
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Redidential Moving</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="../../assets/images/fleet.jpg" alt="Residential Moving">
+    <mat-card-content>
+      <p>
+        Are you moving from an apartment to a new home? Do you need to move your belongings from a dorm to an apartment?
+        Are you planning an apartment to apartment or house to house move? Whether you are moving to a nearby street or to another part of the city,
+        you need top-notch residential moving services.
+      </p>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center">
+      <button mat-raised-button color="primary" (click)="toQuotation()">Get a quote</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="service-card">
+    <mat-card-header fxLayoutAlign="center">
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Small moving</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="../../assets/images/van.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <p>
+       This service is for single persons living in a room. Most of them don't have much stuff, so we offer a affordable
+        price for this kind of moving.
+      </p>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center">
+      <button mat-raised-button color="primary">Get a quote</button>
+    </mat-card-actions>
+  </mat-card>
+</section>
+</main>

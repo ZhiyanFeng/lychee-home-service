@@ -1,16 +1,16 @@
 <div class="container">
   <div class="row col-xl-12">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)">
-      <mat-horizontal-stepper formArrayName="formArray" linear>
+      <mat-stepper [orientation]="isMobile? 'vertical': 'horizontal'"  formArrayName="formArray" linear>
         <mat-step formGroupName="0" [stepControl]="formArray.get([0])">
 
           <ng-template matStepLabel>Tell us your trip</ng-template>
           <div class="form-group moving-route">
-            <mat-form-field appearance="fill" style="width:25vw">
+            <mat-form-field appearance="fill" >
               <mat-label>From</mat-label>
               <input #from matInput formControlName="from">
             </mat-form-field>
-            <mat-form-field appearance="fill" style="width:25vw">
+            <mat-form-field appearance="fill" >
               <mat-label>To</mat-label>
               <input #to matInput formControlName="to">
             </mat-form-field>
@@ -18,7 +18,7 @@
           </div>
         </mat-step>
         <mat-step formGroupName="1" [stepControl]="formArray.get([1])">
-          <ng-template matStepLabel>Fill out your property type and room</ng-template>
+          <ng-template matStepLabel>Property type</ng-template>
           <div class="row">
             <google-map height="400px"
                         width="100%"
@@ -37,11 +37,10 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <!--          <p> Selected food: {{residentialType}} </p>-->
             <mat-form-field>
               <mat-label>Rooms</mat-label>
               <mat-select formControlName="rooms">
-                <mat-option *ngFor="let room of rooms" [value]="room.value">
+                <mat-option *ngFor="let room of counts" [value]="room.value">
                   {{room.viewValue}}
                 </mat-option>
               </mat-select>
@@ -52,11 +51,61 @@
             </div>
           </div>
         </mat-step>
+        <mat-step formGroupName="2" [stepControl]="formArray.get([2])">
+          <ng-template matStepLabel>Bulky items</ng-template>
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Piano</mat-label>
+              <mat-select formControlName="piano">
+                <mat-option *ngFor="let count of counts" [value]="count.value">
+                  {{count.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--          <p> Selected food: {{residentialType}} </p>-->
+            <mat-form-field>
+              <mat-label>Marble furniture</mat-label>
+              <mat-select formControlName="marbleFurniture">
+                <mat-option *ngFor="let count of counts" [value]="count.value">
+                  {{count.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Refrigerator</mat-label>
+              <mat-select formControlName="refrigerator">
+                <mat-option *ngFor="let count of counts" [value]="count.value">
+                  {{count.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="button-row">
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">Back</button>
+              <button mat-raised-button matStepperNext color="primary" (click)="step3Complete()">Next</button>
+            </div>
+          </div>
+        </mat-step>
+        <mat-step formGroupName="3">
+          <ng-template matStepLabel>Choose a date</ng-template>
+          <div class="form-group">
+          <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <div class="button-row">
+            <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">Back</button>
+            <button mat-raised-button matStepperNext color="primary" (click)="step3Complete()">Next</button>
+          </div>
+          </div>
+        </mat-step>
         <mat-step>
           <ng-template matStepLabel>Your quotation</ng-template>
-          <app-service-summary [quotationForm]="formGroup" [toChange]="toChange"></app-service-summary>
+          <app-service-summary [quotationForm]="formGroup" [toChange]="toChange" [isMobile]="isMobile"></app-service-summary>
         </mat-step>
-      </mat-horizontal-stepper>
+      </mat-stepper>
     </form>
 
   </div>

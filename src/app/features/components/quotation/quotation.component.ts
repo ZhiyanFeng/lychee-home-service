@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -18,11 +18,14 @@ import {MatButtonModule} from "@angular/material/button";
 import {ServiceSummaryComponent} from "../service-summary/service-summary.component";
 import {N} from "@angular/cdk/keycodes";
 import {RouteDetail} from "../../../core/models/route-detail";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @Component({
   selector: 'app-quotation',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule, MatStepperModule, MatSelectModule, MatButtonModule, ServiceSummaryComponent],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
+    MatStepperModule, MatSelectModule, MatButtonModule, ServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule],
   templateUrl: "./quotation.component.html",
   styleUrls: ['./quotation.component.css']
 })
@@ -31,6 +34,9 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   @ViewChild('from', {static: false}) from: ElementRef;
   @ViewChild('to', {static: false}) to: ElementRef;
   apiLoaded: Observable<boolean>;
+  public isMobile;
+
+
 
   originalLocation: google.maps.places.Autocomplete | undefined;
   destinationLocation: google.maps.places.Autocomplete | undefined;
@@ -48,7 +54,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     {value: 'house', viewValue: 'Semi/Detached'}
   ];
 
-  rooms=  [
+  counts=  [
     {value: '0', viewValue: '0'},
     {value: '1', viewValue: '1'},
     {value: '2', viewValue: '2'},
@@ -65,9 +71,8 @@ export class QuotationComponent implements OnInit, AfterViewInit {
 
   get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
 
-
-
   ngOnInit(): void {
+    this.isMobile = true
     this.formGroup = this._formBuilder.group({
       formArray: this._formBuilder.array([
         this._formBuilder.group({
@@ -82,7 +87,13 @@ export class QuotationComponent implements OnInit, AfterViewInit {
           }
         ),
         this._formBuilder.group({
-            type: ['', [Validators.required]]
+            piano: ['', [Validators.required]],
+            marbleFurniture: ['', [Validators.required]],
+            refrigerator: ['', [Validators.required]]
+          }
+        ),
+        this._formBuilder.group({
+            date: ['', [Validators.required]]
           }
         )
       ])
@@ -92,16 +103,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.originalLocation = new google.maps.places.Autocomplete(this.from.nativeElement);
-    // this.originalLocation.addListener("place_changed", () => {
-    //   const fromPlace = this.originalLocation.getPlace();
-    //   routeDetail.value['from'] = fromPlace.formatted_address;
-    // })
-
     this.destinationLocation = new google.maps.places.Autocomplete(this.to.nativeElement);
-    // this.destinationLocation.addListener("place_changed", () => {
-    //   const toPlace = this.destinationLocation.getPlace();
-    //   routeDetail.value['to'] = toPlace.formatted_address;
-    // })
   }
 
   setAddress(){
@@ -131,9 +133,27 @@ export class QuotationComponent implements OnInit, AfterViewInit {
         }
         ));
   }
+
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event) {
+    let screenWidth = window.innerWidth;
+    if(screenWidth>390){
+      this.isMobile = false;
+    }else{
+      this.isMobile = true;
+    }
+  }
+
+
   step2Complete(){
+    // this.toChange = true;
+    // console.log(this.formGroup.get('formArray').get([1]));
+  }
+
+  step3Complete(){
     this.toChange = true;
-    console.log(this.formGroup.get('formArray').get([1]));
+    console.log(this.formGroup.get('formArray').get([2]));
   }
   onSubmit(formGroup: FormGroup){
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormGroup} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
@@ -17,12 +17,13 @@ import {PropertyDetail} from "../../../core/models/property-detail";
 export class ServiceSummaryComponent implements OnInit, OnChanges{
   @Input() quotationForm: FormGroup;
   @Input() toChange: boolean;
+  @Input() isMobile: boolean;
   routeDetail: RouteDetail;
   propertyDetail: PropertyDetail;
 
-  ngOnInit(): void {
-  }
   constructor() {
+  }
+  ngOnInit(): void {
   }
 
   step3Complete() {
