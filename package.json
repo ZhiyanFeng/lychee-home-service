@@ -27,6 +27,8 @@
     "@ngrx/schematics": "^16.2.0",
     "@ngrx/store": "^16.2.0",
     "@ngrx/store-devtools": "^16.2.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.11.0",
     "flag-icon": "^2.5.0",

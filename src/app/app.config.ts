@@ -1,23 +1,38 @@
 import {ApplicationConfig, importProvidersFrom, isDevMode} from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import {provideHttpClient} from "@angular/common/http";
-import {TranslateService} from "./core/services/translate-service/translate.service";
+import {HttpClient, provideHttpClient} from "@angular/common/http";
 import { provideStore } from '@ngrx/store';
 import {languageReducer} from "./core/store/languages/language.reducer";
 import {httpInterceptorProviders} from "./core/interceptors";
 import {servicesProvider} from "./core/services";
 import {provideEffects} from "@ngrx/effects";
-import {languageActions} from "./core/store/languages/language.actions";
 import {LanguageEffects} from "./core/store/languages/language.effects";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [servicesProvider, provideRouter(routes), provideAnimations(), provideAnimations(), provideEffects([LanguageEffects]),
     provideHttpClient(), provideStore({language: languageReducer}), httpInterceptorProviders,
-    provideStoreDevtools({
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        defaultLanguage: 'en',
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+        },
+      })
+    )
+    ,provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open

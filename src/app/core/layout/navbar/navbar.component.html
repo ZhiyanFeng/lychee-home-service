@@ -15,12 +15,12 @@
     <div class="collapse navbar-collapse" id="navbarScroll">
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;" >
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" (click)="goHome()" mat-button>{{'Home' | translate}}</a>
+          <a class="nav-link active" aria-current="page" (click)="goHome()" mat-button>{{'NAVBAR.HOME' | translate}}</a>
         </li>
 
         <li class="nav-item">
         <button mat-button [matMenuTriggerFor]="menu" aria-label="menu">
-          <span> {{ 'Our Services' | translate }} </span>
+          <span> {{ 'NAVBAR.SERVICE' | translate }} </span>
           <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

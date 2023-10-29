@@ -16,7 +16,6 @@ export class HomeComponent {
   constructor(private router: Router) {
   }
 
-
   toQuotation() {
     this.router.navigate(['quotation']);
   }

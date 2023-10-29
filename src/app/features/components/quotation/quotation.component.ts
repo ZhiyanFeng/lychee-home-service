@@ -12,7 +12,7 @@ import {
 } from "@angular/forms";
 import {GoogleMapsModule, MapDirectionsService} from '@angular/google-maps';
 import {catchError, map, Observable, of, tap} from "rxjs";
-import {MatStepperModule} from "@angular/material/stepper";
+import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {ServiceSummaryComponent} from "../service-summary/service-summary.component";
@@ -20,12 +20,13 @@ import {N} from "@angular/cdk/keycodes";
 import {RouteDetail} from "../../../core/models/route-detail";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-quotation',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
-    MatStepperModule, MatSelectModule, MatButtonModule, ServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule],
+    MatStepperModule, MatSelectModule, MatButtonModule, ServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule],
   templateUrl: "./quotation.component.html",
   styleUrls: ['./quotation.component.css']
 })
@@ -34,9 +35,8 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   @ViewChild('from', {static: false}) from: ElementRef;
   @ViewChild('to', {static: false}) to: ElementRef;
   apiLoaded: Observable<boolean>;
-  public isMobile;
-
-
+  public isMobile=false;
+  orientation: StepperOrientation = 'vertical';
 
   originalLocation: google.maps.places.Autocomplete | undefined;
   destinationLocation: google.maps.places.Autocomplete | undefined;
@@ -66,7 +66,12 @@ export class QuotationComponent implements OnInit, AfterViewInit {
 
 
   constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService) {
-
+    let screenWidth = window.innerWidth;
+    if(screenWidth>390){
+      this.orientation = 'horizontal';
+    }else{
+      this.orientation = 'vertical';
+    }
   }
 
   get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
@@ -139,9 +144,9 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   onWindowResize(event: Event) {
     let screenWidth = window.innerWidth;
     if(screenWidth>390){
-      this.isMobile = false;
+      this.orientation = 'horizontal';
     }else{
-      this.isMobile = true;
+      this.orientation = 'verticalgi';
     }
   }
 

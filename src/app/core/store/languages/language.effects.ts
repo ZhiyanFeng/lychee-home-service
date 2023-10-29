@@ -12,18 +12,18 @@ import {catchError, exhaustMap, map, of} from "rxjs";
 export class LanguageEffects {
   constructor(private actions$: Actions, private restApiService: RestApiService ) {}
 
-  getLanguages = createEffect(() => this.actions$.pipe(
-      ofType(languageActions.loadLanguages), exhaustMap(
-          () => {
-            return this.restApiService.getLanguages().pipe(
-              map((languages) => languageActions.loadLanguagesSuccess({languages})),
-                catchError(
-                  (error) => of(languageActions.loadLanguagesFailure({error}))
-                )
-            )
-          }
-      )
-    )
-
-  )
+  // getLanguages = createEffect(() => this.actions$.pipe(
+  //     ofType(languageActions.loadLanguages), exhaustMap(
+  //         () => {
+  //           return this.restApiService.getLanguages().pipe(
+  //             map((languages) => languageActions.loadLanguagesSuccess({languages})),
+  //               catchError(
+  //                 (error) => of(languageActions.loadLanguagesFailure({error}))
+  //               )
+  //           )
+  //         }
+  //     )
+  //   )
+  //
+  // )
 }

@@ -10,10 +10,8 @@ export const initialState: State =
 {};
 
 export const languageReducer = createReducer(
-  initialState, on(languageActions.loadLanguagesSuccess, (state, {languages}) => ({
-    ...state,
-    'en': JSON.parse(languages['en']['fields']['en']['stringValue']),
-    'zh-en': JSON.parse(languages['zh-en']['fields']['zh-en']['stringValue'])
+  initialState, on(languageActions.setLanguage, (state, {language}) => ({
+    ...state,  "language": language
   }))
 );
 
