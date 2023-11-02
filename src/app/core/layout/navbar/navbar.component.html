@@ -1,5 +1,4 @@
 <header>
-
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <div class="brand">
@@ -35,24 +34,43 @@
           </button>
         </mat-menu>
         </li>
+
       </ul>
+        <div>
+          <button mat-button [matMenuTriggerFor]="languageMenu" aria-label="menu">
+            <mat-icon>language</mat-icon>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #languageMenu="matMenu">
+            <button mat-menu-item (click)="setLanguage('en')">
+              <i class="fi fi-ca"></i>
+              <span>English</span>
+            </button>
+
+            <button mat-menu-item (click)="setLanguage('zh-en')">
+              <i class="fi fi-cn"></i>
+              <span>中文</span>
+            </button>
+          </mat-menu>
+        </div>
       <div>
-        <button mat-button [matMenuTriggerFor]="languageMenu" aria-label="menu">
-          <mat-icon>language</mat-icon>
+        <button mat-button [matMenuTriggerFor]="accountMenu" aria-label="menu">
+          <mat-icon>account_circle</mat-icon>
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
-        <mat-menu #languageMenu="matMenu">
-          <button mat-menu-item (click)="setLanguage('en')">
-            <i class="fi fi-ca"></i>
-            <span>English</span>
+        <mat-menu #accountMenu="matMenu">
+          <button mat-menu-item (click)="onLogin()">
+            <mat-icon>login</mat-icon>
+            <span>Login</span>
           </button>
 
-          <button mat-menu-item (click)="setLanguage('zh-en')">
-            <i class="fi fi-cn"></i>
-            <span>中文</span>
+          <button mat-menu-item (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
           </button>
         </mat-menu>
       </div>
+
 
     </div>
   </div>

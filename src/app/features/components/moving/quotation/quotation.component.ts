@@ -16,11 +16,15 @@ import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {ServiceSummaryComponent} from "../service-summary/service-summary.component";
-import {N} from "@angular/cdk/keycodes";
-import {RouteDetail} from "../../../core/models/route-detail";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {TranslateModule} from "@ngx-translate/core";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {Trip} from "../../../../shared/models/trip";
+import {Property} from "../../../../shared/models/property";
+import {BulkyItems} from "../../../../shared/models/bulkyItems";
+import {Contact} from "../../../../shared/models/contact";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-quotation',
@@ -64,8 +68,14 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     {value: '6', viewValue: '6'}
   ];
 
+  trip: Trip;
+  property: Property;
+  bulkyItems: BulkyItems;
+  contact: Contact;
+  movingDate : Date;
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService) {
+
+  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private db: AngularFirestore) {
     let screenWidth = window.innerWidth;
     if(screenWidth>390){
       this.orientation = 'horizontal';
@@ -99,6 +109,12 @@ export class QuotationComponent implements OnInit, AfterViewInit {
         ),
         this._formBuilder.group({
             date: ['', [Validators.required]]
+          }),
+        this._formBuilder.group({
+            firstName: ['', [Validators.required]],
+            lastName: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.email]],
+            phone: ['', [Validators.required]],
           }
         )
       ])
@@ -146,21 +162,30 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     if(screenWidth>390){
       this.orientation = 'horizontal';
     }else{
-      this.orientation = 'verticalgi';
+      this.orientation = 'vertical';
     }
   }
 
-
-  step2Complete(){
-    // this.toChange = true;
-    // console.log(this.formGroup.get('formArray').get([1]));
-  }
-
-  step3Complete(){
-    this.toChange = true;
-    console.log(this.formGroup.get('formArray').get([2]));
-  }
   onSubmit(formGroup: FormGroup){
+      this.trip = formGroup.get('formArray').get([0]).value;
+      this.property = formGroup.get('formArray').get([1]).value;
+      this.bulkyItems = formGroup.get('formArray').get([2]).value;
+      this.movingDate = formGroup.get('formArray').get([3]).value;
+      this.contact = formGroup.get('formArray').get([4]).value;
+      const moving_order = {
+        trip: this.trip,
+          property: this.property,
+          bulkyItems: this.bulkyItems,
+          movingDate: this.movingDate,
+          contact: this.contact
+      }
+      this.db.collection('moving_orders').add(moving_order).then(
+        result => {
+          console.log(result);
+        }
+      ).catch(error=>{
+        console.log(error);
+      });
 
   }
 

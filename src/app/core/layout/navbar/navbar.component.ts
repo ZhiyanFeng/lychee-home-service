@@ -36,4 +36,11 @@ export class NavbarComponent {
     this.translate.use(lan);
   }
 
+  onLogin(){
+    this.router.navigate(['/login']);
+  }
+  onLogout(){
+
+  }
+
 }

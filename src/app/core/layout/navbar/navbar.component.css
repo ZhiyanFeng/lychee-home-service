@@ -22,16 +22,15 @@ li{
   padding-right: 0.5rem;
 }
 a,
-a:hover {
+a:hover
+a.active {
   color: white;
 }
+
 ul {
   margin: 0 0;
 }
 
-a.active {
-  color: white;
-}
 .service{
   color: black;
 }

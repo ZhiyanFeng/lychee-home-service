@@ -4,8 +4,8 @@ import {FormGroup} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatCardModule} from "@angular/material/card";
-import {RouteDetail} from "../../../core/models/route-detail";
-import {PropertyDetail} from "../../../core/models/property-detail";
+import {RouteDetail} from "../../../../shared/models/route-detail";
+import {PropertyDetail} from "../../../../shared/models/property-detail";
 
 @Component({
   selector: 'app-service-summary',

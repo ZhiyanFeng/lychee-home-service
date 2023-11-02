@@ -12,7 +12,11 @@ import {LanguageEffects} from "./core/store/languages/language.effects";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-
+import {environment} from "../environments/environment";
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {getFirestore, provideFirestore} from "@angular/fire/firestore";
+import {getAuth, provideAuth} from "@angular/fire/auth";
+import {FIREBASE_OPTIONS} from "@angular/fire/compat";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -31,8 +35,14 @@ export const appConfig: ApplicationConfig = {
           deps: [HttpClient],
         },
       })
-    )
-    ,provideStoreDevtools({
+    ),
+    importProvidersFrom([
+      provideFirebaseApp(() => initializeApp(environment.firebase)),
+      provideFirestore(() => getFirestore()),
+      provideAuth(() => getAuth())
+    ]),
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
+    provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open

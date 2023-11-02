@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "home-services-81fe7": {
+      "hosting": {
+        "professional-moving": [
+          "home-services-81fe7"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "home-services-81fe7"
+  }
+}

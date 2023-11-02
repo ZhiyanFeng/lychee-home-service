@@ -14,7 +14,7 @@
               <mat-label>To</mat-label>
               <input #to matInput formControlName="to">
             </mat-form-field>
-            <button mat-raised-button matStepperNext color="primary" (click)="step1Complete()">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
+            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step1Complete()">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
           </div>
         </mat-step>
         <mat-step formGroupName="1" [stepControl]="formArray.get([1])">
@@ -47,7 +47,7 @@
             </mat-form-field>
             <div class="button-row">
               <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
-              <button mat-raised-button matStepperNext color="primary" (click)="step2Complete()">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperNext color="primary" type="button">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
             </div>
           </div>
         </mat-step>
@@ -81,11 +81,11 @@
             </mat-form-field>
             <div class="button-row">
               <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
-              <button mat-raised-button matStepperNext color="primary" (click)="step3Complete()">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperNext color="primary" type="button">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
             </div>
           </div>
         </mat-step>
-        <mat-step formGroupName="3">
+        <mat-step formGroupName="3" [stepControl]="formArray.get([3])">
           <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP4.LABEL" | translate }}</ng-template>
           <div class="form-group">
           <mat-form-field>
@@ -97,13 +97,39 @@
           </mat-form-field>
           <div class="button-row">
             <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
-            <button mat-raised-button matStepperNext color="primary" (click)="step3Complete()">{{"MOVING.QUOTATIONFORM..LABEL" | translate}}</button>
+            <button mat-raised-button matStepperNext color="primary" type="button">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
           </div>
           </div>
         </mat-step>
+
         <mat-step>
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP5.LABEL" | translate }}</ng-template>
+          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP6.LABEL" | translate }}</ng-template>
           <app-service-summary [quotationForm]="formGroup" [toChange]="toChange" [isMobile]="isMobile"></app-service-summary>
+        </mat-step>
+        <mat-step formGroupName="4" [stepControl]="formArray.get([4])">
+          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP5.LABEL" | translate }}</ng-template>
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>{{"FORM.FIRSTNAME.LABEL" | translate }}</mat-label>
+              <input matInput formControlName="firstName" autocomplete="given-name">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{"FORM.LASTNAME.LABEL" | translate }}</mat-label>
+              <input matInput formControlName="lastName" autocomplete="family-name">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{"FORM.EMAIL.LABEL" | translate }}</mat-label>
+              <input matInput formControlName="email" autocomplete="email">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{"FORM.PHONE.LABEL" | translate }}</mat-label>
+              <input matInput formControlName="phone" autocomplete="phone">
+            </mat-form-field>
+            <div class="button-row">
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperNext color="primary" type="submit">{{"FORM.SUBMIT.LABEL" | translate}}</button>
+            </div>
+          </div>
         </mat-step>
       </mat-stepper>
     </form>
