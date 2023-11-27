@@ -47,6 +47,24 @@
   text-align: center;
 }
 
+.slogan {
+  background-color: #0d6efd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  font-size: 1rem;
+}
+
+.slogan p {
+  color: white;
+  margin: auto;
+  font-weight: bold;
+}
+
+::ng-deep div[aria-selected="true"]{
+  background-color: darkseagreen;
+}
 
 @media (min-width: 40rem) {
   .carousel-item {
@@ -78,20 +96,20 @@
     color: green;
   }
 
-  /*.carousel-item.item-1 img {*/
-  /*  object-fit: contain;*/
-  /*  object-position: 0rem -0rem;*/
-  /*}*/
+  .carousel-item.item-1 img {
+    object-fit: contain;
+    object-position: 0rem -0rem;
+  }
 
-  /*.carousel-item.item-2 img {*/
-  /*  object-fit: contain;*/
-  /*  object-position: 0rem -10rem;*/
-  /*}*/
+  .carousel-item.item-2 img {
+    object-fit: contain;
+    object-position: 0rem -10rem;
+  }
 
-  /*.carousel-item.item-3 img {*/
-  /*  object-fit: contain;*/
-  /*  object-position: 0rem -15rem;*/
-  /*}*/
+  .carousel-item.item-3 img {
+    object-fit: contain;
+    object-position: 0rem -15rem;
+  }
 
   #service-list {
     width: 80%;
@@ -100,6 +118,16 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+  }
+
+  .moving-service {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .moving-service {
+    flex-direction: row;
   }
 
 
@@ -153,5 +181,7 @@
     object-fit: contain;
     object-position: 0rem -30rem;
   }
+
+
 }
 

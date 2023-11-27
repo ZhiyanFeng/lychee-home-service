@@ -1,4 +1,6 @@
 {
+  "BRAND": "荔枝到家服务",
+  "SLOGAN": "我们礼貌，准时，经济实惠",
   "NAVBAR.HOME": "首页",
   "NAVBAR.BRAND": "荔枝到家",
   "NAVBAR.SERVICE": "我们的服务",
@@ -20,6 +22,34 @@
   "MOVING.QUOTATIONFORM.PIANO.LABEL": "钢琴",
   "MOVING.QUOTATIONFORM.MARBLE.LABEL": "云石家具",
   "MOVING.QUOTATIONFORM.REFRIGERATOR.LABEL": "冰箱",
-  "MOVING.QUOTATIONFORM.BACK.LABEL": "后退",
-  "MOVING.QUOTATIONFORM.NEXT.LABEL": "下一步"
+
+  "BUTTON.BACK.LABEL": "后退",
+  "BUTTON.NEXT.LABEL": "下一步",
+  "BUTTON.BACK.HOME.LABEL": "回到首页",
+
+  "MOVING.SERVICE.RESIDENTIAL.TITLE": "搬家",
+  "MOVING.SERVICE.RESIDENTIAL.FLEET.TITLE": "我们的车队",
+
+  "MOVING.SERVICE.SMALL.TITLE": "小型搬运/家",
+
+  "MOVING.SERVICE.RESIDENTIAL.RATE.HEADER": "价格 (配一车和两个师傅)",
+  "MOVING.SERVICE.TRUCK.LENGTH": "卡车长度",
+  "MOVING.SERVICE.TRUCK.CAPACITY": "卡车容量",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.LABEL": "价格",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.BUSY.LABEL": "繁忙时段价格 (25号-1号)",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.1": "Any stops between start location and destination will be subject to a stop fee charge of $10/stop",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.2": "Traveling charge and fuel charge may apply to certain areas of GTA",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.3": "Stair fee $10 per floor. One-time charge",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.4": "Rate for an additional mover is $45/hr/person",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.5": "Piano is subject to additional charges of CAD$100",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.6": "Marble furniture is subject to additional charges of CAD$100",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.7": "Refrigerator is subject to additional charges of CAD$60",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.8": "Any location 100km away from Toronto is subject to long-distance mileage charge",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.9": "ong distance move is subject to a min. 2 hrs loading time and a min. 2 hrs of unloading time. *Applicable tax is extra",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.10": "For more detailed information regarding the long-distance move, please contact us at 4163008683",
+
+  "THANKYOU.MESSAGE": "我们已经发送预约，请检查你的邮箱。",
+  "GENERAL.MESSAGE.TBD": "待定"
+
+
 }

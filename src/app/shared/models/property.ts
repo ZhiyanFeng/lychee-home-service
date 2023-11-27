@@ -1,4 +1,4 @@
 export interface Property {
-  type: string;
+  residentialType: string;
   rooms: string;
 }

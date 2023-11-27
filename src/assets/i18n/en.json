@@ -1,4 +1,7 @@
 {
+  "BRAND": "Lychee Service",
+  "SLOGAN": "WE ARE POLITE. WE ARE ON TIME. WE ARE ECONOMICAL.",
+
   "NAVBAR.HOME": "Home",
   "NAVBAR.BRAND": "Canton Moving",
   "NAVBAR.SERVICE": "Our Service",
@@ -7,7 +10,6 @@
   "FORM.EMAIL.LABEL": "Email",
   "FORM.PHONE.LABEL": "Phone number",
   "FORM.SUBMIT.LABEL": "Submit",
-
   "MOVING.QUOTATIONFORM.STEP1.LABEL": "Tell us your trip",
   "MOVING.QUOTATIONFORM.STEP2.LABEL": "Property type",
   "MOVING.QUOTATIONFORM.STEP3.LABEL": "Bulky items",
@@ -18,6 +20,28 @@
   "MOVING.QUOTATIONFORM.PIANO.LABEL": "Piano",
   "MOVING.QUOTATIONFORM.MARBLE.LABEL": "Marble furniture",
   "MOVING.QUOTATIONFORM.REFRIGERATOR.LABEL": "Refrigerator",
-  "MOVING.QUOTATIONFORM.BACK.LABEL": "Back",
-  "MOVING.QUOTATIONFORM.NEXT.LABEL": "Next"
+
+  "BUTTON.BACK.LABEL": "Back",
+  "BUTTON.NEXT.LABEL": "Next",
+  "BUTTON.BACK.HOME.LABEL": "Back Home",
+
+  "MOVING.SERVICE.RESIDENTIAL.TITLE": "Residential Moving",
+  "MOVING.SERVICE.RESIDENTIAL.FLEET.TITLE": "Our fleet",
+
+  "MOVING.SERVICE.SMALL.TITLE": "Small Moving",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.HEADER": "Service rates (2 movers and a truck)",
+  "MOVING.SERVICE.TRUCK.LENGTH": "Truck length",
+  "MOVING.SERVICE.TRUCK.CAPACITY": "Capacity",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.LABEL": "Rate",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.BUSY.LABEL": "Busy day rate (25th-1st)",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.0": "Rate for an additional mover is $40/hr/person",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.1": "Piano is subject to additional charges of CAD$100",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.2": "Marble furniture is subject to additional charges of CAD$100",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.3": "Refrigerator is subject to additional charges of CAD$60",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.4": "Any location 100km away from Toronto is subject to long-distance mileage charge",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.5": "Long distance move is subject to a min. 2 hrs loading time and a min. 2 hrs of unloading time.",
+  "MOVING.SERVICE.RESIDENTIAL.RATE.RULE.6": "For more detailed information regarding the long-distance move, please contact us at 4163008683",
+
+  "THANKYOU.MESSAGE": "Please check your email for confirmation details.",
+  "GENERAL.MESSAGE.TBD": "TBD"
 }

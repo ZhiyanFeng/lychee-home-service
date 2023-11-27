@@ -12,7 +12,7 @@
         <div class="col-md-12">
           <div class="text-center">
             <i class="fab fa-mdb fa-4x ms-0" style="color:#5d9fc5 ;"></i>
-            <p class="pt-0">CantonMoving.com</p>
+            <p class="pt-0">Lychee Service</p>
           </div>
         </div>
         <div class="row">
@@ -20,6 +20,7 @@
             <ul class="list-unstyled">
               <li class="text-muted">From: {{routeDetail.from}}</li>
               <li class="text-muted">To: {{routeDetail.to}}</li>
+              <li class="text-muted">When: {{movingDate | date: 'fullDate'}}</li>
             </ul>
           </div>
         </div>
@@ -32,8 +33,9 @@
               <th scope="col">Service Details</th>
               <th scope="col">Property type</th>
               <th scope="col">Rooms</th>
-              <th scope="col">Driving hours</th>
-              <th scope="col">Amount</th>
+              <th scope="col">Pianos</th>
+              <th scope="col">Marble Furnitures</th>
+              <th scope="col">Refrigerator</th>
             </tr>
             </thead>
             <tbody>
@@ -42,17 +44,14 @@
               <td>Residential Moving</td>
               <td>{{propertyDetail.residentialType}}</td>
               <td>{{propertyDetail.rooms}}</td>
-              <td>{{routeDetail.duration}}</td>
-              <td>$800</td>
+              <td>{{bulkyItems.piano}}</td>
+              <td>{{bulkyItems.marbleFurniture}}</td>
+              <td>{{bulkyItems.refrigerator}}</td>
             </tr>
             </tbody>
           </table>
 <!--          vertical table for mobile-->
           <table class="table table-striped table-borderless" [hidden]="!isMobile">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="row">1</th>
-            </tr>
             <tr>
               <th scope="col">Service Details</th>
               <td>Residential Moving</td>
@@ -66,33 +65,36 @@
               <td>{{propertyDetail.rooms}}</td>
             </tr>
             <tr>
-              <th scope="col">Driving hours</th>
-              <td>{{routeDetail.duration}}</td>
+              <th scope="col">Pianos</th>
+              <td>{{bulkyItems.piano}}</td>
             </tr>
             <tr>
-              <th scope="col">Amount</th>
-              <td>$800</td>
+              <th scope="col">Marble Furnitures</th>
+              <td>{{bulkyItems.marbleFurniture}}</td>
+            </tr>
+            <tr>
+              <th scope="col">Refrigerators</th>
+              <td>{{bulkyItems.refrigerator}}</td>
             </tr>
           </table>
         </div>
         <div class="row">
           <div class="col-xl-9">
             <p class="ms-3" style="color:red;">Driving hours may vary due to traffic</p>
-
           </div>
           <div class="col-xl-3">
             <ul class="list-unstyled">
-              <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>$1110</li>
-              <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax(15%)</span>$111</li>
+              <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>{{"GENERAL.MESSAGE.TBC" | translate}}</li>
+              <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax(13%)</span>{{"GENERAL.MESSAGE.TBD" | translate}}</li>
             </ul>
-            <p class="text-black float-start"><span class="text-black me-3"> Total Amount</span><span
-              style="font-size: 25px;">$1221</span></p>
+            <p class="text-black float-start"><span class="text-black me-3">Total Amount</span><span
+              style="font-size: 25px;">{{"GENERAL.MESSAGE.TBD" | translate}}</span></p>
           </div>
         </div>
         <hr>
         <div class="button-row">
           <div>
-            <p>Thank you for your purchase</p>
+            <p>Thank you for your business!</p>
           </div>
           <div class="button-group">
             <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">Back</button>

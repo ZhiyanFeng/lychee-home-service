@@ -14,7 +14,7 @@
               <mat-label>To</mat-label>
               <input #to matInput formControlName="to">
             </mat-form-field>
-            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step1Complete()">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
+            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step1Complete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
           </div>
         </mat-step>
         <mat-step formGroupName="1" [stepControl]="formArray.get([1])">
@@ -46,8 +46,8 @@
               </mat-select>
             </mat-form-field>
             <div class="button-row">
-              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
-              <button mat-raised-button matStepperNext color="primary" type="button">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperNext color="primary" type="button">{{"BUTTON.NEXT.LABEL" | translate}}</button>
             </div>
           </div>
         </mat-step>
@@ -80,8 +80,8 @@
               </mat-select>
             </mat-form-field>
             <div class="button-row">
-              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
-              <button mat-raised-button matStepperNext color="primary" type="button">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperNext color="primary" type="button">{{"BUTTON.NEXT.LABEL" | translate}}</button>
             </div>
           </div>
         </mat-step>
@@ -96,15 +96,15 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <div class="button-row">
-            <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
-            <button mat-raised-button matStepperNext color="primary" type="button">{{"MOVING.QUOTATIONFORM.NEXT.LABEL" | translate}}</button>
+            <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step5Complete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
           </div>
           </div>
         </mat-step>
 
         <mat-step>
           <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP6.LABEL" | translate }}</ng-template>
-          <app-service-summary [quotationForm]="formGroup" [toChange]="toChange" [isMobile]="isMobile"></app-service-summary>
+          <app-moving-service-summary [quotationForm]="formGroup" [isMobile]="isMobile" [formUpdated]="formUpdated"></app-moving-service-summary>
         </mat-step>
         <mat-step formGroupName="4" [stepControl]="formArray.get([4])">
           <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP5.LABEL" | translate }}</ng-template>
@@ -126,7 +126,7 @@
               <input matInput formControlName="phone" autocomplete="phone">
             </mat-form-field>
             <div class="button-row">
-              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"MOVING.QUOTATIONFORM.BACK.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
               <button mat-raised-button matStepperNext color="primary" type="submit">{{"FORM.SUBMIT.LABEL" | translate}}</button>
             </div>
           </div>

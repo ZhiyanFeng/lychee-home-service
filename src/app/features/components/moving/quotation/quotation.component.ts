@@ -15,7 +15,7 @@ import {catchError, map, Observable, of, tap} from "rxjs";
 import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
-import {ServiceSummaryComponent} from "../service-summary/service-summary.component";
+import {MovingServiceSummaryComponent} from "../moving-service-summary/moving-service-summary.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {TranslateModule} from "@ngx-translate/core";
@@ -25,12 +25,13 @@ import {Property} from "../../../../shared/models/property";
 import {BulkyItems} from "../../../../shared/models/bulkyItems";
 import {Contact} from "../../../../shared/models/contact";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-quotation',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
-    MatStepperModule, MatSelectModule, MatButtonModule, ServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule],
+    MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule],
   templateUrl: "./quotation.component.html",
   styleUrls: ['./quotation.component.css']
 })
@@ -40,6 +41,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   @ViewChild('to', {static: false}) to: ElementRef;
   apiLoaded: Observable<boolean>;
   public isMobile=false;
+  public formUpdated = false;
   orientation: StepperOrientation = 'vertical';
 
   originalLocation: google.maps.places.Autocomplete | undefined;
@@ -75,7 +77,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   movingDate : Date;
 
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private db: AngularFirestore) {
+  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private db: AngularFirestore, private router: Router) {
     let screenWidth = window.innerWidth;
     if(screenWidth>390){
       this.orientation = 'horizontal';
@@ -161,8 +163,10 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     let screenWidth = window.innerWidth;
     if(screenWidth>390){
       this.orientation = 'horizontal';
+      this.isMobile = false;
     }else{
       this.orientation = 'vertical';
+      this.isMobile = true;
     }
   }
 
@@ -170,7 +174,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
       this.trip = formGroup.get('formArray').get([0]).value;
       this.property = formGroup.get('formArray').get([1]).value;
       this.bulkyItems = formGroup.get('formArray').get([2]).value;
-      this.movingDate = formGroup.get('formArray').get([3]).value;
+      this.movingDate = formGroup.get('formArray').get([3]).value.date;
       this.contact = formGroup.get('formArray').get([4]).value;
       const moving_order = {
         trip: this.trip,
@@ -180,13 +184,36 @@ export class QuotationComponent implements OnInit, AfterViewInit {
           contact: this.contact
       }
       this.db.collection('moving_orders').add(moving_order).then(
-        result => {
-          console.log(result);
+        reponse => {
+          this.db.collection('email').add({
+            from: "lychee.home.service@gmail.com",
+            to:  this.contact.email,
+            template: {
+              name: 'moving_summary',
+              data: {
+                from: this.trip.from,
+                to: this.trip.to,
+                movingDate: this.movingDate.toDateString(),
+                residentialType: this.property.residentialType,
+                rooms: this.property.rooms,
+                piano: this.bulkyItems.piano,
+                marbleFurniture: this.bulkyItems.marbleFurniture,
+                refrigerator: this.bulkyItems.refrigerator
+              }
+            },
+          }).then( response => {
+            this.router.navigate(['thankyou']);
+          }
+        )
         }
       ).catch(error=>{
         console.log(error);
       });
 
+  }
+
+  step5Complete() {
+    this.formUpdated = true;
   }
 
 }
