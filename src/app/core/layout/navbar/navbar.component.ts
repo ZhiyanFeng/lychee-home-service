@@ -12,11 +12,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {languageActions} from "../../store/languages/language.actions";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, AsyncPipe, MatToolbarModule, FlexModule, MatMenuModule, MatIconModule, MatButtonModule, TranslateModule],
+  imports: [CommonModule, TranslatePipe, AsyncPipe, MatToolbarModule, FlexModule, MatMenuModule, MatIconModule, MatButtonModule, TranslateModule, MatInputModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -34,6 +35,7 @@ export class NavbarComponent {
   setLanguage(lan: string){
     this.store.dispatch(languageActions.setLanguage({language: lan}));
     this.translate.use(lan);
+    this.language = lan;
   }
 
   onLogin(){

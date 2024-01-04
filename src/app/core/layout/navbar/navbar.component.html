@@ -39,7 +39,8 @@
         <div>
           <button mat-button [matMenuTriggerFor]="languageMenu" aria-label="menu">
             <mat-icon>language</mat-icon>
-            <mat-icon>arrow_drop_down</mat-icon>
+            <span>{{language==='en'? 'English': '中文'}}</span>
+            <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
           </button>
           <mat-menu #languageMenu="matMenu">
             <button mat-menu-item (click)="setLanguage('en')">

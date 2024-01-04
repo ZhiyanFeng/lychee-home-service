@@ -26,6 +26,8 @@ import {BulkyItems} from "../../../../shared/models/bulkyItems";
 import {Contact} from "../../../../shared/models/contact";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {Router} from "@angular/router";
+import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
+import {MovingOrder} from "../../../../shared/models/movingOrder";
 
 @Component({
   selector: 'app-quotation',
@@ -77,7 +79,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   movingDate : Date;
 
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private db: AngularFirestore, private router: Router) {
+  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private firestoreSevice: FirestoreService, private router: Router) {
     let screenWidth = window.innerWidth;
     if(screenWidth>390){
       this.orientation = 'horizontal';
@@ -157,7 +159,6 @@ export class QuotationComponent implements OnInit, AfterViewInit {
         ));
   }
 
-
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     let screenWidth = window.innerWidth;
@@ -171,46 +172,24 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(formGroup: FormGroup){
-      this.trip = formGroup.get('formArray').get([0]).value;
-      this.property = formGroup.get('formArray').get([1]).value;
-      this.bulkyItems = formGroup.get('formArray').get([2]).value;
-      this.movingDate = formGroup.get('formArray').get([3]).value.date;
-      this.contact = formGroup.get('formArray').get([4]).value;
-      const moving_order = {
-        trip: this.trip,
+    this.trip = formGroup.get('formArray').get([0]).value;
+    this.property = formGroup.get('formArray').get([1]).value;
+    this.bulkyItems = formGroup.get('formArray').get([2]).value;
+    this.movingDate = formGroup.get('formArray').get([3]).value.date;
+    this.contact = formGroup.get('formArray').get([4]).value;
+
+    const moving_order:MovingOrder = {
+          trip: this.trip,
           property: this.property,
           bulkyItems: this.bulkyItems,
           movingDate: this.movingDate,
           contact: this.contact
       }
-      this.db.collection('moving_orders').add(moving_order).then(
-        reponse => {
-          this.db.collection('email').add({
-            from: "lychee.home.service@gmail.com",
-            to:  this.contact.email,
-            template: {
-              name: 'moving_summary',
-              data: {
-                from: this.trip.from,
-                to: this.trip.to,
-                movingDate: this.movingDate.toDateString(),
-                residentialType: this.property.residentialType,
-                rooms: this.property.rooms,
-                piano: this.bulkyItems.piano,
-                marbleFurniture: this.bulkyItems.marbleFurniture,
-                refrigerator: this.bulkyItems.refrigerator
-              }
-            },
-          }).then( response => {
-            this.router.navigate(['thankyou']);
-          }
-        )
-        }
-      ).catch(error=>{
-        console.log(error);
-      });
 
+    this.firestoreSevice.save(moving_order);
   }
+
+
 
   step5Complete() {
     this.formUpdated = true;
