@@ -11,7 +11,7 @@
           <img src="https://www.compassoffices.com/media/filer_public/42/4e/424e0b0e-6d06-4d71-920f-c852eb7db1f0/nailing-the-office-relocation.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item item-2">
-          <img src="https://www.firemenmovers.com/wp-content/uploads/2019/02/iStock-846374178.jpg" class="d-block w-100" alt="...">
+          <img src="../../assets/images/small_moving.jpg" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item item-3">
           <img src="../../assets/images/fleet.jpg" class="d-block w-100" alt="...">
@@ -92,45 +92,48 @@
       </section>
     </mat-tab>
     <mat-tab label="{{'MOVING.SERVICE.SMALL.TITLE' | translate}}">
-      <section id="service-list">
+      <section class="moving-service">
         <mat-card class="service-card">
           <mat-card-header fxLayoutAlign="center">
-            <mat-card-title>Service rates (2 movers and a truck)</mat-card-title>
+            <mat-card-title>Service rates (1 mover and a van)</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="vanDataSource">
 
               <!-- Name Column -->
               <ng-container matColumnDef="length">
                 <th mat-header-cell *matHeaderCellDef> Truck length </th>
-                <td mat-cell *matCellDef="let element"> {{element.length}} </td>
+                <td mat-cell *matCellDef="let source"> {{source.length}} </td>
               </ng-container>
 
               <!-- Capacity Column -->
               <ng-container matColumnDef="capacity">
                 <th mat-header-cell *matHeaderCellDef> Capacity </th>
-                <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
+                <td mat-cell *matCellDef="let source"> {{source.capacity}} </td>
               </ng-container>
 
               <!-- Symbol Column -->
               <ng-container matColumnDef="rate">
                 <th mat-header-cell *matHeaderCellDef> Rate </th>
-                <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+                <td mat-cell *matCellDef="let source"> {{source.rate}} </td>
               </ng-container>
               <ng-container matColumnDef="busyDayRate">
                 <th mat-header-cell *matHeaderCellDef> Busy day rate(25th – 1st)</th>
-                <td mat-cell *matCellDef="let element"> {{element.busyDayRate}} </td>
+                <td mat-cell *matCellDef="let source"> {{source.busyDayRate}} </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
             <hr>
             <ul>
-              <li class="fee-item" *ngFor="let item of feeItems; index as i">
-                {{item.description}}
+              <li class="fee-item" *ngFor="let van of SMALL_MOVING_DATA" >
+                {{van.description}}
               </li>
             </ul>
           </mat-card-content>
+          <mat-card-actions fxLayoutAlign="center">
+            <button mat-raised-button color="primary" class="small-quote">Get a quote</button>
+          </mat-card-actions>
         </mat-card>
         <mat-card class="service-card">
           <mat-card-header fxLayoutAlign="center">
@@ -140,13 +143,12 @@
           <img mat-card-image src="../../assets/images/van.jpg" alt="Photo of a Shiba Inu">
           <mat-card-content>
             <p>
-              This service is for single persons living in a room. Most of them don't have much stuff, so we offer a affordable
+              This service is for single persons living in a room or just need a little help with some furniture.
+              Most of them don't have much stuff, so we offer a affordable
               price for this kind of moving.
             </p>
           </mat-card-content>
-          <mat-card-actions fxLayoutAlign="center">
-            <button mat-raised-button color="primary">Get a quote</button>
-          </mat-card-actions>
+
         </mat-card>
       </section>
     </mat-tab>

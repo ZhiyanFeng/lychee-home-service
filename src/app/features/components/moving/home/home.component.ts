@@ -14,6 +14,7 @@ export interface TruckRateElement {
   capacity: string;
   rate: string;
   busyDayRate: string;
+  description: string;
 }
 
 export interface feeElement {
@@ -22,9 +23,18 @@ export interface feeElement {
 
 
 const ELEMENT_DATA: TruckRateElement[] = [
-  {length: '26 feet', capacity: '12000 lbs/1700 cubic ft', rate: '$115/hour', busyDayRate: '$125/hour'},
-  {length: '20 feet', capacity: '5700 lbs/960 cubic ft', rate: '$105/hour', busyDayRate: '$115/hour'},
+  {length: '26 feet', capacity: '12000 lbs/1700 cubic ft', rate: '$115/hour', busyDayRate: '$125/hour', description: ''},
+  {length: '20 feet', capacity: '5700 lbs/960 cubic ft', rate: '$105/hour', busyDayRate: '$115/hour', description:''},
 ];
+
+
+const SMALL_MOVING_DATA: TruckRateElement[] = [
+  {length: '20 feet', capacity: '7000 lbs', rate: '$40/hour', busyDayRate: '$50/hour',
+    description: 'This service is for single persons living in a room or just need a little help with some items like desks or furniture.' +
+      'Most of them do not have much stuff, so we offer a affordable price for this kind of moving.' +
+      'For precise quote, please upload a picture of your stuff.'}
+];
+
 
 
 @Component({
@@ -37,18 +47,9 @@ const ELEMENT_DATA: TruckRateElement[] = [
 export class HomeComponent {
   displayedColumns: string[] = ['length', 'capacity', 'rate', 'busyDayRate'];
   dataSource = new MatTableDataSource<TruckRateElement>(ELEMENT_DATA);
-  feeItems: feeElement[] = [
-    {description: 'MOVING.SERVICE.RESIDENTIAL.RATE.RULE.1'},
-    {description: 'Traveling charge and fuel charge may apply to certain areas of GTA.'},
-    {description: 'Stair fee $10 per floor. One-time charge.'},
-    {description: 'Rate for an additional mover is $45/hr/person.'},
-    {description: 'Piano is subject to additional charges of CAD$100.'},
-    {description: 'Marble furniture is subject to additional charges of CAD$100.'},
-    {description: 'Refrigerator is subject to additional charges of CAD$60.'},
-    {description: 'Any location 100km away from Toronto is subject to long-distance mileage charge.'},
-    {description: 'ong distance move is subject to a min. 2 hrs loading time and a min. 2 hrs of unloading time. *Applicable tax is extra.'},
-    {description: 'For more detailed information regarding the long-distance move, please contact us at 4163008683.'},
-  ];
+  vanDataSource = new MatTableDataSource<TruckRateElement>(SMALL_MOVING_DATA);
+  feeItems = new Array<number>(10);
+
   constructor(private router: Router) {
   }
 
@@ -56,4 +57,10 @@ export class HomeComponent {
     this.router.navigate(['quotation']);
   }
 
+  toUploadPayloadPictures(){
+    this.router.navigate(['uploadPayloadPictures']);
+  }
+
+
+  protected readonly SMALL_MOVING_DATA = SMALL_MOVING_DATA;
 }

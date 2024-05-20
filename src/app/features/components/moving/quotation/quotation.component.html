@@ -2,20 +2,21 @@
   <div class="row col-xl-12">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)">
       <mat-stepper [orientation]='orientation' formArrayName="formArray" linear>
-        <mat-step formGroupName="0" [stepControl]="formArray.get([0])">
+        <mat-step [stepControl]="formArray.get([0])">
 
           <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP1.LABEL" | translate }}</ng-template>
-          <div class="form-group moving-route">
-            <mat-form-field appearance="fill" >
-              <mat-label>From</mat-label>
-              <input #from matInput formControlName="from">
-            </mat-form-field>
-            <mat-form-field appearance="fill" >
-              <mat-label>To</mat-label>
-              <input #to matInput formControlName="to">
-            </mat-form-field>
-            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step1Complete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
-          </div>
+<!--          <div class="form-group moving-route">-->
+<!--            <mat-form-field appearance="fill" >-->
+<!--              <mat-label>From</mat-label>-->
+<!--              <input #from matInput formControlName="from">-->
+<!--            </mat-form-field>-->
+<!--            <mat-form-field appearance="fill" >-->
+<!--              <mat-label>To</mat-label>-->
+<!--              <input #to matInput formControlName="to">-->
+<!--            </mat-form-field>-->
+<!--            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step1Complete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>-->
+<!--          </div>-->
+          <trip-info (newTripInfoEvent)="addTripInfo($event)"></trip-info>
         </mat-step>
         <mat-step formGroupName="1" [stepControl]="formArray.get([1])">
           <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP2.LABEL" | translate }}</ng-template>

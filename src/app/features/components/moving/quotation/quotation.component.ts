@@ -28,19 +28,20 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 import {Router} from "@angular/router";
 import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
 import {MovingOrder} from "../../../../shared/models/movingOrder";
+import {TripInfoComponent} from "../trip-info/trip-info.component";
 
 @Component({
   selector: 'app-quotation',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
-    MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule],
+    MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule, TripInfoComponent],
   templateUrl: "./quotation.component.html",
   styleUrls: ['./quotation.component.css']
 })
 export class QuotationComponent implements OnInit, AfterViewInit {
   placeHolder: string;
-  @ViewChild('from', {static: false}) from: ElementRef;
-  @ViewChild('to', {static: false}) to: ElementRef;
+  @ViewChild('from') from: ElementRef;
+  @ViewChild('to') to: ElementRef;
   apiLoaded: Observable<boolean>;
   public isMobile=false;
   public formUpdated = false;
@@ -77,6 +78,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   bulkyItems: BulkyItems;
   contact: Contact;
   movingDate : Date;
+  tripInfoFormCompleted: Boolean;
 
 
   constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private firestoreSevice: FirestoreService, private router: Router) {
@@ -125,10 +127,14 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     })
   }
 
+  addTripInfo(newTripInfo: {}){
+      console.log(newTripInfo);
+  }
+
 
   ngAfterViewInit(): void {
-    this.originalLocation = new google.maps.places.Autocomplete(this.from.nativeElement);
-    this.destinationLocation = new google.maps.places.Autocomplete(this.to.nativeElement);
+    // this.originalLocation = new google.maps.places.Autocomplete(this.from.nativeElement);
+    // this.destinationLocation = new google.maps.places.Autocomplete(this.to.nativeElement);
   }
 
   setAddress(){
@@ -138,6 +144,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   }
   step1Complete() {
     this.setAddress();
+    var directionsService = new google.maps.DirectionsService();
     const request: google.maps.DirectionsRequest = {
       destination: {
         lat: this.destinationLocation.getPlace().geometry.location.lat(),
@@ -149,6 +156,13 @@ export class QuotationComponent implements OnInit, AfterViewInit {
       },
       travelMode: google.maps.TravelMode.DRIVING,
     };
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        console.log(result);
+      }else {
+        console.log(status);
+      }
+    });
     this.directionsResults$ = this.mapDirectionsService.route(request)
       .pipe(
         map(response => response.result),
