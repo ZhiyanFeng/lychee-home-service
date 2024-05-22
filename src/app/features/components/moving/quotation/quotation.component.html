@@ -2,7 +2,7 @@
   <div class="row col-xl-12">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)">
       <mat-stepper [orientation]='orientation' formArrayName="formArray" linear>
-        <mat-step [stepControl]="formArray.get([0])">
+        <mat-step completed="tripInfoFormCompleted">
 
           <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP1.LABEL" | translate }}</ng-template>
 <!--          <div class="form-group moving-route">-->
@@ -25,7 +25,7 @@
                         width="100%"
                         [center]="center"
                         [zoom]="zoom">
-              <map-directions-renderer *ngIf="(directionsResults$ | async) as directionsResults"
+              <map-directions-renderer *ngIf="(directionsResults)"
                                        [directions]="directionsResults"></map-directions-renderer>
             </google-map>
           </div>

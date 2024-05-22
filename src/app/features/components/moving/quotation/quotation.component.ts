@@ -25,7 +25,7 @@ import {Property} from "../../../../shared/models/property";
 import {BulkyItems} from "../../../../shared/models/bulkyItems";
 import {Contact} from "../../../../shared/models/contact";
 import {error} from "@angular/compiler-cli/src/transformers/util";
-import {Router} from "@angular/router";
+import {Event, Router} from "@angular/router";
 import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
 import {MovingOrder} from "../../../../shared/models/movingOrder";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
@@ -53,7 +53,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
   zoom = 4;
 
-  directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
+  directionsResults: google.maps.DirectionsResult | undefined;
   toChange=false;
 
   formGroup: FormGroup;
@@ -127,50 +127,16 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     })
   }
 
-  addTripInfo(newTripInfo: {}){
-      console.log(newTripInfo);
-  }
-
-
   ngAfterViewInit(): void {
-    // this.originalLocation = new google.maps.places.Autocomplete(this.from.nativeElement);
-    // this.destinationLocation = new google.maps.places.Autocomplete(this.to.nativeElement);
   }
-
-  setAddress(){
-    let routeDetail = this.formGroup.get('formArray').get([0]);
-    routeDetail.value['from'] = this.originalLocation.getPlace().formatted_address;
-    routeDetail.value['to'] = this.destinationLocation.getPlace().formatted_address;
-  }
-  step1Complete() {
-    this.setAddress();
-    var directionsService = new google.maps.DirectionsService();
-    const request: google.maps.DirectionsRequest = {
-      destination: {
-        lat: this.destinationLocation.getPlace().geometry.location.lat(),
-        lng: this.destinationLocation.getPlace().geometry.location.lng()
-      },
-      origin: {
-        lat: this.originalLocation.getPlace().geometry.location.lat(),
-        lng: this.originalLocation.getPlace().geometry.location.lng()
-      },
-      travelMode: google.maps.TravelMode.DRIVING,
-    };
-    directionsService.route(request, function(result, status) {
-      if (status == 'OK') {
-        console.log(result);
-      }else {
-        console.log(status);
-      }
-    });
-    this.directionsResults$ = this.mapDirectionsService.route(request)
-      .pipe(
-        map(response => response.result),
-        tap((response) => {
-          this.formGroup.get('formArray').get([0]).value['distance'] = response.routes[0].legs[0].distance.text;
-          this.formGroup.get('formArray').get([0]).value['duration'] = response.routes[0].legs[0].duration.text;
-        }
-        ));
+  addTripInfo(newTripInfo: google.maps.DirectionsResult){
+    this.directionsResults = newTripInfo;
+    let tripInfo = this.formGroup.get('formArray').get([0]);
+    tripInfo.value['from'] = newTripInfo.routes[0].legs[0].start_address;
+    tripInfo.value['to'] = newTripInfo.routes[0].legs[0].end_address;
+    tripInfo.value['distance'] = newTripInfo.routes[0].legs[0].distance.text;
+    tripInfo.value['duration'] = newTripInfo.routes[0].legs[0].duration.text;
+    this.tripInfoFormCompleted = true;
   }
 
   @HostListener('window:resize', ['$event'])
@@ -184,6 +150,8 @@ export class QuotationComponent implements OnInit, AfterViewInit {
       this.isMobile = true;
     }
   }
+
+
 
   onSubmit(formGroup: FormGroup){
     this.trip = formGroup.get('formArray').get([0]).value;
@@ -203,10 +171,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     this.firestoreSevice.save(moving_order);
   }
 
-
-
   step5Complete() {
     this.formUpdated = true;
   }
-
 }
