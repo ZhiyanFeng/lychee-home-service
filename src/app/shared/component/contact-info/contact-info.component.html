@@ -1,0 +1,24 @@
+<form [formGroup]="contactInfoFrom">
+  <div class="form-group moving-route">
+    <mat-form-field>
+      <mat-label>{{"FORM.FIRSTNAME.LABEL" | translate }}</mat-label>
+      <input matInput formControlName="firstName" autocomplete="given-name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{"FORM.LASTNAME.LABEL" | translate }}</mat-label>
+      <input matInput formControlName="lastName" autocomplete="family-name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{"FORM.EMAIL.LABEL" | translate }}</mat-label>
+      <input matInput formControlName="email" autocomplete="email">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{"FORM.PHONE.LABEL" | translate }}</mat-label>
+      <input matInput formControlName="phone" autocomplete="phone">
+    </mat-form-field>
+    <div class="button-row">
+      <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+      <button mat-raised-button matStepperNext color="primary" (click)="addContactInfo()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
+    </div>
+  </div>
+</form>

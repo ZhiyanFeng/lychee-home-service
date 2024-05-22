@@ -29,12 +29,13 @@ import {Event, Router} from "@angular/router";
 import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
 import {MovingOrder} from "../../../../shared/models/movingOrder";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
+import {ContactInfoComponent} from "../../../../shared/component/contact-info/contact-info.component";
 
 @Component({
   selector: 'app-quotation',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
-    MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule, TripInfoComponent],
+    MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent],
   templateUrl: "./quotation.component.html",
   styleUrls: ['./quotation.component.css']
 })
@@ -79,6 +80,7 @@ export class QuotationComponent implements OnInit, AfterViewInit {
   contact: Contact;
   movingDate : Date;
   tripInfoFormCompleted: Boolean;
+  contactInfoFormCompleted: Boolean;
 
 
   constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private firestoreSevice: FirestoreService, private router: Router) {
@@ -139,6 +141,15 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     this.tripInfoFormCompleted = true;
   }
 
+  addContactInfo(contactInfoForm: FormGroup){
+    let contactInfo = this.formGroup.get('formArray').get([5]);
+    contactInfo.value['firstName'] = contactInfoForm.value['firstName'];
+    contactInfo.value['lastName'] = contactInfoForm.value['lastName'];
+    contactInfo.value['email'] = contactInfoForm.value['email'];
+    contactInfo.value['phone'] = contactInfoForm.value['phone'];
+    this.contactInfoFormCompleted = true;
+  }
+
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     let screenWidth = window.innerWidth;
@@ -150,8 +161,6 @@ export class QuotationComponent implements OnInit, AfterViewInit {
       this.isMobile = true;
     }
   }
-
-
 
   onSubmit(formGroup: FormGroup){
     this.trip = formGroup.get('formArray').get([0]).value;
