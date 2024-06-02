@@ -53,8 +53,12 @@ export class HomeComponent {
   constructor(private router: Router) {
   }
 
-  toQuotation() {
-    this.router.navigate(['quotation']);
+  toMakeAnAppointment() {
+    this.router.navigate(['residentialMovingAppointment']);
+  }
+
+  toSmallMovingQuotation(){
+    this.router.navigate(['smallMovingQuotation'])
   }
 
   toUploadPayloadPictures(){

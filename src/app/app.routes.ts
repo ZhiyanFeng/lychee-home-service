@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import {
+  ResidentialMovingDetailComponent
+} from "./features/components/moving/residential-moving-detail/residential-moving-detail.component";
 
 export const routes: Routes = [
   {
@@ -11,8 +14,8 @@ export const routes: Routes = [
   },
 
   {
-    path: 'quotation',
-    loadComponent: () => import('./features/components/moving/quotation/quotation.component').then(mod=> mod.QuotationComponent)
+    path: 'residentialMovingAppointment',
+    loadComponent: () => import('./features/components/moving/residential-moving-detail/residential-moving-detail.component').then(mod=> mod.ResidentialMovingDetailComponent)
   },
 
   // {

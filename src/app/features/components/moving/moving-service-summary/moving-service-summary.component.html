@@ -18,8 +18,8 @@
         <div class="row">
           <div class="col-xl-8">
             <ul class="list-unstyled">
-              <li class="text-muted">From: {{routeDetail.from}}</li>
-              <li class="text-muted">To: {{routeDetail.to}}</li>
+              <li class="text-muted">From: {{trip.from}}</li>
+              <li class="text-muted">To: {{trip.to}}</li>
               <li class="text-muted">When: {{movingDate | date: 'fullDate'}}</li>
             </ul>
           </div>
@@ -42,8 +42,8 @@
             <tr>
               <th scope="row">1</th>
               <td>Residential Moving</td>
-              <td>{{propertyDetail.residentialType}}</td>
-              <td>{{propertyDetail.rooms}}</td>
+              <td>{{property.residentialType}}</td>
+              <td>{{property.rooms}}</td>
               <td>{{bulkyItems.piano}}</td>
               <td>{{bulkyItems.marbleFurniture}}</td>
               <td>{{bulkyItems.refrigerator}}</td>
@@ -58,11 +58,11 @@
             </tr>
             <tr>
               <th scope="col">Property type</th>
-              <td>{{propertyDetail.residentialType}}</td>
+              <td>{{property.residentialType}}</td>
             </tr>
             <tr>
               <th scope="col">Rooms</th>
-              <td>{{propertyDetail.rooms}}</td>
+              <td>{{property.rooms}}</td>
             </tr>
             <tr>
               <th scope="col">Pianos</th>

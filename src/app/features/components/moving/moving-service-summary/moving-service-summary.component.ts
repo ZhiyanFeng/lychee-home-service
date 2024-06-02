@@ -17,6 +17,8 @@ import {RouteDetail} from "../../../../shared/models/route-detail";
 import {PropertyDetail} from "../../../../shared/models/property-detail";
 import {BulkyItems} from "../../../../shared/models/bulkyItems";
 import {TranslateModule} from "@ngx-translate/core";
+import {Property} from "../../../../shared/models/property";
+import {Trip} from "../../../../shared/models/trip";
 
 @Component({
   selector: 'app-moving-service-summary',
@@ -26,12 +28,15 @@ import {TranslateModule} from "@ngx-translate/core";
   styleUrls: ['./moving-service-summary.component.css']
 })
 export class MovingServiceSummaryComponent implements OnInit, OnChanges{
-  @Input() quotationForm: FormGroup;
+  @Input() tripForm: FormGroup;
+  @Input() propertyForm: FormGroup;
+  @Input() bulkyItemsForm: FormGroup;
+  @Input() movingDateForm: FormGroup;
   @Input() isMobile: boolean;
   @Input() formUpdated: boolean;
 
-  routeDetail: RouteDetail;
-  propertyDetail: PropertyDetail;
+  trip: Trip;
+  property: Property;
   bulkyItems: BulkyItems;
   movingDate: Date;
 
@@ -41,10 +46,10 @@ export class MovingServiceSummaryComponent implements OnInit, OnChanges{
   ngOnInit(): void {
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.routeDetail = this.quotationForm.get('formArray').get([0]).value;
-    this.propertyDetail = this.quotationForm.get('formArray').get([1]).value;
-    this.bulkyItems = this.quotationForm.get('formArray').get([2]).value;
-    this.movingDate = this.quotationForm.get('formArray').get([3]).value.date;
+    this.trip = this.tripForm.value;
+    this.property = this.propertyForm.value;
+    this.bulkyItems = this.bulkyItemsForm.value;
+    this.movingDate = this.movingDateForm.value.date;
     }
 
 

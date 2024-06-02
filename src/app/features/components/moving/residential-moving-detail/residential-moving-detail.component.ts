@@ -30,26 +30,22 @@ import {FirestoreService} from "../../../../core/services/firestore-service/fire
 import {MovingOrder} from "../../../../shared/models/movingOrder";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
 import {ContactInfoComponent} from "../../../../shared/component/contact-info/contact-info.component";
+import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
+import {MovingFormService} from "../../../../core/services/moving-form-service/moving-form.service";
 
 @Component({
-  selector: 'app-quotation',
+  selector: 'app-residential-moving-detail',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
     MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent],
-  templateUrl: "./quotation.component.html",
-  styleUrls: ['./quotation.component.css']
+  templateUrl: "./residential-moving-detail.component.html",
+  styleUrls: ['./residential-moving-detail.component.css']
 })
-export class QuotationComponent implements OnInit, AfterViewInit {
-  placeHolder: string;
-  @ViewChild('from') from: ElementRef;
-  @ViewChild('to') to: ElementRef;
-  apiLoaded: Observable<boolean>;
+export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
+
   public isMobile=false;
   public formUpdated = false;
   orientation: StepperOrientation = 'vertical';
-
-  originalLocation: google.maps.places.Autocomplete | undefined;
-  destinationLocation: google.maps.places.Autocomplete | undefined;
 
   center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
   zoom = 4;
@@ -74,109 +70,81 @@ export class QuotationComponent implements OnInit, AfterViewInit {
     {value: '6', viewValue: '6'}
   ];
 
-  trip: Trip;
-  property: Property;
-  bulkyItems: BulkyItems;
-  contact: Contact;
-  movingDate : Date;
   tripInfoFormCompleted: Boolean;
   contactInfoFormCompleted: Boolean;
 
+  tripForm: FormGroup;
+  contactForm: FormGroup;
+  propertyForm: FormGroup;
+  movingDateForm: FormGroup;
+  bulkyItemsForm: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private firestoreSevice: FirestoreService, private router: Router) {
-    let screenWidth = window.innerWidth;
-    if(screenWidth>390){
-      this.orientation = 'horizontal';
-    }else{
-      this.orientation = 'vertical';
-    }
+
+  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService,
+              private firestoreSevice: FirestoreService, private router: Router, private rwd: ResponsiveDesignService,
+              private movingFormService: MovingFormService) {
+    this.orientation = rwd.orientation;
   }
 
-  get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
-
   ngOnInit(): void {
-    this.isMobile = true
-    this.formGroup = this._formBuilder.group({
-      formArray: this._formBuilder.array([
-        this._formBuilder.group({
+    this.isMobile = true;
+    this.tripForm = this._formBuilder.group({
           from: ['', [Validators.required]],
           to: ['', [Validators.required]],
           distance: [''],
           duration: ['']
-        }),
-        this._formBuilder.group({
+        });
+
+    this.propertyForm = this._formBuilder.group( {
             residentialType: ['', [Validators.required]],
             rooms: ['', [Validators.required]]
-          }
-        ),
-        this._formBuilder.group({
+          });
+    this.bulkyItemsForm = this._formBuilder.group({
             piano: ['', [Validators.required]],
             marbleFurniture: ['', [Validators.required]],
             refrigerator: ['', [Validators.required]]
-          }
-        ),
-        this._formBuilder.group({
+          });
+    this.movingDateForm = this._formBuilder.group({
             date: ['', [Validators.required]]
-          }),
-        this._formBuilder.group({
+          });
+
+    this.contactForm = this._formBuilder.group({
             firstName: ['', [Validators.required]],
             lastName: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
             phone: ['', [Validators.required]],
           }
         )
-      ])
-    })
   }
 
   ngAfterViewInit(): void {
   }
   addTripInfo(newTripInfo: google.maps.DirectionsResult){
     this.directionsResults = newTripInfo;
-    let tripInfo = this.formGroup.get('formArray').get([0]);
-    tripInfo.value['from'] = newTripInfo.routes[0].legs[0].start_address;
-    tripInfo.value['to'] = newTripInfo.routes[0].legs[0].end_address;
-    tripInfo.value['distance'] = newTripInfo.routes[0].legs[0].distance.text;
-    tripInfo.value['duration'] = newTripInfo.routes[0].legs[0].duration.text;
+    this.movingFormService.addTripInfo(this.tripForm, newTripInfo);
     this.tripInfoFormCompleted = true;
   }
 
   addContactInfo(contactInfoForm: FormGroup){
-    let contactInfo = this.formGroup.get('formArray').get([5]);
-    contactInfo.value['firstName'] = contactInfoForm.value['firstName'];
-    contactInfo.value['lastName'] = contactInfoForm.value['lastName'];
-    contactInfo.value['email'] = contactInfoForm.value['email'];
-    contactInfo.value['phone'] = contactInfoForm.value['phone'];
+    this.movingFormService.addContactInfo(this.contactForm, contactInfoForm);
     this.contactInfoFormCompleted = true;
   }
 
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
-    let screenWidth = window.innerWidth;
-    if(screenWidth>390){
-      this.orientation = 'horizontal';
-      this.isMobile = false;
-    }else{
-      this.orientation = 'vertical';
-      this.isMobile = true;
-    }
+    this.rwd.onWindowResize(event);
+    this.orientation = this.rwd.orientation;
+    this.isMobile = this.rwd.isMobile;
   }
 
-  onSubmit(formGroup: FormGroup){
-    this.trip = formGroup.get('formArray').get([0]).value;
-    this.property = formGroup.get('formArray').get([1]).value;
-    this.bulkyItems = formGroup.get('formArray').get([2]).value;
-    this.movingDate = formGroup.get('formArray').get([3]).value.date;
-    this.contact = formGroup.get('formArray').get([4]).value;
-
+  onSubmit(){
     const moving_order:MovingOrder = {
-          trip: this.trip,
-          property: this.property,
-          bulkyItems: this.bulkyItems,
-          movingDate: this.movingDate,
-          contact: this.contact
+          trip: this.tripForm.value,
+          property: this.propertyForm.value,
+          bulkyItems: this.bulkyItemsForm.value,
+          movingDate: this.movingDateForm.value.date,
+          contact: this.contactForm.value
       }
-
     this.firestoreSevice.save(moving_order);
   }
 

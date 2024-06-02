@@ -41,54 +41,20 @@
             </div>
           </div>
         </mat-step>
-        <mat-step formGroupName="2" [stepControl]="formArray.get([2])">
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP3.LABEL" | translate }}</ng-template>
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.PIANO.LABEL" | translate }}</mat-label>
-              <mat-select formControlName="piano">
-                <mat-option *ngFor="let count of counts" [value]="count.value">
-                  {{count.viewValue}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <!--          <p> Selected food: {{residentialType}} </p>-->
-            <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.MARBLE.LABEL" | translate }}</mat-label>
-              <mat-select formControlName="marbleFurniture">
-                <mat-option *ngFor="let count of counts" [value]="count.value">
-                  {{count.viewValue}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.REFRIGERATOR.LABEL" | translate }}</mat-label>
-              <mat-select formControlName="refrigerator">
-                <mat-option *ngFor="let count of counts" [value]="count.value">
-                  {{count.viewValue}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="button-row">
-              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
-              <button mat-raised-button matStepperNext color="primary" type="button">{{"BUTTON.NEXT.LABEL" | translate}}</button>
-            </div>
-          </div>
-        </mat-step>
         <mat-step formGroupName="3" [stepControl]="formArray.get([3])">
           <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP4.LABEL" | translate }}</ng-template>
           <div class="form-group">
-          <mat-form-field>
-            <mat-label>{{"MOVING.QUOTATIONFORM.STEP4.LABEL" | translate }}</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="date">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-          <div class="button-row">
-            <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
-            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step5Complete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
-          </div>
+            <mat-form-field>
+              <mat-label>{{"MOVING.QUOTATIONFORM.STEP6.LABEL" | translate }}</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="date">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <div class="button-row">
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperNext color="primary" type="button" (click)="step5Complete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
+            </div>
           </div>
         </mat-step>
 
