@@ -15,13 +15,15 @@ export const routes: Routes = [
 
   {
     path: 'residentialMovingAppointment',
-    loadComponent: () => import('./features/components/moving/residential-moving-detail/residential-moving-detail.component').then(mod=> mod.ResidentialMovingDetailComponent)
+    loadComponent: () => import('./features/components/moving/residential-moving-detail/residential-moving-detail.component')
+      .then(mod=> mod.ResidentialMovingDetailComponent)
   },
 
-  // {
-  //   path: 'uploadPayloadPictures',
-  //   // loadComponent: () => import();
-  // },
+  {
+    path: 'smallMovingRequest',
+    loadComponent: () => import('./features/components/moving/small-moving-detail/small-moving-detail.component')
+      .then(mod=> mod.SmallMovingDetailComponent)
+  },
   {
     path: 'thankyou',
     loadComponent: () => import('./shared/component/thank-you-page/thank-you-page.component').then(mod => mod.ThankYouPageComponent)

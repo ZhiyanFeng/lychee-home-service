@@ -57,8 +57,8 @@ export class HomeComponent {
     this.router.navigate(['residentialMovingAppointment']);
   }
 
-  toSmallMovingQuotation(){
-    this.router.navigate(['smallMovingQuotation'])
+  toSmallMovingRequest(){
+    this.router.navigate(['smallMovingRequest'])
   }
 
   toUploadPayloadPictures(){

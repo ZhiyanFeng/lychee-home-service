@@ -25,9 +25,6 @@ export class TripInfoComponent implements OnInit{
   originalLocation: google.maps.places.Autocomplete | undefined;
   destinationLocation: google.maps.places.Autocomplete | undefined;
   directionResult: google.maps.DirectionsResult | undefined;
-
-
-
   directionsService = new google.maps.DirectionsService();
 
   constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService) {

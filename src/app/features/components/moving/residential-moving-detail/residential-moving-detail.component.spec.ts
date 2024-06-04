@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuotationComponent } from './residential-moving-detail.component';
+import { ResidentialMovingDetailComponent } from './residential-moving-detail.component';
 
 describe('QuotationComponent', () => {
-  let component: QuotationComponent;
-  let fixture: ComponentFixture<QuotationComponent>;
+  let component: ResidentialMovingDetailComponent ;
+  let fixture: ComponentFixture<ResidentialMovingDetailComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [QuotationComponent]
+      imports: [ResidentialMovingDetailComponent]
     });
-    fixture = TestBed.createComponent(QuotationComponent);
+    fixture = TestBed.createComponent(ResidentialMovingDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

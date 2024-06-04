@@ -4,13 +4,13 @@
       <mat-stepper [orientation]='orientation' linear>
         <mat-step completed="tripInfoFormCompleted">
 
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP1.LABEL" | translate }}</ng-template>
+          <ng-template matStepLabel>{{"MOVING.STEP.TRIP.LABEL" | translate }}</ng-template>
           <trip-info (newTripInfoEvent)="addTripInfo($event)"></trip-info>
         </mat-step>
 <!--goolemap and property information-->
         <mat-step [stepControl]="propertyForm">
 
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP2.LABEL" | translate }}</ng-template>
+          <ng-template matStepLabel>{{"MOVING.STEP.PROPERTY.LABEL" | translate }}</ng-template>
             <div class="row">
               <google-map height="400px"
                           width="100%"
@@ -23,7 +23,7 @@
           <form [formGroup]="propertyForm">
           <div class="form-group">
             <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.STEP2.LABEL" | translate }}</mat-label>
+              <mat-label>{{"MOVING.STEP.PROPERTY.LABEL" | translate }}</mat-label>
               <mat-select formControlName="residentialType">
                 <mat-option *ngFor="let property of properties" [value]="property.value">
                   {{property.viewValue}}
@@ -31,7 +31,7 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.ROOM.LABEL" | translate }}</mat-label>
+              <mat-label>{{"MOVING.ROOM.LABEL" | translate }}</mat-label>
               <mat-select formControlName="rooms">
                 <mat-option *ngFor="let room of counts" [value]="room.value">
                   {{room.viewValue}}
@@ -49,10 +49,10 @@
 <!--        Bulky items-->
         <mat-step [stepControl]="bulkyItemsForm">
           <form [formGroup]="bulkyItemsForm">
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP3.LABEL" | translate }}</ng-template>
+          <ng-template matStepLabel>{{"MOVING.STEP.BULKYITEM.LABEL" | translate }}</ng-template>
           <div class="form-group">
             <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.PIANO.LABEL" | translate }}</mat-label>
+              <mat-label>{{"MOVING.PIANO.LABEL" | translate }}</mat-label>
               <mat-select formControlName="piano">
                 <mat-option *ngFor="let count of counts" [value]="count.value">
                   {{count.viewValue}}
@@ -61,7 +61,7 @@
             </mat-form-field>
             <!--          <p> Selected food: {{residentialType}} </p>-->
             <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.MARBLE.LABEL" | translate }}</mat-label>
+              <mat-label>{{"MOVING.MARBLE.LABEL" | translate }}</mat-label>
               <mat-select formControlName="marbleFurniture">
                 <mat-option *ngFor="let count of counts" [value]="count.value">
                   {{count.viewValue}}
@@ -69,7 +69,7 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field>
-              <mat-label>{{"MOVING.QUOTATIONFORM.REFRIGERATOR.LABEL" | translate }}</mat-label>
+              <mat-label>{{"MOVING.REFRIGERATOR.LABEL" | translate }}</mat-label>
               <mat-select formControlName="refrigerator">
                 <mat-option *ngFor="let count of counts" [value]="count.value">
                   {{count.viewValue}}
@@ -86,10 +86,10 @@
 <!--        Moving date-->
         <mat-step [stepControl]="movingDateForm">
           <form [formGroup]="movingDateForm">
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP4.LABEL" | translate }}</ng-template>
+          <ng-template matStepLabel>{{"MOVING.STEP.DATEPICKER.LABEL" | translate }}</ng-template>
           <div class="form-group">
           <mat-form-field>
-            <mat-label>{{"MOVING.QUOTATIONFORM.STEP6.LABEL" | translate }}</mat-label>
+            <mat-label>{{"MOVING.STEP.DATEPICKER.LABEL" | translate }}</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="date">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -104,12 +104,12 @@
         </mat-step>
 <!--contact information-->
         <mat-step>
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP6.LABEL" | translate }}</ng-template>
+          <ng-template matStepLabel>{{"MOVING.STEP.CONTACT.LABEL" | translate }}</ng-template>
           <app-contact-info (contactInfoEvent)="addContactInfo($event)"></app-contact-info>
         </mat-step>
 <!--        Summary-->
         <mat-step>
-          <ng-template matStepLabel>{{"MOVING.QUOTATIONFORM.STEP5.LABEL" | translate }}</ng-template>
+          <ng-template matStepLabel>{{"MOVING.STEP.SUMMARY.LABEL" | translate }}</ng-template>
           <app-moving-service-summary [tripForm]="tripForm" [movingDateForm]="movingDateForm"
                                       [propertyForm]="propertyForm" [bulkyItemsForm]="bulkyItemsForm"
                                       [isMobile]="isMobile" [formUpdated]="formUpdated"></app-moving-service-summary>
