@@ -81,10 +81,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "professional-moving:build:production"
+              "buildTarget": "professional-moving:build:production"
             },
             "development": {
-              "browserTarget": "professional-moving:build:development"
+              "buildTarget": "professional-moving:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,7 +92,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "professional-moving:build"
+            "buildTarget": "professional-moving:build"
           }
         },
         "test": {
