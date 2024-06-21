@@ -6,8 +6,8 @@ import {Event} from "@angular/router";
   providedIn: 'root'
 })
 export class ResponsiveDesignService {
+  private _isMobile=false;
 
-  public isMobile=false;
   public formUpdated = false;
   orientation: StepperOrientation = 'vertical';
   constructor() {
@@ -18,17 +18,24 @@ export class ResponsiveDesignService {
       this.orientation = 'vertical';
     }
   }
-
-  @HostListener('window:resize', ['$event'])
+  // @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     let screenWidth = window.innerWidth;
     if(screenWidth>390){
       this.orientation = 'horizontal';
-      this.isMobile = false;
+      this._isMobile = false;
     }else{
       this.orientation = 'vertical';
-      this.isMobile = true;
+      this._isMobile = true;
     }
+  }
+
+  get isMobile(): boolean {
+    return this._isMobile;
+  }
+
+  set isMobile(value: boolean) {
+    this._isMobile = value;
   }
 
 }

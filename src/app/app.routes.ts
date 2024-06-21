@@ -1,12 +1,9 @@
 import { Routes } from '@angular/router';
-import {
-  ResidentialMovingDetailComponent
-} from "./features/components/moving/residential-moving-detail/residential-moving-detail.component";
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./features/components/moving/home/home.component').then(mod => mod.HomeComponent)
+    loadComponent: () => import('./features/moving/components/home/home.component').then(mod => mod.HomeComponent)
   },
   {
     path: 'login',
@@ -15,13 +12,13 @@ export const routes: Routes = [
 
   {
     path: 'residentialMovingAppointment',
-    loadComponent: () => import('./features/components/moving/residential-moving-detail/residential-moving-detail.component')
+    loadComponent: () => import('./features/moving/components/residential-moving-detail/residential-moving-detail.component')
       .then(mod=> mod.ResidentialMovingDetailComponent)
   },
 
   {
     path: 'smallMovingRequest',
-    loadComponent: () => import('./features/components/moving/small-moving-detail/small-moving-detail.component')
+    loadComponent: () => import('./features/moving/components/small-moving-detail/small-moving-detail.component')
       .then(mod=> mod.SmallMovingDetailComponent)
   },
   {
@@ -29,7 +26,19 @@ export const routes: Routes = [
     loadComponent: () => import('./shared/component/thank-you-page/thank-you-page.component').then(mod => mod.ThankYouPageComponent)
   },
   {
-    path: '**',
-    loadComponent: () => import('./features/components/moving/home/home.component').then(mod => mod.HomeComponent)
+    path: 'upload',
+    loadComponent: () => import('./shared/component/file-upload/file-upload.component').then(mod => mod.FileUploadComponent)
   },
+  {
+    path: 'data-table',
+    loadComponent: () => import('./features/moving/components/data-table/data-table.component').then(mod => mod.DataTableComponent)
+  },
+  {
+    path: 'test',
+    loadComponent: () => import('./shared/component/test/test.component').then(mod => mod.TestComponent)
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./features/moving/components/home/home.component').then(mod => mod.HomeComponent)
+  }
 ];

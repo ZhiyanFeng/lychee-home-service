@@ -1,0 +1,11 @@
+@import "../../../../../node_modules/primeng/resources/themes/lara-light-blue/theme.css";
+@import "../../../../../node_modules/primeng/resources/primeng.css";
+
+@import "../../../features/moving/components/residential-moving-detail/residential-moving-detail.component.css";
+
+
+
+:host ::ng-deep .p-button {
+  border-radius: 6px !important;
+  margin-right: 0.5rem;
+}

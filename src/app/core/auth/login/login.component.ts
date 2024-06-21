@@ -5,7 +5,7 @@ import {MatCardModule} from "@angular/material/card";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {AuthService} from "../../services/auth-service/auth.service";
-import {User} from "../../../shared/models/user";
+import {User} from "../../../features/moving/services/models/user";
 
 @Component({
   selector: 'app-login',

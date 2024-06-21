@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {TranslateModule} from "@ngx-translate/core";
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepperModule} from "@angular/material/stepper";
+import {MovingDetailService} from "../../../features/moving/services/moving-detail-service/moving-detail.service";
 
 @Component({
   selector: 'app-contact-info',
@@ -15,24 +16,22 @@ import {MatStepperModule} from "@angular/material/stepper";
   styleUrls: ['./contact-info.component.css']
 })
 export class ContactInfoComponent implements OnInit{
-  @Output() contactInfoEvent = new EventEmitter<any>();
+  @Output() contactStepEvent = new EventEmitter<any>();
   contactInfoFrom: FormGroup;
+  isReady = false;
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: FormBuilder, private movingDetailService: MovingDetailService) {
 
   }
 
   ngOnInit(): void {
-    this.contactInfoFrom = this._formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]]
-    })
+    this.isReady = true;
+    this.contactInfoFrom = this.movingDetailService.contactInfoForm
   }
 
-  addContactInfo(){
-    this.contactInfoEvent.emit(this.contactInfoFrom);
+  updateContactInfo(){
+    this.movingDetailService.updateContactInfo(this.contactInfoFrom);
+    this.contactStepEvent.emit('next');
   }
 
 

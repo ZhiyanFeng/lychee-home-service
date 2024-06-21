@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {Router} from "@angular/router";
-import {MovingOrder} from "../../../shared/models/movingOrder";
+import {MovingOrder, ResidentialMovingOrder} from "../../../features/moving/models/moving-order";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class FirestoreService {
 
   constructor(private db: AngularFirestore, private router: Router) { }
 
-  save(moving_order: MovingOrder){
+  save(moving_order: ResidentialMovingOrder){
     this.db.collection('moving_orders').add(moving_order).then(
       response => {
         this.db.collection('email').add({

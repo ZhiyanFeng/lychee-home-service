@@ -1,0 +1,76 @@
+<div class="wrapper">
+  <div class="row col-xl-12 padding-top-xl">
+    <form (ngSubmit)="onSubmit()">
+      <mat-stepper [orientation]='orientation' [linear]="isLinear" #stepper>
+        <mat-step [stepControl]="tripInfoForm">
+
+          <ng-template matStepLabel>{{"MOVING.STEP.TRIP.LABEL" | translate }}</ng-template>
+          <trip-info (tripStepEvent) ="updateTripInfo($event)" #tripInfoComponent></trip-info>
+        </mat-step>
+        <!--goolemap and property information-->
+        <mat-step>
+          <ng-template matStepLabel>{{"MOVING.STEP.MAP.LABEL" | translate }}</ng-template>
+          <div class="container step">
+
+            <div class="row col-8">
+            <google-map height="400px"
+                        width="100%"
+                        [center]="center"
+                        [zoom]="zoom">
+              <map-directions-renderer *ngIf="(directionsResults)"
+                                       [directions]="directionsResults"></map-directions-renderer>
+            </google-map>
+            </div>
+            <div class="button-row">
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+              <button mat-raised-button matStepperNext color="primary" type="button" >{{"BUTTON.NEXT.LABEL" | translate}}</button>
+            </div>
+          </div>
+        </mat-step>
+        <!--        Moving date-->
+        <mat-step [stepControl]="movingDateForm">
+          <form [formGroup]="movingDateForm">
+            <ng-template matStepLabel>{{"MOVING.STEP.DATEPICKER.LABEL" | translate }}</ng-template>
+            <div class="container step">
+              <mat-form-field>
+                <mat-label>{{"MOVING.STEP.DATEPICKER.LABEL" | translate }}</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date" >
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <div class="button-row">
+                <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+                <button mat-raised-button matStepperNext color="primary" type="button" (click)="onDatePick()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+        <!--contact information-->
+        <mat-step [stepControl]="contactInfoForm">
+          <ng-template matStepLabel>{{"MOVING.STEP.CONTACT.LABEL" | translate }}</ng-template>
+          <app-contact-info (contactStepEvent)="updateUploadPath()" #contactInfoComponent></app-contact-info>
+        </mat-step>
+        <!--        Summary-->
+        <mat-step>
+          <ng-template matStepLabel>{{"MOVING.STEP.FILEUPLOAD.LABEL" | translate }}</ng-template>
+          <div class="container step">
+            <app-file-upload [filePath]="uploadFilePath" (uploadStepEvent)="uploadFileComplete($event)"></app-file-upload>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>{{"MOVING.STEP.SUMMARY.LABEL" | translate }}</ng-template>
+          <div class="container step">
+            <app-data-table [detail]="movingDetail"></app-data-table>
+            <div class="button-row">
+              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+              <button mat-raised-button color="primary" type="submit" >{{"BUTTON.NEXT.LABEL" | translate}}</button>
+            </div>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </form>
+
+  </div>
+
+</div>

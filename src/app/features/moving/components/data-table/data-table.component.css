@@ -1,0 +1,27 @@
+@import "node_modules/primeng/resources/themes/lara-light-blue/theme.css";
+@import "node_modules/primeng/resources/primeng.css";
+.mytable {
+  position: absolute;
+  margin-top: 200px;
+}
+.mr-2 {
+  margin-right: 0.5rem !important;
+}
+
+:host ::ng-deep .pi {
+  font-family: "primeicons" !important;
+}
+
+:host ::ng-deep .p-dialog .product-image {
+  width: 150px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+:host ::ng-deep .p-button {
+  border-radius: 6px !important;
+  margin-right: 0.5rem;
+}
+
+
+

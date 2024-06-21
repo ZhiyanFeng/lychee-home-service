@@ -1,0 +1,21 @@
+<div class="form-group">
+  <p-fileUpload
+    name="uploadedFiles[]"
+    [customUpload]="true"
+    (uploadHandler) ="onUpload($event)"
+    [multiple]="true"
+    accept="image/*"
+    maxFileSize="1000000" >
+    <ng-template pTemplate="content">
+      <ul *ngIf="uploadedFiles.size">
+        <li *ngFor="let file of uploadedFiles">
+          {{ file.name }} - {{ file.size }} bytes
+        </li>
+      </ul>
+    </ng-template>
+  </p-fileUpload>
+  <div class="button-row">
+    <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+    <button mat-raised-button matStepperNext color="primary"  type="button" (click)="onNext()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
+  </div>
+</div>
