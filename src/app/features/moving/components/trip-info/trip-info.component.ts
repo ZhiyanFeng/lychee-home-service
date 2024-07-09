@@ -35,10 +35,8 @@ export class TripInfoComponent implements OnInit{
   ngOnInit(): void {
     this.isReady = true;
     this.tripInfoForm = this._formBuilder.group({
-      // from: ['', [Validators.required]],
-      // to: ['', [Validators.required]]
-      from: [''],
-      to: ['']
+      from: ['', [Validators.required]],
+      to: ['', [Validators.required]]
     })
   }
 
@@ -48,7 +46,6 @@ export class TripInfoComponent implements OnInit{
   }
 
   calcRoute(){
-    let _this = this;
     this.tripInfoForm.value['from'] = this.originalLocation.getPlace().formatted_address;
     this.tripInfoForm.value['to'] = this.destinationLocation.getPlace().formatted_address;
 

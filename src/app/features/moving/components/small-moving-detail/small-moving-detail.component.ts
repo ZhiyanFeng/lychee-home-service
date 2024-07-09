@@ -45,7 +45,6 @@ export class SmallMovingDetailComponent implements OnInit, AfterViewInit{
   tripInfoForm: FormGroup;
   movingDateForm: FormGroup;
   contactInfoForm: FormGroup;
-  uploadStepCompleted = false;
   movingDetail: any = {};
 
   directionsResults: google.maps.DirectionsResult;

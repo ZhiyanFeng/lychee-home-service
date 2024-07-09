@@ -17,6 +17,8 @@ import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {getAuth, provideAuth} from "@angular/fire/auth";
 import {FIREBASE_OPTIONS} from "@angular/fire/compat";
+import {PayloadEffects} from "./core/store/payload/payload.effects";
+import {payloadFeatureKey, payloadReducer} from "./core/store/payload/payload.reducer";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -25,7 +27,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export const appConfig: ApplicationConfig = {
   providers: [servicesProvider, provideRouter(routes), provideAnimations(), provideAnimations(), provideEffects([LanguageEffects]),
-    provideHttpClient(), provideStore({language: languageReducer}), httpInterceptorProviders,
+    provideHttpClient(), provideStore({language: languageReducer, payload: payloadReducer} ), provideEffects(PayloadEffects),  httpInterceptorProviders,
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en',

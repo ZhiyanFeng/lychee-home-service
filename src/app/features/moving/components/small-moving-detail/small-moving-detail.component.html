@@ -55,7 +55,7 @@
         <mat-step>
           <ng-template matStepLabel>{{"MOVING.STEP.FILEUPLOAD.LABEL" | translate }}</ng-template>
           <div class="container step">
-            <app-file-upload [filePath]="uploadFilePath" (uploadStepEvent)="uploadFileComplete($event)"></app-file-upload>
+            <app-payload-upload [filePath]="uploadFilePath" (uploadStepEvent)="uploadFileComplete($event)"></app-payload-upload>
           </div>
         </mat-step>
         <mat-step>

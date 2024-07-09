@@ -54,7 +54,7 @@ export class DataTableComponent implements OnInit{
   ngOnInit() {
   }
   ngOnChanges() {
-    this.products = this.detail.shipment;
+    this.products = this.detail.payloadURLs;
   }
   deleteSelectedProducts() {
     this.confirmationService.confirm({

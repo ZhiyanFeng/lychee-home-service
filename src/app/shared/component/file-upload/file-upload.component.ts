@@ -7,9 +7,12 @@ import {MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
 import {TranslateModule} from "@ngx-translate/core";
 import {MovingDetailService} from "../../../features/moving/services/moving-detail-service/moving-detail.service";
 import {MovingOrderService} from "../../../features/moving/services/moving-order-service/moving-order.service";
+import {Store} from "@ngrx/store";
+import {PayloadActions} from "../../../core/store/payload/payload.actions";
+import {Payload} from "../../../features/moving/models/payload";
 
 @Component({
-  selector: 'app-file-upload',
+  selector: 'app-payload-upload',
   standalone: true,
   imports: [
     FileUploadModule,
@@ -28,8 +31,9 @@ export class FileUploadComponent implements OnInit{
   @Output() uploadStepEvent = new EventEmitter<any>();
 
   uploadedFiles:  Set<File>;
+  payload: Payload;
 
-  constructor(private storage: AngularFireStorage, private movingOrderService: MovingOrderService, private movingDetailService: MovingDetailService) {}
+  constructor(private storage: AngularFireStorage, private movingDetailService: MovingDetailService, private store: Store) {}
 
   ngOnInit() {
     this.uploadedFiles = new Set();
@@ -42,16 +46,9 @@ export class FileUploadComponent implements OnInit{
       }
       continue;
     }
-
-    this.movingOrderService.uploadMultipleFiles(this.uploadedFiles, this.filePath).then((results) => {
-      results.forEach((result) => {
-        result.subscribe((url) => {
-          this.movingDetailService.downloadURLS.push(url);
-        })
-        // this.movingDetailService.downloadURLS = [...this.movingDetailService.downloadURLS,result];
-    })
-    }).catch(error => {
-      console.error("File upload failed:", error);
+    this.uploadedFiles.forEach(file=> {
+      let phone = this.movingDetailService.contactInfoForm.get('phone').value;
+      this.store.dispatch(PayloadActions.uploadPayload({phone: phone, file: file}));
     })
   }
 

@@ -7,5 +7,5 @@ export interface SmallMovingDetail{
   distance: number;
   duration: number;
   shippingDate: Date;
-  shipment: string[];
+  payloadURLs: string[];
 }
