@@ -1,4 +1,3 @@
-<div class="container">
   <div class="header">
 
     <div class="col-md-12">
@@ -22,34 +21,29 @@
   <ng-template pTemplate="left">
     <p-button
       pRipple
+      severity="success"
+      label="New"
+      icon="pi pi-plus"
+      class="mr-2"
+      (onClick)="openNew()" />
+    <p-button
+      pRipple
       severity="danger"
       label="Delete"
       icon="pi pi-trash"
-      (click)="deleteSelectedProducts()"
+      (onClick)="deleteSelectedProducts()"
       [disabled]="!selectedProducts || !selectedProducts.length" />
   </ng-template>
 
-  <ng-template pTemplate="right">
-    <p-fileUpload
-      mode="basic"
-      accept="image/*"
-      [maxFileSize]="1000000"
-      label="Import"
-      chooseLabel="Import"
-      class="mr-2 inline-block" />
-    <p-button
-      pRipple severity="help"
-      label="Export" icon="pi pi-upload" />
-  </ng-template>
 </p-toolbar>
 
 <p-table
   #dt
-  [value]="products"
+  [value]="products$ | async"
   [rows]="10"
   [paginator]="true"
   [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-  [tableStyle]="{ 'min-width': '75rem' }"
+  [tableStyle]=""
   [(selection)]="selectedProducts"
   [rowHover]="true"
   dataKey="id"
@@ -87,15 +81,7 @@
           (click)="openImagePopup(product)"/>
       </td>
 
-      <td>
-        <p-button
-          pRipple
-          icon="pi pi-pencil"
-          class="mr-2"
-          [rounded]="true"
-          [outlined]="true"
-          severity="success"
-          (click)="editProduct(product)" />
+      <td style="text-align: end">
         <p-button
           pRipple
           icon="pi pi-trash"
@@ -108,9 +94,7 @@
   </ng-template>
   <ng-template pTemplate="summary">
     <div class="flex align-items-center justify-content-between">
-      In total there are {{ products ? products.length : 0 }} products.
+<!--      In total there are {{ products ? products.length : 0 }} products.-->
     </div>
   </ng-template>
 </p-table>
-
-</div>

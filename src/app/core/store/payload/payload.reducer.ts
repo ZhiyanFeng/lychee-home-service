@@ -22,13 +22,17 @@ export const payloadReducer = createReducer(
           id: id,
           payloadURLs: [url]
         } as Payload;
-        return adapter.addOne(newPayload, state);
+        state = adapter.addOne(newPayload, state);
+        return state;
       }
 
       let payload = state.entities[id];
       if(!payload.payloadURLs.includes(url)){
         payload = {...payload, payloadURLs: [...payload.payloadURLs, url]};
-        return adapter.upsertOne(payload, state);
+        state =  adapter.updateOne({
+          id: id,
+          changes: payload
+        }, state);
       }
       return state;
     }

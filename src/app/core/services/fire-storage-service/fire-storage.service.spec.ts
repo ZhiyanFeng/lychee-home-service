@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MovingDetailService } from './moving-detail.service';
+import { FireStorageService } from './fire-storage.service';
 
-describe('MovingFormService', () => {
-  let service: MovingDetailService;
+describe('MovingOrderService', () => {
+  let service: FireStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MovingDetailService);
+    service = TestBed.inject(FireStorageService);
   });
 
   it('should be created', () => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {Router} from "@angular/router";
-import {MovingOrder, ResidentialMovingOrder} from "../../../features/moving/models/moving-order";
+import {MovingOrder, ResidentialMovingOrder, SmallMovingOrder} from "../../../features/moving/models/moving-order";
 
 @Injectable({
   providedIn: 'root'
@@ -10,32 +10,45 @@ export class FirestoreService {
 
   constructor(private db: AngularFirestore, private router: Router) { }
 
-  save(moving_order: ResidentialMovingOrder){
-    this.db.collection('moving_orders').add(moving_order).then(
-      response => {
+  async save(residentialMovingOrder: ResidentialMovingOrder) {
+    return this.db.collection('residential_moving_order').doc(residentialMovingOrder.contact.phone)
+      .set(residentialMovingOrder).then(response =>{
         this.db.collection('email').add({
           from: "lychee.home.service@gmail.com",
-          to:  moving_order.contact.email,
+          to: residentialMovingOrder.contact.email,
           template: {
             name: 'moving_summary',
             data: {
-              from: moving_order.trip.from,
-              to: moving_order.trip.to,
-              movingDate: moving_order.movingDate.toDateString(),
-              residentialType: moving_order.property.residentialType,
-              rooms: moving_order.property.rooms,
-              piano: moving_order.bulkyItems.piano,
-              marbleFurniture: moving_order.bulkyItems.marbleFurniture,
-              refrigerator: moving_order.bulkyItems.refrigerator
+              from: residentialMovingOrder.trip.from,
+              to: residentialMovingOrder.trip.to,
+              movingDate: residentialMovingOrder.movingDate.toDateString(),
+              residentialType: residentialMovingOrder.property.residentialType,
+              rooms: residentialMovingOrder.property.rooms,
+              piano: residentialMovingOrder.bulkyItems.piano,
+              marbleFurniture: residentialMovingOrder.bulkyItems.marbleFurniture,
+              refrigerator: residentialMovingOrder.bulkyItems.refrigerator
             }
           },
-        }).then( response => {
-            this.router.navigate(['thankyou']);
-          }
-        )
+        });
       }
-    ).catch(error=>{
-      console.log(error);
-    });
+    )
+  }
+
+  async saveSmallMovingOrder(smallMovingOrder: SmallMovingOrder) {
+    return this.db.collection('small_moving_order').add(smallMovingOrder).then(response =>{
+      return this.db.collection('email').add({
+        from: "lychee.home.service@gmail.com",
+        to: smallMovingOrder.contact.email,
+        template: {
+          name: 'moving_summary',
+          data: {
+            from: smallMovingOrder.trip.from,
+            to: smallMovingOrder.trip.to,
+            movingDate: smallMovingOrder.movingDate.toDateString(),
+            payload: smallMovingOrder.payload
+          }
+        },
+      });
+    })
   }
 }

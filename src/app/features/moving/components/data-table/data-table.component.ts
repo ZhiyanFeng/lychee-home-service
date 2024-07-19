@@ -17,11 +17,14 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
 import {FormGroup, FormsModule} from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
+import {FireStorageService} from "../../../../core/services/fire-storage-service/fire-storage.service";
 import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
-import {MovingDetailService} from "../../services/moving-detail-service/moving-detail.service";
 import {SmallMovingDetail} from "../../models/small-moving-detail";
 import {ImagePopupComponent} from "../../../../shared/component/image-popup/image-popup.component";
 import {MatDialog} from "@angular/material/dialog";
+import {select, Store} from "@ngrx/store";
+import {selectPayloadById} from "../../../../core/store/payload/payload.selectors";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -30,7 +33,7 @@ import {MatDialog} from "@angular/material/dialog";
   imports: [TableModule, DialogModule, RippleModule, ButtonModule, ToastModule, ToolbarModule, ConfirmDialogModule,
             InputTextModule, InputTextareaModule, CommonModule, FileUploadModule, DropdownModule, TagModule,
             RadioButtonModule, RatingModule, InputTextModule, FormsModule, InputNumberModule],
-  providers: [MessageService, ConfirmationService, MovingOrderService],
+  providers: [MessageService, ConfirmationService, FireStorageService],
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.component.css'
 })
@@ -38,7 +41,7 @@ export class DataTableComponent implements OnInit{
   @Input() detail: SmallMovingDetail;
   productDialog: boolean = false;
 
-  products!: string[];
+  products$!: Observable<any>;
 
   product!: string;
 
@@ -48,21 +51,27 @@ export class DataTableComponent implements OnInit{
 
   statuses!: any[];
 
-  constructor(private movingDetailService: MovingDetailService, private messageService: MessageService,
-              private confirmationService: ConfirmationService, private dialog: MatDialog) {}
+  constructor(private movingOrderService: MovingOrderService, private messageService: MessageService,
+              private confirmationService: ConfirmationService, private dialog: MatDialog, private store: Store) {
+  }
+
 
   ngOnInit() {
   }
+
   ngOnChanges() {
-    this.products = this.detail.payloadURLs;
+    this.products$ = this.store.select(selectPayloadById({id: this.movingOrderService.contactInfoForm.get('phone').value}));
+
+    // this.products = this.detail.payloadURLs
   }
+
   deleteSelectedProducts() {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete the selected products?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
+        // this.products = this.products.filter((val) => !this.selectedProducts?.includes(val));
         this.selectedProducts = null;
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
       }
@@ -117,24 +126,24 @@ export class DataTableComponent implements OnInit{
     // }
   }
 
-  findIndexById(id: string): number {
-    let index = -1;
-    for (let i = 0; i < this.products.length; i++) {
-      // if (this.products[i].id === id) {
-      //   index = i;
-      //   break;
-      // }
-    }
-
-    return index;
-  }
+  // findIndexById(id: string): number {
+  //   let index = -1;
+  //   // for (let i = 0; i < this.products.length; i++) {
+  //   //   // if (this.products[i].id === id) {
+  //   //   //   index = i;
+  //   //   //   break;
+  //   //   // }
+  //   }
+  //
+  //   return index;
+  // }
 
   createId(): string {
     let id = '';
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
+    // var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    // for (var i = 0; i < 5; i++) {
+    //   id += chars.charAt(Math.floor(Math.random() * chars.length));
+    // }
     return id;
   }
 
@@ -148,4 +157,8 @@ export class DataTableComponent implements OnInit{
   //       return 'danger';
   //   }
   // }
-}
+  openNew() {
+    // this.product = {};
+    // this.submitted = false;
+    // this.productDialog = true;
+  }}

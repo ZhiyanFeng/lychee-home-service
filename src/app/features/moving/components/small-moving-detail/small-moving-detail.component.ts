@@ -17,9 +17,9 @@ import {TripInfoComponent} from "../trip-info/trip-info.component";
 import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
 import {Event, Router} from "@angular/router";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
-import {MovingDetailService} from "../../services/moving-detail-service/moving-detail.service";
+import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 
-import {MovingOrder} from "../../models/moving-order";
+import {MovingOrder, SmallMovingOrder} from "../../models/moving-order";
 import {FileUploadComponent} from "../../../../shared/component/file-upload/file-upload.component";
 import {DataTableComponent} from "../data-table/data-table.component";
 import {BehaviorSubject, Observable} from "rxjs";
@@ -57,14 +57,14 @@ export class SmallMovingDetailComponent implements OnInit, AfterViewInit{
 
   constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService,
               private firestoreSevice: FirestoreService, private router: Router, private rwd: ResponsiveDesignService,
-              private movingDetailService: MovingDetailService, private cd: ChangeDetectorRef) {
+              private movingOrderService: MovingOrderService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.orientation = this.rwd.orientation;
     this.isMobile = this.rwd.isMobile;
-    this.movingDateForm = this.movingDetailService.createMovingDateForm(this._formBuilder);
-    this.contactInfoForm = this.movingDetailService.createContactForm(this._formBuilder);
+    this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
+    this.contactInfoForm = this.movingOrderService.createContactForm(this._formBuilder);
   }
   ngAfterViewInit(){
     if(this.tripInfoComponent.isReady){
@@ -85,32 +85,32 @@ export class SmallMovingDetailComponent implements OnInit, AfterViewInit{
   }
   updateTripInfo(event: any){
     if(event === 'next'){
-      this.directionsResults = this.movingDetailService.directionsResults ;}
+      this.directionsResults = this.movingOrderService.directionsResults ;}
   }
 
   updateUploadPath(){
-    this.uploadFilePath += this.movingDetailService.contactInfoForm.value['phone'] + '/';
+    this.uploadFilePath += this.movingOrderService.contactInfoForm.value['phone'] + '/';
   }
 
   onDatePick(){
-    this.movingDetailService.updateDateForm(this.movingDateForm);
+    this.movingOrderService.updateDateForm(this.movingDateForm);
   }
 
   uploadFileComplete(event: any){
-    this.movingDetailService.initDetails();
-    this.movingDetail = this.movingDetailService.movingDetails;
+    this.movingOrderService.initDetails();
+    this.movingDetail = this.movingOrderService.movingDetails;
     this.stepper.next();
   }
 
-
   onSubmit(){
-    console.log("abc");
-    // const moving_order:MovingOrder = {
-    //   trip: this.tripForm.value,
-    //   movingDate: this.movingDateForm.value.date,
-    //   contact: this.contactForm.value
-    // }
-    // this.firestoreSevice.save(moving_order);
+    const moving_order:SmallMovingOrder = {
+      trip: this.movingOrderService.tripForm.value,
+      movingDate: this.movingDateForm.value.date,
+      contact: this.movingOrderService.contactInfoForm.value,
+      payload: this.movingOrderService.movingDetails.payload
+    }
+    this.firestoreSevice.saveSmallMovingOrder(moving_order)
+      .then(response =>{ this.router.navigate(['/moving/thank-you'])});
   }
 
 }

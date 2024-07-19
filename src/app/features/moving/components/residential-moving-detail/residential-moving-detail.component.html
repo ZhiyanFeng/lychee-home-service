@@ -3,9 +3,8 @@
     <form (ngSubmit)="onSubmit()">
       <mat-stepper [orientation]='orientation' linear>
         <mat-step completed="tripInfoFormCompleted">
-
           <ng-template matStepLabel>{{"MOVING.STEP.TRIP.LABEL" | translate }}</ng-template>
-          <trip-info (newTripInfoEvent)="updateTripInfo($event)"></trip-info>
+          <trip-info (tripStepEvent) ="updateTripInfo($event)"></trip-info>
         </mat-step>
 <!--goolemap and property information-->
         <mat-step [stepControl]="propertyForm">
@@ -97,7 +96,7 @@
           </mat-form-field>
           <div class="button-row">
             <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
-            <button mat-raised-button matStepperNext color="primary" type="button" (click)="step5Complete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
+            <button mat-raised-button matStepperNext color="primary" type="button" (click)="onDatePickComplete()">{{"BUTTON.NEXT.LABEL" | translate}}</button>
           </div>
           </div>
           </form>
@@ -110,8 +109,7 @@
 <!--        Summary-->
         <mat-step>
           <ng-template matStepLabel>{{"MOVING.STEP.SUMMARY.LABEL" | translate }}</ng-template>
-          <app-moving-service-summary [tripForm]="tripForm" [movingDateForm]="movingDateForm"
-                                      [propertyForm]="propertyForm" [bulkyItemsForm]="bulkyItemsForm"
+          <app-moving-service-summary [propertyForm]="propertyForm" [bulkyItemsForm]="bulkyItemsForm"
                                       [isMobile]="isMobile" [formUpdated]="formUpdated"></app-moving-service-summary>
         </mat-step>
       </mat-stepper>

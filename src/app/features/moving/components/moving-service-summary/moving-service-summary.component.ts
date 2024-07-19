@@ -19,6 +19,7 @@ import {BulkyItems} from "../../models/bulkyItems";
 import {TranslateModule} from "@ngx-translate/core";
 import {Property} from "../../models/property";
 import {Trip} from "../../models/trip";
+import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 
 @Component({
   selector: 'app-moving-service-summary',
@@ -28,10 +29,8 @@ import {Trip} from "../../models/trip";
   styleUrls: ['./moving-service-summary.component.css']
 })
 export class MovingServiceSummaryComponent implements OnInit, OnChanges{
-  @Input() tripForm: FormGroup;
   @Input() propertyForm: FormGroup;
   @Input() bulkyItemsForm: FormGroup;
-  @Input() movingDateForm: FormGroup;
   @Input() isMobile: boolean;
   @Input() formUpdated: boolean;
 
@@ -40,17 +39,16 @@ export class MovingServiceSummaryComponent implements OnInit, OnChanges{
   bulkyItems: BulkyItems;
   movingDate: Date;
 
-  constructor() {
+  constructor(private movingDetailService: MovingOrderService) {
   }
 
   ngOnInit(): void {
   }
+
   ngOnChanges(changes: SimpleChanges): void {
-    this.trip = this.tripForm.value;
     this.property = this.propertyForm.value;
     this.bulkyItems = this.bulkyItemsForm.value;
-    this.movingDate = this.movingDateForm.value.date;
+    this.trip = this.movingDetailService.tripForm.value;
+    this.movingDate = this.movingDetailService.dateForm.value.date;
     }
-
-
 }

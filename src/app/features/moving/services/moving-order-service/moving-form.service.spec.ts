@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { MovingOrderService } from './moving-order.service';
 
-describe('MovingOrderService', () => {
+describe('MovingFormService', () => {
   let service: MovingOrderService;
 
   beforeEach(() => {

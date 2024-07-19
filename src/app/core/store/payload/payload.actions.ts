@@ -1,6 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import {Payload} from "../../../features/moving/models/payload";
-import {Update} from "@ngrx/entity";
 
 export const PayloadActions = createActionGroup({
   source: 'Payload Api',
@@ -11,7 +10,7 @@ export const PayloadActions = createActionGroup({
     'Load Payload Failure': props<{ error: unknown }>(),
     'upload Payload':  props<{ phone: string, file: File}>(),
     'Upload Payload Success': props<{id: string, url: string}>(),
-    'Upload Payload Failure': props<{ error: unknown }>(),
+    'Upload Payload Failure': props<{ error: any }>(),
   }
 });
 

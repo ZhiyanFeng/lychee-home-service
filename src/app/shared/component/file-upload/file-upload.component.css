@@ -3,9 +3,49 @@
 
 @import "../../../features/moving/components/residential-moving-detail/residential-moving-detail.component.css";
 
-
-
 :host ::ng-deep .p-button {
   border-radius: 6px !important;
   margin-right: 0.5rem;
 }
+
+
+:host ::ng-deep .p-fileupload-buttonbar {
+  width: 90vw;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+:host ::ng-deep .p-button {
+  display: inline-block;
+}
+
+
+:host ::ng-deep .p-toolbar .p-component{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: nowrap;
+  padding: 0.5rem;
+}
+
+@media (min-width: 27rem){
+  :host {
+    width:50%;
+  }
+
+  :host ::ng-deep .p-fileupload {
+    width: 100%;
+  }
+
+  :host ::ng-deep .p-fileupload-buttonbar {
+    width: 100%;
+  }
+}
+
+
+
+
+
+

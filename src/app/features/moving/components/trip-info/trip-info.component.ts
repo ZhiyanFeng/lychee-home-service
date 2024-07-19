@@ -7,7 +7,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {map, Observable, tap} from "rxjs";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MapDirectionsService} from "@angular/google-maps";
-import {MovingDetailService} from "../../services/moving-detail-service/moving-detail.service";
+import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 
 @Component({
   selector: 'trip-info',
@@ -30,7 +30,7 @@ export class TripInfoComponent implements OnInit{
   directionResult: google.maps.DirectionsResult | undefined;
   directionsService = new google.maps.DirectionsService();
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private movingDetailService: MovingDetailService) {
+  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private movingDetailService: MovingOrderService) {
   }
   ngOnInit(): void {
     this.isReady = true;

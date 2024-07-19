@@ -2,8 +2,8 @@
   <div class="row col-xl-12 padding-top-xl">
     <form (ngSubmit)="onSubmit()">
       <mat-stepper [orientation]='orientation' [linear]="isLinear" #stepper>
+        
         <mat-step [stepControl]="tripInfoForm">
-
           <ng-template matStepLabel>{{"MOVING.STEP.TRIP.LABEL" | translate }}</ng-template>
           <trip-info (tripStepEvent) ="updateTripInfo($event)" #tripInfoComponent></trip-info>
         </mat-step>

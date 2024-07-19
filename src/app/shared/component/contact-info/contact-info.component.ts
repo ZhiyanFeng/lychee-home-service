@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {TranslateModule} from "@ngx-translate/core";
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepperModule} from "@angular/material/stepper";
-import {MovingDetailService} from "../../../features/moving/services/moving-detail-service/moving-detail.service";
+import {MovingOrderService} from "../../../features/moving/services/moving-order-service/moving-order.service";
 
 @Component({
   selector: 'app-contact-info',
@@ -20,7 +20,7 @@ export class ContactInfoComponent implements OnInit{
   contactInfoFrom: FormGroup;
   isReady = false;
 
-  constructor(private _formBuilder: FormBuilder, private movingDetailService: MovingDetailService) {
+  constructor(private _formBuilder: FormBuilder, private movingDetailService: MovingOrderService) {
 
   }
 

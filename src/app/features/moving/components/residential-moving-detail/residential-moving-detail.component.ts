@@ -31,7 +31,7 @@ import {MovingOrder, ResidentialMovingOrder} from "../../models/moving-order";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
 import {ContactInfoComponent} from "../../../../shared/component/contact-info/contact-info.component";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
-import {MovingDetailService} from "../../services/moving-detail-service/moving-detail.service";
+import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 
 @Component({
   selector: 'app-residential-moving-detail',
@@ -51,9 +51,7 @@ export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
   zoom = 4;
 
   directionsResults: google.maps.DirectionsResult | undefined;
-  toChange=false;
 
-  formGroup: FormGroup;
   properties = [
     {value: 'condo', viewValue: 'Condo'},
     {value: 'town house', viewValue: 'Town house'},
@@ -70,30 +68,28 @@ export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
     {value: '6', viewValue: '6'}
   ];
 
-  tripInfoFormCompleted: Boolean;
   contactInfoFormCompleted: Boolean;
 
-  tripForm: FormGroup;
-  contactForm: FormGroup;
+  // tripForm: FormGroup;
+  // contactForm: FormGroup;
   propertyForm: FormGroup;
   movingDateForm: FormGroup;
   bulkyItemsForm: FormGroup;
 
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService,
-              private firestoreSevice: FirestoreService, private router: Router, private rwd: ResponsiveDesignService,
-              private movingFormService: MovingDetailService, private movingDetailService: MovingDetailService) {
+  constructor(private _formBuilder: FormBuilder, private firestoreSevice: FirestoreService,
+              private rwd: ResponsiveDesignService, private movingOrderService: MovingOrderService, private router: Router) {
     this.orientation = rwd.orientation;
   }
 
   ngOnInit(): void {
     this.isMobile = true;
-    this.tripForm = this._formBuilder.group({
-          from: ['', [Validators.required]],
-          to: ['', [Validators.required]],
-          distance: [''],
-          duration: ['']
-        });
+    // this.tripForm = this._formBuilder.group({
+    //       from: ['', [Validators.required]],
+    //       to: ['', [Validators.required]],
+    //       distance: [''],
+    //       duration: ['']
+    //     });
 
     this.propertyForm = this._formBuilder.group( {
             residentialType: ['', [Validators.required]],
@@ -105,20 +101,20 @@ export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
             refrigerator: ['', [Validators.required]]
           });
 
-    this.movingDateForm = this.movingFormService.createMovingDateForm(this._formBuilder);
+    this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
 
-    this.contactForm = this.movingFormService.createContactForm(this._formBuilder);
+    // this.contactForm = this.movingOrderService.createContactForm(this._formBuilder);
   }
 
   ngAfterViewInit(): void {
   }
   updateTripInfo(event: any){
     if(event === 'next'){
-    this.directionsResults = this.movingDetailService.directionsResults ;}
+    this.directionsResults = this.movingOrderService.directionsResults ;}
   }
 
   addContactInfo(contactInfoForm: FormGroup){
-    // this.movingFormService.addContactInfo(this.contactForm, contactInfoForm);
+    // this.movingOrderService.addContactInfo(this.contactForm, contactInfoForm);
     this.contactInfoFormCompleted = true;
   }
 
@@ -131,16 +127,19 @@ export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
 
   onSubmit(){
     const moving_order: ResidentialMovingOrder = {
-          trip: this.tripForm.value,
+          // trip: this.tripForm.value,
+          trip: this.movingOrderService.tripForm.value,
           property: this.propertyForm.value,
           bulkyItems: this.bulkyItemsForm.value,
           movingDate: this.movingDateForm.value.date,
-          contact: this.contactForm.value
+          contact: this.movingOrderService.contactInfoForm.value
       }
-    this.firestoreSevice.save(moving_order);
+    this.firestoreSevice.save(moving_order).then(response =>
+    {this.router.navigate(['thankyou'])}).catch(error => { console.log(error); })
   }
 
-  step5Complete() {
+  onDatePickComplete() {
+    this.movingOrderService.updateDateForm(this.movingDateForm);
     this.formUpdated = true;
   }
 }

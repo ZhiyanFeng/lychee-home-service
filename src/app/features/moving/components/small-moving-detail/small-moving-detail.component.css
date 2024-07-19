@@ -4,6 +4,9 @@ mat-form-field {
 :host ::ng-deep .mat-step:nth-of-type(5) .mat-vertical-content-container{
   margin-left: 0;
 }
+:host ::ng-deep .p-toolbar {
+    justify-content: center;
+}
 
 
 .wrapper {

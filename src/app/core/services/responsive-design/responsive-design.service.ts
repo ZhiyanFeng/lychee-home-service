@@ -12,7 +12,7 @@ export class ResponsiveDesignService {
   orientation: StepperOrientation = 'vertical';
   constructor() {
     let screenWidth = window.innerWidth;
-    if(screenWidth>390){
+    if(screenWidth>430){//use iphone 15 pro max as the breakpoint
       this.orientation = 'horizontal';
     }else{
       this.orientation = 'vertical';
@@ -21,7 +21,7 @@ export class ResponsiveDesignService {
   // @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
     let screenWidth = window.innerWidth;
-    if(screenWidth>390){
+    if(screenWidth>443){
       this.orientation = 'horizontal';
       this._isMobile = false;
     }else{
