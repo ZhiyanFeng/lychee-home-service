@@ -3,6 +3,7 @@ import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/compat/st
 import {MovingOrderService} from "../../../features/moving/services/moving-order-service/moving-order.service";
 import {Payload} from "../../../features/moving/models/payload";
 import {environment} from "../../../../environments/environment";
+import {listAll} from "@angular/fire/storage";
 
 @Injectable(
 )
@@ -24,30 +25,22 @@ export class FireStorageService {
     return url;
   }
 
+  loadImages() {
+    const folderRef = this.storage.ref('images/');
+    const downloadUrls: String[] = [];
+    folderRef.listAll().subscribe({
+        next: (result) => {
+          for (const fireRef of result.items) {
+            fireRef.getDownloadURL().then(url => {
+              downloadUrls.push(url);
+            })
+          }
+        }
+      }
+    )
+    return downloadUrls;
+  }
 
-  // async uploadFiles(files: Set<File>, filePath: string){
-  //   const storageRef = this.storage.ref(filePath); // Replace with your path
-  //   let results: any[];
-  //
-  //   files.forEach(payload =>{
-  //     const fileRef = storageRef.child(payload.name); // Create reference with filename
-  //     this.uploadPromises.push(this.uploadSingleFile(payload, fileRef));
-  //   })
-  //
-  //   // Wait for all uploads to finish using Promise.all
-  //   try {
-  //     results = await Promise.all(this.uploadPromises);
-  // }catch (error) {
-  //     console.error("File upload failed:", error);
-  //     return error;
-  //   }finally {
-  //     return results;
-  //   }
-  // }
-  //
-  // createObservableFromUpLoadFiles(files: Set<File>, filePath: string): Observable<any> {
-  //   return of(this.uploadFiles(files, filePath));
-  // }
 
   deleteSingleFile(file: File, storageRef: any) {
     const uploadTask = storageRef.put(file);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {FlexModule} from "@angular/flex-layout";
@@ -9,6 +9,8 @@ import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatListModule} from "@angular/material/list";
 import {last} from "rxjs";
 import {TranslateModule} from "@ngx-translate/core";
+import {Store} from "@ngrx/store";
+import {ImageActions} from "../../../../core/store/images/image.actions";
 export interface TruckRateElement {
   length: string;
   capacity: string;
@@ -44,13 +46,17 @@ const SMALL_MOVING_DATA: TruckRateElement[] = [
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   displayedColumns: string[] = ['length', 'capacity', 'rate', 'busyDayRate'];
   dataSource = new MatTableDataSource<TruckRateElement>(ELEMENT_DATA);
   vanDataSource = new MatTableDataSource<TruckRateElement>(SMALL_MOVING_DATA);
   feeItems = new Array<number>(10);
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private store: Store) {
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(ImageActions.loadImages());
   }
 
   toMakeAnAppointment() {
@@ -61,10 +67,10 @@ export class HomeComponent {
     this.router.navigate(['smallMovingRequest'])
   }
 
+
   toUploadPayloadPictures(){
     this.router.navigate(['uploadPayloadPictures']);
   }
-
 
   protected readonly SMALL_MOVING_DATA = SMALL_MOVING_DATA;
 }
