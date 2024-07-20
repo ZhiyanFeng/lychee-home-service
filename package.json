@@ -18,7 +18,7 @@
     "@angular/fire": "^18.0.1",
     "@angular/flex-layout": "^15.0.0-beta.42",
     "@angular/forms": "^18.1.1",
-    "@angular/google-maps": "^17.3.10",
+    "@angular/google-maps": "^18.1.1",
     "@angular/material": "^17.3.10",
     "@angular/platform-browser": "^18.1.1",
     "@angular/platform-browser-dynamic": "^18.1.1",
