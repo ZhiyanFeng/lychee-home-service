@@ -41,6 +41,7 @@
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
+              "node_modules/flag-icons/css/flag-icons.css",
               "src/styles.css"
             ],
             "scripts": [
@@ -75,7 +76,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.development.ts"
                 }
-              ]
+              ],
+              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"
