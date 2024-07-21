@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {FlexModule} from "@angular/flex-layout";
 import {MatButtonModule} from "@angular/material/button";
@@ -7,10 +7,11 @@ import {Router} from "@angular/router";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {MatListModule} from "@angular/material/list";
-import {last} from "rxjs";
 import {TranslateModule} from "@ngx-translate/core";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {ImageActions} from "../../../../core/store/images/image.actions";
+import {selectAllImages, selectImage} from "../../../../core/store/images/image.selectors";
+
 export interface TruckRateElement {
   length: string;
   capacity: string;
@@ -42,7 +43,7 @@ const SMALL_MOVING_DATA: TruckRateElement[] = [
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatCardModule, FlexModule, MatButtonModule, MatTabsModule, MatTableModule, MatListModule, TranslateModule],
+  imports: [CommonModule, MatCardModule, FlexModule, MatButtonModule, MatTabsModule, MatTableModule, MatListModule, TranslateModule, NgOptimizedImage],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -51,6 +52,10 @@ export class HomeComponent implements OnInit{
   dataSource = new MatTableDataSource<TruckRateElement>(ELEMENT_DATA);
   vanDataSource = new MatTableDataSource<TruckRateElement>(SMALL_MOVING_DATA);
   feeItems = new Array<number>(10);
+
+  packing$ = this.store.pipe(select(selectImage('packing.jpg')));
+  smallMoving$ = this.store.pipe(select(selectImage('smallMoving.jpg')));
+  fleet$ = this.store.pipe(select(selectImage('fleet.jpg')));
 
   constructor(private router: Router, private store: Store) {
   }

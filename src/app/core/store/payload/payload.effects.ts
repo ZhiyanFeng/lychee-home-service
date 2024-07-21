@@ -15,13 +15,22 @@ export class PayloadEffects {
 
 uploadFile$ = createEffect(() => this.actions$.pipe(
     ofType(PayloadActions.uploadPayload),
-    concatMap((action) => from(this.movingOrderService.uploadSingleFile(action.phone, action.file))
+    concatMap((action) => from(this.movingOrderService.uploadFile(action.phone, action.file))
       .pipe(
         map(url => PayloadActions.uploadPayloadSuccess({id: action.phone, url: url})),
         catchError(() => EMPTY)
       ))
   )
 );
+  // ouploadFile$ = createEffect(() => this.actions$.pipe(
+  //     ofType(PayloadActions.uploadPayload),
+  //     concatMap((action) => from(this.movingOrderService.uploadSingleFile(action.phone, action.file))
+  //       .pipe(
+  //         map(url => PayloadActions.uploadPayloadSuccess({id: action.phone, url: url})),
+  //         catchError(() => EMPTY)
+  //       ))
+  //   )
+  // );
 
 }
 

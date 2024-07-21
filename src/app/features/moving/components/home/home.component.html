@@ -8,13 +8,13 @@
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active item-1">
-          <img src="https://www.compassoffices.com/media/filer_public/42/4e/424e0b0e-6d06-4d71-920f-c852eb7db1f0/nailing-the-office-relocation.jpg" class="d-block w-100" alt="...">
+          <img [src]="packing$ | async" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item item-2">
-          <img src="../../assets/images/small_moving.jpg" class="d-block w-100" alt="...">
+          <img [src]="smallMoving$ | async" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item item-3">
-          <img src="../../assets/images/fleet.jpg" class="d-block w-100" alt="...">
+          <img [src]="fleet$ | async" class="d-block w-100" alt="...">
         </div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">

@@ -1,9 +1,6 @@
-import {Injectable} from '@angular/core';
-import {AngularFireStorage, AngularFireUploadTask} from "@angular/fire/compat/storage";
-import {MovingOrderService} from "../../../features/moving/services/moving-order-service/moving-order.service";
-import {Payload} from "../../../features/moving/models/payload";
+import {inject, Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
-import {listAll} from "@angular/fire/storage";
+import {Storage, ref, uploadBytesResumable, getDownloadURL, getStorage, listAll} from '@angular/fire/storage';
 
 @Injectable(
 )
@@ -11,34 +8,37 @@ export class FireStorageService {
 
   uploadPromises: Promise<any>[]
   uploadedURLs: string[];
+  private storage = inject(Storage);
+  downloadURL: string;
 
-  constructor(private storage: AngularFireStorage) {
+  constructor() {
     this.uploadPromises = [];
     this.uploadedURLs = [];
   }
 
-  async uploadSingleFile(id: string, file: File) {
-    let uploadPath = environment.payloadUploadPath + id + '/' + file.name;
-    const storageRef = this.storage.ref(uploadPath); // Replace with your path
-    let uploadTaskSnapShot = await this.storage.upload(uploadPath, file);
-    let url = await uploadTaskSnapShot.ref.getDownloadURL();
-    return url;
+  async uploadFile(id: string, file: File) {
+    const uploadPath = environment.payloadUploadPath + id + '/' + file.name;
+    const storageRef = ref(this.storage,uploadPath); // Replace with your path
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    await uploadTask;
+    const downloadURL = getDownloadURL(uploadTask.snapshot.ref);
+    return downloadURL;
   }
 
-  loadImages() {
-    const folderRef = this.storage.ref('images/');
-    const downloadUrls: String[] = [];
-    folderRef.listAll().subscribe({
-        next: (result) => {
-          for (const fireRef of result.items) {
-            fireRef.getDownloadURL().then(url => {
-              downloadUrls.push(url);
-            })
-          }
-        }
-      }
-    )
-    return downloadUrls;
+  async loadFiles(path: string) {
+    const folderRef = ref(this.storage,path);
+    let files = {};
+
+    let listResult = await listAll(folderRef);
+
+    for(const itemRef of listResult.items){
+      let url  = await getDownloadURL(itemRef);
+      let name = itemRef.name;
+      files[name] = url;
+    }
+
+    return files;
   }
 
 
@@ -52,43 +52,43 @@ export class FireStorageService {
   }
 
   async deleteFiles(filePaths: string[]) {
-    const deletionPromises = filePaths.map((filePath) => {
-      const storageRef = this.storage.ref(filePath);
-      return storageRef.delete();
-    });
-
-    Promise.all(deletionPromises)
-      .then(() => {
-        console.log('All files deleted successfully!');
-      })
-      .catch((error) => {
-        console.error('Error deleting files:', error);
-      });
+    // const deletionPromises = filePaths.map((filePath) => {
+    //   const storageRef = this.storage.ref(filePath);
+    //   return storageRef.delete();
+    // });
+    //
+    // Promise.all(deletionPromises)
+    //   .then(() => {
+    //     console.log('All files deleted successfully!');
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error deleting files:', error);
+    //   });
   }
 
 
   downloadFolder(folderPath: string) {
-    const storageRef = this.storage.ref(folderPath);
-    storageRef.listAll().subscribe({
-      next: (result) => {
-        for (const item of result.items) {
-          // Download each item (payload)
-          this.downloadFile(item.fullPath);
-        }
-      },
-      error: (error) => {
-        console.error("Error listing folder contents:", error);
-      }
-    });
+    // const storageRef = this.storage.ref(folderPath);
+    // storageRef.listAll().subscribe({
+    //   next: (result) => {
+    //     for (const item of result.items) {
+    //       // Download each item (payload)
+    //       this.downloadFile(item.fullPath);
+    //     }
+    //   },
+    //   error: (error) => {
+    //     console.error("Error listing folder contents:", error);
+    //   }
+    // });
   }
 
   downloadFile(filePath: string) {
-    const storageRef = this.storage.ref(filePath);
-    storageRef.getDownloadURL().subscribe(url => {
-      const downloadLink = document.createElement('a');
-      downloadLink.href = url;
-      downloadLink.download = filePath.split('/').pop(); // Extract filename
-      downloadLink.click();
-    });
+    // const storageRef = this.storage.ref(filePath);
+    // storageRef.getDownloadURL().subscribe(url => {
+    //   const downloadLink = document.createElement('a');
+    //   downloadLink.href = url;
+    //   downloadLink.download = filePath.split('/').pop(); // Extract filename
+    //   downloadLink.click();
+    // });
   }
 }

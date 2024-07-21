@@ -21,6 +21,7 @@ import {PayloadEffects} from "./core/store/payload/payload.effects";
 import {payloadFeatureKey, payloadReducer} from "./core/store/payload/payload.reducer";
 import {imageReducer} from "./core/store/images/image.reducer";
 import {ImageEffects} from "./core/store/images/image.effects";
+import {getStorage, provideStorage} from "@angular/fire/storage";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -28,9 +29,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [servicesProvider, provideRouter(routes), provideAnimations(), provideAnimations(), provideEffects([LanguageEffects]),
-    provideHttpClient(), provideStore({language: languageReducer, payload: payloadReducer, image: imageReducer} )
-    , provideEffects(PayloadEffects, ImageEffects),  httpInterceptorProviders,
+  providers: [servicesProvider, provideRouter(routes), provideAnimations(), provideAnimations(),
+    provideEffects([LanguageEffects]), provideHttpClient(), provideStore({language: languageReducer,
+      payload: payloadReducer, image: imageReducer} ),
+    provideEffects(PayloadEffects, ImageEffects),  httpInterceptorProviders,
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en',
@@ -43,6 +45,7 @@ export const appConfig: ApplicationConfig = {
     ),
       provideFirebaseApp(() => initializeApp(environment.firebase)),
       provideFirestore(() => getFirestore()),
+      provideStorage(() => getStorage()),
       provideAuth(() => getAuth()),
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
     provideStoreDevtools({

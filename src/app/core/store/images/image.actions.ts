@@ -4,7 +4,7 @@ export const ImageActions = createActionGroup({
   source: 'Home Page',
   events: {
     'Load Images': emptyProps(),
-    'Load Images Success': props<{ data: unknown }>(),
+    'Load Images Success': props<{ images: {} }>(),
     'Load Images Failure': props<{ error: unknown }>(),
   }
 });

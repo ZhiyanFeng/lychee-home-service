@@ -12,9 +12,9 @@ export class ImageEffects {
 
   loadImages$ = createEffect(() => this.actions$.pipe(
       ofType(ImageActions.loadImages),
-      switchMap(() => from(this.fireStorageService.loadImages())
+      switchMap(() => from(this.fireStorageService.loadFiles('images/'))
         .pipe(
-          map(urls => ImageActions.loadImagesSuccess({data: urls})),
+          map(urls => ImageActions.loadImagesSuccess({images: urls})),
           catchError(() => EMPTY)
         ))
     )
