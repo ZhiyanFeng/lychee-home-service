@@ -7,7 +7,6 @@ import {MatDatepicker, MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatStepper, MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {MovingServiceSummaryComponent} from "../moving-service-summary/moving-service-summary.component";
@@ -19,22 +18,23 @@ import {Event, Router} from "@angular/router";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
 import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 
-import {MovingOrder, SmallMovingOrder} from "../../models/moving-order";
+import {SmallMovingOrder} from "../../models/moving-order";
 import {FileUploadComponent} from "../../../../shared/component/file-upload/file-upload.component";
 import {DataTableComponent} from "../data-table/data-table.component";
-import {BehaviorSubject, Observable} from "rxjs";
+import {selectPayloadById} from "../../../../core/store/payload/payload.selectors";
+import {Store} from "@ngrx/store";
 
 @Component({
-  selector: 'app-small-moving-detail',
+  selector: 'app-small-moving',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
     MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule,
     MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent, FileUploadComponent, DataTableComponent],
-  templateUrl: './small-moving-detail.component.html',
-  styleUrls: ['./small-moving-detail.component.css']
+  templateUrl: './small-moving.component.html',
+  styleUrls: ['./small-moving.component.css']
 })
 
-export class SmallMovingDetailComponent implements OnInit, AfterViewInit{
+export class SmallMovingComponent implements OnInit, AfterViewInit{
   @ViewChild('tripInfoComponent') tripInfoComponent: TripInfoComponent;
   @ViewChild('contactInfoComponent') contactInfoComponent: ContactInfoComponent;
   @ViewChild('picker') datePicker: MatDatepicker<Date>;
@@ -51,11 +51,12 @@ export class SmallMovingDetailComponent implements OnInit, AfterViewInit{
   orientation: StepperOrientation = 'vertical';
   isLinear = true;
   uploadFilePath = '/small-moving/';
+  _downloadURLS;
 
   center: google.maps.LatLngLiteral = {lat: 43.651070, lng: -79.347015};
   zoom = 4;
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService,
+  constructor(private _formBuilder: FormBuilder, private store: Store,
               private firestoreSevice: FirestoreService, private router: Router, private rwd: ResponsiveDesignService,
               private movingOrderService: MovingOrderService, private cd: ChangeDetectorRef) {
   }
@@ -65,6 +66,7 @@ export class SmallMovingDetailComponent implements OnInit, AfterViewInit{
     this.isMobile = this.rwd.isMobile;
     this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
     this.contactInfoForm = this.movingOrderService.createContactForm(this._formBuilder);
+
   }
   ngAfterViewInit(){
     if(this.tripInfoComponent.isReady){
@@ -103,11 +105,15 @@ export class SmallMovingDetailComponent implements OnInit, AfterViewInit{
   }
 
   onSubmit(){
+    this.store.select(selectPayloadById({id: this.contactInfoForm.value['phone']})).subscribe(
+      payload => {
+        this._downloadURLS = payload;
+      });
     const moving_order:SmallMovingOrder = {
       trip: this.movingOrderService.tripForm.value,
       movingDate: this.movingDateForm.value.date,
       contact: this.movingOrderService.contactInfoForm.value,
-      payload: this.movingOrderService.movingDetails.payload
+      payload: this._downloadURLS
     }
     this.firestoreSevice.saveSmallMovingOrder(moving_order)
       .then(response =>{ this.router.navigate(['/moving/thank-you'])});

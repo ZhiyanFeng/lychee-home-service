@@ -1,8 +1,5 @@
 import {
-  AfterContentInit,
-  AfterViewInit,
-  Component, DoCheck,
-  HostListener,
+  Component,
   Input,
   OnChanges,
   OnInit,
@@ -13,8 +10,6 @@ import {FormGroup} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepperModule} from "@angular/material/stepper";
 import {MatCardModule} from "@angular/material/card";
-import {RouteDetail} from "../../models/route-detail";
-import {PropertyDetail} from "../../models/property-detail";
 import {BulkyItems} from "../../models/bulkyItems";
 import {TranslateModule} from "@ngx-translate/core";
 import {Property} from "../../models/property";
@@ -38,6 +33,12 @@ export class MovingServiceSummaryComponent implements OnInit, OnChanges{
   property: Property;
   bulkyItems: BulkyItems;
   movingDate: Date;
+  propertyType: string = "MOVING.STEP.PROPERTY.LABEL";
+  room: string = "MOVING.ROOM.LABEL";
+  piano: string = "MOVING.PIANO.LABEL";
+  marble: string = "MOVING.MARBLE.LABEL";
+  refrigerator: string = "MOVING.REFRIGERATOR.LABEL";
+  detail: string = "MOVING.STEP.DETAIL.LABEL";
 
   constructor(private movingDetailService: MovingOrderService) {
   }

@@ -11,7 +11,7 @@ import * as string_decoder from "string_decoder";
 @Injectable({
   providedIn: 'root'
 })
-export class MovingOrderService implements OnInit{
+export class MovingOrderService implements OnInit {
 
 
   private _directionsResults: google.maps.DirectionsResult | undefined;
@@ -25,7 +25,7 @@ export class MovingOrderService implements OnInit{
   private _phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
 
-  constructor(private _fb: FormBuilder, private store: Store){
+  constructor(private _fb: FormBuilder, private store: Store) {
     this._tripForm = this._fb.group({
       from: ['', [Validators.required]],
       to: ['', [Validators.required]],
@@ -45,32 +45,33 @@ export class MovingOrderService implements OnInit{
   }
 
   ngOnInit(): void {
-    }
+  }
 
-  setTripInfo(newTripInfo: google.maps.DirectionsResult){
+  setTripInfo(newTripInfo: google.maps.DirectionsResult) {
     this._tripForm.value['from'] = newTripInfo.routes[0].legs[0].start_address;
     this._tripForm.value['to'] = newTripInfo.routes[0].legs[0].end_address;
     this._tripForm.value['distance'] = newTripInfo.routes[0].legs[0].distance.text;
     this._tripForm.value['duration'] = newTripInfo.routes[0].legs[0].duration.text;
   }
 
-  updateContactInfo(contactInfoForm: FormGroup){
+  updateContactInfo(contactInfoForm: FormGroup) {
     this._contactInfoForm.value['firstName'] = contactInfoForm.value['firstName'];
     this._contactInfoForm.value['lastName'] = contactInfoForm.value['lastName'];
     this._contactInfoForm.value['email'] = contactInfoForm.value['email'];
     this._contactInfoForm.value['phone'] = contactInfoForm.value['phone'];
   }
 
-  updateDateForm(dateForm: FormGroup){
+  updateDateForm(dateForm: FormGroup) {
     this._dateForm.value['date'] = dateForm.value['date'];
   }
-  createMovingDateForm(fb: FormBuilder){
+
+  createMovingDateForm(fb: FormBuilder) {
     return fb.group({
       date: ['', [Validators.required]]
     });
   }
 
-  createContactForm(fb: FormBuilder){
+  createContactForm(fb: FormBuilder) {
     return fb.group({
         firstName: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
@@ -80,17 +81,14 @@ export class MovingOrderService implements OnInit{
     )
   }
 
-  initDetails(){
+  initDetails() {
     let trip = this.tripForm;
     this._movingDetails.from = trip.value['from'];
     this._movingDetails.to = trip.value['to'];
     this._movingDetails.distance = trip.value['distance'];
     this._movingDetails.duration = trip.value['duration'];
     this._movingDetails.shippingDate = this.dateForm.value['date'];
-    this.store.select(selectPayloadById({id: this.contactInfoForm.value['phone']})).subscribe(
-      payload => { this._downloadURLS = payload;
-      });
-    this._movingDetails.payloadURLs = this._downloadURLS;
+
   }
 
   get directionsResults(): google.maps.DirectionsResult | undefined {

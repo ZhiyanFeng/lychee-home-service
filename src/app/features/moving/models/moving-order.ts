@@ -14,5 +14,5 @@ export interface ResidentialMovingOrder extends MovingOrder{
   bulkyItems: BulkyItems;
 }
 export interface SmallMovingOrder extends MovingOrder{
-   payload: string[];
+   payload: string[] | undefined;
 }

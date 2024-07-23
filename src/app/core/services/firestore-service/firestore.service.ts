@@ -17,6 +17,7 @@ export class FirestoreService {
           from: "lychee.home.service@gmail.com",
           to: residentialMovingOrder.contact.email,
           template: {
+
             name: 'moving_summary',
             data: {
               from: residentialMovingOrder.trip.from,
@@ -35,12 +36,13 @@ export class FirestoreService {
   }
 
   async saveSmallMovingOrder(smallMovingOrder: SmallMovingOrder) {
-    return this.db.collection('small_moving_order').add(smallMovingOrder).then(response =>{
+    return this.db.collection('small_moving_order').doc(smallMovingOrder.contact.phone).
+    set(smallMovingOrder).then(response =>{
       return this.db.collection('email').add({
         from: "lychee.home.service@gmail.com",
         to: smallMovingOrder.contact.email,
         template: {
-          name: 'moving_summary',
+          name: 'small_moving_summary',
           data: {
             from: smallMovingOrder.trip.from,
             to: smallMovingOrder.trip.to,

@@ -1,13 +1,28 @@
-.form-group {
-  justify-content: center;
+/*.detail {*/
+/*  justify-content: center;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  margin-top: 50px;*/
+/*}*/
+
+.card-body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 50px;
+}
+
+.detail {
+  width: 100%;
+}
+
+.summary-header {
+  text-align: center;
 }
 
 .button-row {
-  flex-direction: row;
+  margin: auto;
 }
 
 .button-group {

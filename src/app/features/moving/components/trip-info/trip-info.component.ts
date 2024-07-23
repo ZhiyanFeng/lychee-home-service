@@ -24,10 +24,11 @@ export class TripInfoComponent implements OnInit{
   isReady: Boolean = false;
 
   tripInfoForm: FormGroup;
+  placeHolderFrom = "MOVING.STEP.FROM.LABEL";
+  placeHolderTo = "MOVING.STEP.TO.LABEL";
 
   originalLocation: google.maps.places.Autocomplete | undefined;
   destinationLocation: google.maps.places.Autocomplete | undefined;
-  directionResult: google.maps.DirectionsResult | undefined;
   directionsService = new google.maps.DirectionsService();
 
   constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private movingDetailService: MovingOrderService) {

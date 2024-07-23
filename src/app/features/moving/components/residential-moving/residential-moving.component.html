@@ -25,7 +25,7 @@
               <mat-label>{{"MOVING.STEP.PROPERTY.LABEL" | translate }}</mat-label>
               <mat-select formControlName="residentialType">
                 <mat-option *ngFor="let property of properties" [value]="property.value">
-                  {{property.viewValue}}
+                  {{property.viewValue | translate}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

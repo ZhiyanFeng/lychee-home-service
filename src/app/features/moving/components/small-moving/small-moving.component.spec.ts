@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SmallMovingDetailComponent } from './small-moving-detail.component';
+import { SmallMovingComponent } from './small-moving.component';
 
 describe('SmallMovingQuotationComponent', () => {
-  let component: SmallMovingDetailComponent;
-  let fixture: ComponentFixture<SmallMovingDetailComponent>;
+  let component: SmallMovingComponent;
+  let fixture: ComponentFixture<SmallMovingComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SmallMovingDetailComponent]
+      imports: [SmallMovingComponent]
     });
-    fixture = TestBed.createComponent(SmallMovingDetailComponent);
+    fixture = TestBed.createComponent(SmallMovingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

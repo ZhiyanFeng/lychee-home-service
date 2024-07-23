@@ -3,15 +3,13 @@ import {CommonModule} from '@angular/common';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {
-  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators
 } from "@angular/forms";
-import {GoogleMapsModule, MapDirectionsService} from '@angular/google-maps';
-import {catchError, map, Observable, of, tap} from "rxjs";
+import {GoogleMapsModule } from '@angular/google-maps';
 import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
@@ -19,29 +17,23 @@ import {MovingServiceSummaryComponent} from "../moving-service-summary/moving-se
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {TranslateModule} from "@ngx-translate/core";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {Trip} from "../../models/trip";
-import {Property} from "../../models/property";
-import {BulkyItems} from "../../models/bulkyItems";
-import {Contact} from "../../services/models/contact";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 import {Event, Router} from "@angular/router";
 import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
-import {MovingOrder, ResidentialMovingOrder} from "../../models/moving-order";
+import {ResidentialMovingOrder} from "../../models/moving-order";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
 import {ContactInfoComponent} from "../../../../shared/component/contact-info/contact-info.component";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
 import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 
 @Component({
-  selector: 'app-residential-moving-detail',
+  selector: 'app-residential-moving',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
     MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent],
-  templateUrl: "./residential-moving-detail.component.html",
-  styleUrls: ['./residential-moving-detail.component.css']
+  templateUrl: "./residential-moving.component.html",
+  styleUrls: ['./residential-moving.component.css']
 })
-export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
+export class ResidentialMovingComponent implements OnInit, AfterViewInit {
 
   public isMobile=false;
   public formUpdated = false;
@@ -53,9 +45,9 @@ export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
   directionsResults: google.maps.DirectionsResult | undefined;
 
   properties = [
-    {value: 'condo', viewValue: 'Condo'},
-    {value: 'town house', viewValue: 'Town house'},
-    {value: 'house', viewValue: 'Semi/Detached'}
+    {value: 'condo', viewValue: "MOVING.CONDO.LABEL"},
+    {value: 'town house', viewValue: 'MOVING.TOWNHOUSE.LABEL'},
+    {value: 'house', viewValue: 'MOVING.HOUSE.LABEL'}
   ];
 
   counts=  [
@@ -84,12 +76,6 @@ export class ResidentialMovingDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.isMobile = true;
-    // this.tripForm = this._formBuilder.group({
-    //       from: ['', [Validators.required]],
-    //       to: ['', [Validators.required]],
-    //       distance: [''],
-    //       duration: ['']
-    //     });
 
     this.propertyForm = this._formBuilder.group( {
             residentialType: ['', [Validators.required]],

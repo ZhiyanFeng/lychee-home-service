@@ -1,19 +1,18 @@
 <div class="card">
   <div class="card-body">
-    <div class="container mb-5 mt-3">
       <div class="row d-flex align-items-baseline">
-        <div class="col-xl-9">
+        <div class="col-xl-12">
           <p class="summary-header"><strong>Summary</strong></p>
         </div>
         <hr>
       </div>
 
-      <div class="container">
+      <div class="detail">
         <div class="col-md-12">
-          <div class="text-center">
-            <i class="fab fa-mdb fa-4x ms-0" style="color:#5d9fc5 ;"></i>
-            <p class="pt-0">Lychee Service</p>
-          </div>
+<!--          <div class="text-center">-->
+<!--            <i class="fab fa-mdb fa-4x ms-0" style="color:#5d9fc5 ;"></i>-->
+<!--            <p class="pt-0">Lychee Service</p>-->
+<!--          </div>-->
         </div>
         <div class="row">
           <div class="col-xl-8">
@@ -30,12 +29,12 @@
             <thead class="table-primary">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Service Details</th>
-              <th scope="col">Property type</th>
-              <th scope="col">Rooms</th>
-              <th scope="col">Pianos</th>
-              <th scope="col">Marble Furnitures</th>
-              <th scope="col">Refrigerator</th>
+              <th scope="col">{{detail | translate}}</th>
+              <th scope="col">{{propertyType | translate}}</th>
+              <th scope="col">{{room | translate}}</th>
+              <th scope="col">{{piano | translate}}</th>
+              <th scope="col">{{marble | translate}}</th>
+              <th scope="col">{{refrigerator | translate}}</th>
             </tr>
             </thead>
             <tbody>
@@ -53,27 +52,27 @@
 <!--          vertical table for mobile-->
           <table class="table table-striped table-borderless" [hidden]="!isMobile">
             <tr>
-              <th scope="col">Service Details</th>
+              <th scope="col">{{detail | translate}}</th>
               <td>Residential Moving</td>
             </tr>
             <tr>
-              <th scope="col">Property type</th>
+              <th scope="col">{{propertyType | translate}}</th>
               <td>{{property.residentialType}}</td>
             </tr>
             <tr>
-              <th scope="col">Rooms</th>
+              <th scope="col">{{room | translate}}</th>
               <td>{{property.rooms}}</td>
             </tr>
             <tr>
-              <th scope="col">Pianos</th>
+              <th scope="col">{{piano | translate}}</th>
               <td>{{bulkyItems.piano}}</td>
             </tr>
             <tr>
-              <th scope="col">Marble Furnitures</th>
+              <th scope="col">{{marble | translate}}</th>
               <td>{{bulkyItems.marbleFurniture}}</td>
             </tr>
             <tr>
-              <th scope="col">Refrigerators</th>
+              <th scope="col">{{refrigerator | translate}}</th>
               <td>{{bulkyItems.refrigerator}}</td>
             </tr>
           </table>
@@ -92,10 +91,10 @@
           </div>
         </div>
         <hr>
+        <div>
+          <p>Thank you for your business!</p>
+        </div>
         <div class="button-row">
-          <div>
-            <p>Thank you for your business!</p>
-          </div>
           <div class="button-group">
             <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
             <button mat-raised-button matStepperNext color="primary" type="submit">{{"FORM.SUBMIT.LABEL" | translate}}</button>
@@ -103,6 +102,5 @@
         </div>
 
       </div>
-    </div>
   </div>
 </div>

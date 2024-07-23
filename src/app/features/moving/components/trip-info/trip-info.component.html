@@ -1,11 +1,11 @@
 <form [formGroup]="tripInfoForm">
   <div class="form-group moving-route">
     <mat-form-field appearance="fill" >
-      <mat-label>From</mat-label>
+      <mat-label>{{placeHolderFrom | translate}}</mat-label>
       <input #from matInput formControlName="from">
     </mat-form-field>
     <mat-form-field appearance="fill" >
-      <mat-label>To</mat-label>
+      <mat-label>{{placeHolderTo | translate}}</mat-label>
       <input #to matInput formControlName="to">
     </mat-form-field>
     <button mat-raised-button matStepperNext color="primary" type="button" (click)="calcRoute()">{{"BUTTON.NEXT.LABEL" | translate}}</button>

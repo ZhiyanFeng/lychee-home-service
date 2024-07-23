@@ -12,14 +12,14 @@ export const routes: Routes = [
 
   {
     path: 'residentialMovingAppointment',
-    loadComponent: () => import('./features/moving/components/residential-moving-detail/residential-moving-detail.component')
-      .then(mod=> mod.ResidentialMovingDetailComponent)
+    loadComponent: () => import('./features/moving/components/residential-moving/residential-moving.component')
+      .then(mod=> mod.ResidentialMovingComponent)
   },
 
   {
     path: 'smallMovingRequest',
-    loadComponent: () => import('./features/moving/components/small-moving-detail/small-moving-detail.component')
-      .then(mod=> mod.SmallMovingDetailComponent)
+    loadComponent: () => import('./features/moving/components/small-moving/small-moving.component')
+      .then(mod=> mod.SmallMovingComponent)
   },
   {
     path: 'thankyou',
