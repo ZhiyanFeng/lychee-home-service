@@ -6,20 +6,19 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 @Injectable(
 )
 export class AuthService {
+  private loginValid: boolean = false;
 
   constructor(private afAuth: AngularFireAuth, private router: Router) {
   }
 
   login(user: User): boolean{
-    let loginValid = false;
     this.afAuth.signInWithEmailAndPassword(user.email, user.password)
       .then(result => {
+        this.loginValid = true;
         this.authSuccessfully();
-        loginValid = true;
       }).catch(error => {
-        loginValid = false;
     })
-    return loginValid;
+    return this.loginValid;
   }
 
   authSuccessfully(){

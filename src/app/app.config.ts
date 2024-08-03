@@ -22,6 +22,8 @@ import {payloadFeatureKey, payloadReducer} from "./core/store/payload/payload.re
 import {imageReducer} from "./core/store/images/image.reducer";
 import {ImageEffects} from "./core/store/images/image.effects";
 import {getStorage, provideStorage} from "@angular/fire/storage";
+import {MovingOrderEffects} from "./core/store/moving-order/moving-order.effects";
+import {MovingOrderReducer} from "./core/store/moving-order/moving-order.reducer";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,9 +32,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export const appConfig: ApplicationConfig = {
   providers: [servicesProvider, provideRouter(routes), provideAnimations(), provideAnimations(),
-    provideEffects([LanguageEffects]), provideHttpClient(), provideStore({language: languageReducer,
-      payload: payloadReducer, image: imageReducer} ),
-    provideEffects(PayloadEffects, ImageEffects),  httpInterceptorProviders,
+     provideHttpClient(),
+    provideStore({payload: payloadReducer, image: imageReducer, movingOrder: MovingOrderReducer} ),
+    provideEffects([PayloadEffects, ImageEffects, MovingOrderEffects]),  httpInterceptorProviders,
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en',

@@ -21,10 +21,7 @@ mat-form-field {
 }
 
 
-.container {
-  padding-top: 4rem;
-  height: calc(99vh - 2rem);
-}
+
 
 @media (min-width: 40rem){
   mat-form-field {

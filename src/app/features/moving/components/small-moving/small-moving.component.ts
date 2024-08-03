@@ -18,11 +18,14 @@ import {Event, Router} from "@angular/router";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
 import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 
-import {SmallMovingOrder} from "../../models/moving-order";
+import {MovingOrder} from "../../models/moving-order";
 import {FileUploadComponent} from "../../../../shared/component/file-upload/file-upload.component";
 import {DataTableComponent} from "../data-table/data-table.component";
 import {selectPayloadById} from "../../../../core/store/payload/payload.selectors";
 import {Store} from "@ngrx/store";
+import {MovingType} from "../../enums/moving-type";
+import {OrderStatus} from "../../enums/order-status";
+import {MovingOrderActions} from "../../../../core/store/moving-order/moving-order.actions";
 
 @Component({
   selector: 'app-small-moving',
@@ -109,14 +112,18 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
       payload => {
         this._downloadURLS = payload;
       });
-    const moving_order:SmallMovingOrder = {
+    const moving_order:MovingOrder = {
+      id: this.movingOrderService.contactInfoForm.value['phone'],
+      type: MovingType.Small,
+      status: OrderStatus.Pending,
       trip: this.movingOrderService.tripForm.value,
-      movingDate: this.movingDateForm.value.date,
+      movingDate: this.movingDateForm.value.date.toISOString().slice(0, 10),
       contact: this.movingOrderService.contactInfoForm.value,
       payload: this._downloadURLS
     }
-    this.firestoreSevice.saveSmallMovingOrder(moving_order)
-      .then(response =>{ this.router.navigate(['/moving/thank-you'])});
+    this.store.dispatch(MovingOrderActions['Save MovingOrder']({movingOrder: moving_order}));
+    // this.firestoreSevice.saveSmallMovingOrder(moving_order)
+    //   .then(response =>{ this.router.navigate(['/moving/thank-you'])});
   }
 
 }

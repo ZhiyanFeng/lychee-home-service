@@ -34,8 +34,9 @@ export const routes: Routes = [
     loadComponent: () => import('./features/moving/components/data-table/data-table.component').then(mod => mod.DataTableComponent)
   },
   {
-    path: 'test',
-    loadComponent: () => import('./shared/component/test/test.component').then(mod => mod.TestComponent)
+    path: 'movingOrders',
+    loadComponent: () => import('./features/moving/components/moving-orders/moving-orders.component')
+      .then(mod => mod.MovingOrdersComponent)
   },
   {
     path: '**',

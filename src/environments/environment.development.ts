@@ -10,5 +10,13 @@ export const environment = {
     appId: "1:374154500815:web:59c6d3884eb4878c5cb5ba",
     measurementId: "G-Q3SR91KHSG"
   },
-  payloadUploadPath: "small-moving/payloads/"
+  payloadUploadPath: "small-moving/payloads/",
+  companyEmail: "lychee.home.service@gmail.com",
+  firebaseConstants: {
+    emailCollection: 'email',
+    orderCollection: 'moving_orders',
+    residentialTemplate: 'moving_summary',
+    smallMovingTemplate: 'small_moving_summary',
+  }
+
 };

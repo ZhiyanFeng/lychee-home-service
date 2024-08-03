@@ -31,4 +31,20 @@ constructor(private authService: AuthService) {
     this.user.password = this.password;
     this.loginValid = this.authService.login(this.user);
   }
+
+  // loginWithGoogle() {
+  //   const provider = new GoogleAuthProvider();
+  //   signInWithPopup(this.afAuth.auth, provider)
+  //     .then((result) => {
+  //       // User successfully signed in
+  //       const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       const token = credential.accessToken;
+  //       console.log(result.user); // User data (including ID token)
+  //       // Send the access token to your backend for further processing
+  //       this.router.navigate(['/home']); // Redirect to home page after login
+  //     })
+  //     .catch((error) => {
+  //       console.error(error); // Handle errors
+  //     });
+  // }
 }
