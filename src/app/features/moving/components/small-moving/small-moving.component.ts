@@ -9,7 +9,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatStepper, MatStepperModule, StepperOrientation} from "@angular/material/stepper";
-import {MovingServiceSummaryComponent} from "../moving-service-summary/moving-service-summary.component";
+import {OrderDetailComponent} from "../order-detail/order-detail.component";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
@@ -31,7 +31,7 @@ import {MovingOrderActions} from "../../../../core/store/moving-order/moving-ord
   selector: 'app-small-moving',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
-    MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule,
+    MatStepperModule, MatSelectModule, MatButtonModule, OrderDetailComponent, MatDatepickerModule,
     MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent, FileUploadComponent, DataTableComponent],
   templateUrl: './small-moving.component.html',
   styleUrls: ['./small-moving.component.css']
@@ -60,7 +60,7 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
   zoom = 4;
 
   constructor(private _formBuilder: FormBuilder, private store: Store,
-              private firestoreSevice: FirestoreService, private router: Router, private rwd: ResponsiveDesignService,
+              private router: Router, private rwd: ResponsiveDesignService,
               private movingOrderService: MovingOrderService, private cd: ChangeDetectorRef) {
   }
 
@@ -102,7 +102,7 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
   }
 
   uploadFileComplete(event: any){
-    this.movingOrderService.initDetails();
+    // this.movingOrderService.initDetails();
     this.movingDetail = this.movingOrderService.movingDetails;
     this.stepper.next();
   }
@@ -117,11 +117,11 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
       type: MovingType.Small,
       status: OrderStatus.Pending,
       trip: this.movingOrderService.tripForm.value,
-      movingDate: this.movingDateForm.value.date.toISOString().slice(0, 10),
+      movingDate: this.movingDateForm.value.date,
       contact: this.movingOrderService.contactInfoForm.value,
       payload: this._downloadURLS
     }
-    this.store.dispatch(MovingOrderActions['Save MovingOrder']({movingOrder: moving_order}));
+    this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: moving_order}));
     // this.firestoreSevice.saveSmallMovingOrder(moving_order)
     //   .then(response =>{ this.router.navigate(['/moving/thank-you'])});
   }

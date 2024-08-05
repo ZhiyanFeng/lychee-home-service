@@ -13,13 +13,11 @@ import {GoogleMapsModule } from '@angular/google-maps';
 import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
-import {MovingServiceSummaryComponent} from "../moving-service-summary/moving-service-summary.component";
+import {OrderDetailComponent} from "../order-detail/order-detail.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {TranslateModule} from "@ngx-translate/core";
 import {Event, Router} from "@angular/router";
-import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
-import {MovingOrder} from "../../models/moving-order";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
 import {ContactInfoComponent} from "../../../../shared/component/contact-info/contact-info.component";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
@@ -33,7 +31,7 @@ import {MovingOrderActions} from "../../../../core/store/moving-order/moving-ord
   selector: 'app-moving-order',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
-    MatStepperModule, MatSelectModule, MatButtonModule, MovingServiceSummaryComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent],
+    MatStepperModule, MatSelectModule, MatButtonModule, OrderDetailComponent, MatDatepickerModule, MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent],
   templateUrl: "./residential-moving.component.html",
   styleUrls: ['./residential-moving.component.css']
 })
@@ -41,6 +39,7 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
 
   public isMobile=false;
   public formUpdated = false;
+  movingType = MovingType.Residential;
   orientation: StepperOrientation = 'vertical';
 
   center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
@@ -65,22 +64,18 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
   ];
 
   contactInfoFormCompleted: Boolean;
-
-  // tripForm: FormGroup;
-  // contactForm: FormGroup;
   propertyForm: FormGroup;
   movingDateForm: FormGroup;
   bulkyItemsForm: FormGroup;
 
 
-  constructor(private _formBuilder: FormBuilder, private firestoreSevice: FirestoreService, private store: Store,
+  constructor(private _formBuilder: FormBuilder, private store: Store,
               private rwd: ResponsiveDesignService, private movingOrderService: MovingOrderService, private router: Router) {
     this.orientation = rwd.orientation;
   }
 
   ngOnInit(): void {
     this.isMobile = true;
-
     this.propertyForm = this._formBuilder.group( {
       residentialType: ['', [Validators.required]],
       rooms: ['', [Validators.required]]
@@ -92,8 +87,6 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
     });
 
     this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
-
-    // this.contactForm = this.movingOrderService.createContactForm(this._formBuilder);
   }
 
   ngAfterViewInit(): void {
@@ -103,8 +96,14 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
       this.directionsResults = this.movingOrderService.directionsResults ;}
   }
 
+  updatePropertyInfo(){
+    this.movingOrderService.updatePropertyInfo(this.propertyForm);
+  }
+  onUpdateBulkyItems(){
+    this.movingOrderService.updateBulkyItems(this.bulkyItemsForm);
+  }
+
   addContactInfo(contactInfoForm: FormGroup){
-    // this.movingOrderService.addContactInfo(this.contactForm, contactInfoForm);
     this.contactInfoFormCompleted = true;
   }
 
@@ -116,21 +115,14 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(){
-    const moving_order: MovingOrder = {
-      id: this.movingOrderService.contactInfoForm.value['phone'] + '-' + new Date().toISOString().slice(0, 10),
-      type: MovingType.Residential,
-      status: OrderStatus.Placed,
-      trip: this.movingOrderService.tripForm.value,
-      property: this.propertyForm.value,
-      bulkyItems: this.bulkyItemsForm.value,
-      movingDate: this.movingDateForm.value.date,
-      contact: this.movingOrderService.contactInfoForm.value,
-    }
+    const order = this.movingOrderService.movingOrder;
+    order["id"] = order['contact'].phone + '-' + new Date().toISOString().slice(0, 10);
+    order["type"] = this.movingType;
+    order['status'] = OrderStatus.Placed;
 
-    this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: moving_order}));
-    // this.firestoreSevice.save(moving_order).then(response =>
-    // {this.router.navigate(['thankyou'])}).catch(error => { console.log(error); })
+    this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: order}));
   }
+
 
   onDatePickComplete() {
     this.movingOrderService.updateDateForm(this.movingDateForm);

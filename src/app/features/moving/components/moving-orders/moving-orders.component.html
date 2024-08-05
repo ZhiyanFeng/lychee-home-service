@@ -32,7 +32,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Moving Date </th>
         <td mat-cell *matCellDef="let row"> {{row.movingDate | date: 'yyyy-MM-dd'}} </td>
       </ng-container>
-      <!-- Fruit Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let row"> {{row.type}} </td>
+      </ng-container>
 
       <ng-container matColumnDef="createdAT">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Created At </th>

@@ -1,12 +1,9 @@
 import {Injectable, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MapDirectionsService} from "@angular/google-maps";
 import {SmallMovingDetail} from "../../models/small-moving-detail";
-import {select, Store} from "@ngrx/store";
-import {selectAllPayloadEntities, selectPayloadById} from "../../../../core/store/payload/payload.selectors";
-import {Observable} from "rxjs";
-import * as string_decoder from "string_decoder";
-
+import {Store} from "@ngrx/store";
+import {MovingOrder} from "../../models/moving-order";
+import {Trip} from "../../models/trip";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +18,7 @@ export class MovingOrderService implements OnInit {
   private _movingDetails = {} as SmallMovingDetail;
   private _downloadURLS: string[] = [];
   private _id: string;
+  private order: MovingOrder;
   // Regular expression for North American phone numbers (US and Canada)
   private _phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
@@ -42,33 +40,71 @@ export class MovingOrderService implements OnInit {
     this._dateForm = this._fb.group({
       date: ['', [Validators.required]]
     });
+    this.order = {
+      id: '',
+      type: '',
+      status: '',
+      trip: {
+        from: '',
+        to: '',
+        distance: '',
+        duration: ''
+      },
+      movingDate: null,
+      contact: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: ''
+      },
+      property: {
+        residentialType: '',
+        rooms: ''
+      },
+      bulkyItems: {
+        piano: '',
+        marbleFurniture: '',
+        refrigerator: ''
+      },
+      payload: []
+    }
   }
 
   ngOnInit(): void {
   }
 
   setTripInfo(newTripInfo: google.maps.DirectionsResult) {
-    this._tripForm.value['from'] = newTripInfo.routes[0].legs[0].start_address;
-    this._tripForm.value['to'] = newTripInfo.routes[0].legs[0].end_address;
-    this._tripForm.value['distance'] = newTripInfo.routes[0].legs[0].distance.text;
-    this._tripForm.value['duration'] = newTripInfo.routes[0].legs[0].duration.text;
+    // this._tripForm.value['from'] = newTripInfo.routes[0].legs[0].start_address;
+    // this._tripForm.value['to'] = newTripInfo.routes[0].legs[0].end_address;
+    // this._tripForm.value['distance'] = newTripInfo.routes[0].legs[0].distance.text;
+    // this._tripForm.value['duration'] = newTripInfo.routes[0].legs[0].duration.text;
+    this.order.trip['from']= newTripInfo.routes[0].legs[0].start_address;
+    this.order.trip['to'] = newTripInfo.routes[0].legs[0].end_address;
+    this.order.trip['distance'] = newTripInfo.routes[0].legs[0].distance.text;
+    this.order.trip['duration'] = newTripInfo.routes[0].legs[0].duration.text;
+  }
+
+  updatePropertyInfo(propertyForm: FormGroup) {
+    debugger;
+    this.order.property = propertyForm.value;
   }
 
   updateContactInfo(contactInfoForm: FormGroup) {
-    this._contactInfoForm.value['firstName'] = contactInfoForm.value['firstName'];
-    this._contactInfoForm.value['lastName'] = contactInfoForm.value['lastName'];
-    this._contactInfoForm.value['email'] = contactInfoForm.value['email'];
-    this._contactInfoForm.value['phone'] = contactInfoForm.value['phone'];
+    this.order.contact = contactInfoForm.value;
   }
 
   updateDateForm(dateForm: FormGroup) {
-    this._dateForm.value['date'] = dateForm.value['date'];
+    this.order.movingDate = dateForm.value['date'];
   }
 
   createMovingDateForm(fb: FormBuilder) {
     return fb.group({
       date: ['', [Validators.required]]
     });
+  }
+
+  updateBulkyItems(bulkyItemsForm: FormGroup) {
+    this.order.bulkyItems = bulkyItemsForm.value;
   }
 
   createContactForm(fb: FormBuilder) {
@@ -81,16 +117,9 @@ export class MovingOrderService implements OnInit {
     )
   }
 
-  initDetails() {
-    let trip = this.tripForm;
-    this._movingDetails.from = trip.value['from'];
-    this._movingDetails.to = trip.value['to'];
-    this._movingDetails.distance = trip.value['distance'];
-    this._movingDetails.duration = trip.value['duration'];
-    this._movingDetails.shippingDate = this.dateForm.value['date'];
-
+  get movingOrder(): MovingOrder {
+    return this.order;
   }
-
   get directionsResults(): google.maps.DirectionsResult | undefined {
     return this._directionsResults;
   }
@@ -98,7 +127,6 @@ export class MovingOrderService implements OnInit {
   set directionsResults(value: google.maps.DirectionsResult | undefined) {
     this._directionsResults = value;
   }
-
   get tripForm(): FormGroup {
     return this._tripForm;
   }
@@ -122,19 +150,9 @@ export class MovingOrderService implements OnInit {
   set dateForm(value: FormGroup) {
     this._dateForm = value;
   }
-
-  // get downloadURLS(): string[] {
-  //   return this._downloadURLS;
-  // }
-  //
-  // set downloadURLS(value: string[]) {
-  //   this._downloadURLS = value;
-  // }
-
   get movingDetails(): any {
     return this._movingDetails;
   }
-
   set movingDetails(value: any) {
     this._movingDetails = value;
   }

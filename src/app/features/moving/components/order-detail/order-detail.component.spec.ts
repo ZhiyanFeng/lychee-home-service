@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MovingServiceSummaryComponent} from './moving-service-summary.component';
+import { OrderDetailComponent} from './order-detail.component';
 
 describe('MovingServiceSummaryComponent', () => {
-  let component: MovingServiceSummaryComponent;
-  let fixture: ComponentFixture<MovingServiceSummaryComponent>;
+  let component: OrderDetailComponent;
+  let fixture: ComponentFixture<OrderDetailComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MovingServiceSummaryComponent]
+      imports: [OrderDetailComponent]
     });
-    fixture = TestBed.createComponent(MovingServiceSummaryComponent);
+    fixture = TestBed.createComponent(OrderDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

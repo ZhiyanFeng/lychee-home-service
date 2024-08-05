@@ -42,7 +42,7 @@ import {DatePipe} from "@angular/common";
 })
 
 export class MovingOrdersComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'name', 'from', 'to', 'movingDate', 'status', 'createdAT'];
+  displayedColumns: string[] = ['id', 'name', 'from', 'to', 'movingDate','type', 'status', 'createdAT'];
   dataSource: MatTableDataSource<MovingOrder>;
   movingOrders: MovingOrder[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;

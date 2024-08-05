@@ -33,7 +33,4 @@ export class ContactInfoComponent implements OnInit{
     this.movingDetailService.updateContactInfo(this.contactInfoFrom);
     this.contactStepEvent.emit('next');
   }
-
-
-
 }

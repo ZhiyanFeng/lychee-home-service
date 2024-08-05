@@ -1,0 +1,50 @@
+<div class="component-container">
+  <div class="row d-flex align-items-baseline">
+    <div class="col-xl-12">
+      <p class="summary-header"><strong>Summary</strong></p>
+    </div>
+    <hr>
+  </div>
+
+  <div class="detail">
+    <div class="row">
+      <div class="col-xl-8">
+        <ul class="list-unstyled">
+          <li class="text-muted">From: {{trip.from}}</li>
+          <li class="text-muted">To: {{trip.to}}</li>
+          <li class="text-muted">When: {{movingDate | date: 'fullDate'}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <app-residential-moving-detail-table *ngIf="movingType == MovingType.Residential; else smallMovingDetailTable" [order]="order">
+    </app-residential-moving-detail-table>
+    <ng-template #smallMovingDetailTable>
+      <app-small-moving-detail-table ></app-small-moving-detail-table>
+    </ng-template>
+    <div class="row">
+      <div class="col-xl-9">
+        <p class="ms-3" style="color:red;">Driving hours may vary due to traffic</p>
+      </div>
+      <div class="col-xl-3">
+        <ul class="list-unstyled">
+          <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>{{"GENERAL.MESSAGE.TBC" | translate}}</li>
+          <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax(13%)</span>{{"GENERAL.MESSAGE.TBD" | translate}}</li>
+        </ul>
+        <p class="text-black float-start"><span class="text-black me-3">Total Amount</span><span
+          style="font-size: 25px;">{{"GENERAL.MESSAGE.TBD" | translate}}</span></p>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <p>Thank you for your business!</p>
+    </div>
+    <div class="button-row">
+      <div class="button-group">
+        <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
+        <button mat-raised-button matStepperNext color="primary" type="submit">{{"FORM.SUBMIT.LABEL" | translate}}</button>
+      </div>
+    </div>
+
+  </div>
+</div>

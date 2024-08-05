@@ -1,0 +1,53 @@
+<div class="row my-2 mx-1 justify-content-center">
+  <table class="table table-striped table-borderless" [hidden]="isMobile">
+    <thead class="table-primary">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">{{detail | translate}}</th>
+      <th scope="col">{{propertyType | translate}}</th>
+      <th scope="col">{{room | translate}}</th>
+      <th scope="col">{{piano | translate}}</th>
+      <th scope="col">{{marble | translate}}</th>
+      <th scope="col">{{refrigerator | translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Residential Moving</td>
+      <td>{{order.property.residentialType}}</td>
+      <td>{{order.property.rooms}}</td>
+      <td>{{order.bulkyItems.piano}}</td>
+      <td>{{order.bulkyItems.marbleFurniture}}</td>
+      <td>{{order.bulkyItems.refrigerator}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <!--          vertical table for mobile-->
+  <table class="table table-striped table-borderless" [hidden]="!isMobile">
+    <tr>
+      <th scope="col">{{detail | translate}}</th>
+      <td>Residential Moving</td>
+    </tr>
+    <tr>
+      <th scope="col">{{propertyType | translate}}</th>
+      <td>{{order.property.residentialType}}</td>
+    </tr>
+    <tr>
+      <th scope="col">{{room | translate}}</th>
+      <td>{{order.property.rooms}}</td>
+    </tr>
+    <tr>
+      <th scope="col">{{piano | translate}}</th>
+      <td>{{order.bulkyItems.piano}}</td>
+    </tr>
+    <tr>
+      <th scope="col">{{marble | translate}}</th>
+      <td>{{order.bulkyItems.marbleFurniture}}</td>
+    </tr>
+    <tr>
+      <th scope="col">{{refrigerator | translate}}</th>
+      <td>{{order.bulkyItems.refrigerator}}</td>
+    </tr>
+  </table>
+</div>

@@ -12,6 +12,7 @@ export const environment = {
   },
   payloadUploadPath: "small-moving/payloads/",
   companyEmail: "lychee.home.service@gmail.com",
+  companyName: "Lychee Home Service",
   firebaseConstants: {
     emailCollection: 'email',
     orderCollection: 'moving_orders',

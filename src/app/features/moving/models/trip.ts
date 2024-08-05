@@ -1,6 +1,6 @@
 export interface Trip {
   from: string;
   to: string;
-  distance: number;
-  duration: number;
+  distance: string;
+  duration: string;
 }

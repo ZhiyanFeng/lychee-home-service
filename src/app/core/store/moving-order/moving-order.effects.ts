@@ -4,12 +4,11 @@ import {catchError, concatMap, EMPTY, from, map, tap} from "rxjs";
 import {MovingOrderActions} from "./moving-order.actions";
 import {FirestoreService} from "../../services/firestore-service/firestore.service";
 import {MovingOrder} from "../../../features/moving/models/moving-order";
-
-
+import {Router} from "@angular/router";
 
 @Injectable()
 export class MovingOrderEffects {
-  constructor(private actions$: Actions, private fireStoreService: FirestoreService) {}
+  constructor(private actions$: Actions, private fireStoreService: FirestoreService, private router: Router) {}
 
   loadOrders$ = createEffect(() => this.actions$.pipe(
       ofType(MovingOrderActions.loadMovingOrders),
@@ -26,7 +25,8 @@ export class MovingOrderEffects {
       concatMap((action) => from(this.fireStoreService.save(action.movingOrder))
         .pipe(
           map((response) => ({action, response})),
-          tap(({action, response}) => { console.log('Moving Order saved', action.movingOrder, response)}),
+          tap(() => {this.router.navigate(['thankyou'])}
+          ),
           map(({action, response}) => MovingOrderActions.saveMovingOrderSuccess({movingOrder: action.movingOrder})),
           catchError(() => EMPTY)
         ))
