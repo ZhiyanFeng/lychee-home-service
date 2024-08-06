@@ -2,9 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {AsyncPipe, CommonModule} from '@angular/common';
 import {TranslatePipe} from "../../../shared/pipes/translate-pipe/translate.pipe";
 import {Store} from "@ngrx/store";
-import {Observable} from "rxjs";
-import {languageReducer} from "../../store/languages/language.reducer";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {FlexModule} from "@angular/flex-layout";
 import {MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
@@ -24,8 +22,9 @@ import {MatInputModule} from "@angular/material/input";
 export class NavbarComponent {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
   language = 'en';
-  isEnglish = true;
-  constructor(private translateService: TranslateService, private router: Router, private translate: TranslateService, private store: Store) {
+  collapsed = '';
+  isExpanded = false;
+  constructor(private router: Router, private translate: TranslateService, private store: Store) {
   }
 
   goHome(){
@@ -36,6 +35,12 @@ export class NavbarComponent {
     this.store.dispatch(languageActions.setLanguage({language: lan}));
     this.translate.use(lan);
     this.language = lan;
+    this.onCollapsed();
+  }
+
+  onCollapsed(){
+    let name = document.getElementById('navbarScroll') as HTMLElement;
+    name.className = 'navbar-collapse collapse';
   }
 
   onLogin(){
