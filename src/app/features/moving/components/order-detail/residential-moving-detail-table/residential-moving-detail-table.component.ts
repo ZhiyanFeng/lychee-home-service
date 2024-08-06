@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {MovingOrder} from "../../../models/moving-order";
 import {TranslateModule} from "@ngx-translate/core";
+import {StepperOrientation} from "@angular/material/stepper";
 
 @Component({
   selector: 'app-residential-moving-detail-table',
@@ -14,6 +15,7 @@ import {TranslateModule} from "@ngx-translate/core";
 export class ResidentialMovingDetailTableComponent {
   @Input() order: MovingOrder;
   @Input() isMobile: boolean;
+  @Input() orientation: StepperOrientation;
 
   propertyType: string = "MOVING.STEP.PROPERTY.LABEL";
   room: string = "MOVING.ROOM.LABEL";

@@ -17,7 +17,8 @@
       </div>
     </div>
 
-    <app-residential-moving-detail-table *ngIf="movingType == MovingType.Residential; else smallMovingDetailTable" [order]="order">
+    <app-residential-moving-detail-table *ngIf="movingType == MovingType.Residential; else smallMovingDetailTable"
+                                         [order]="order" [orientation]="orientation">
     </app-residential-moving-detail-table>
     <ng-template #smallMovingDetailTable>
       <app-small-moving-detail-table ></app-small-moving-detail-table>

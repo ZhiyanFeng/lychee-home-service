@@ -7,11 +7,12 @@ import {languageActions} from "./core/store/languages/language.actions";
 import {FooterComponent} from "./core/layout/footer/footer.component";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {PrimeNGConfig} from "primeng/api";
+import {SizeDetectorComponent} from "./shared/component/size-detector/size-detector.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent, FooterComponent, TranslateModule],
+  imports: [CommonModule, RouterOutlet, NavbarComponent, FooterComponent, TranslateModule, SizeDetectorComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

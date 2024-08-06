@@ -55,7 +55,6 @@ export class MovingOrdersComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.store.select(selectAllOrders).subscribe((entities) => {
-      debugger;
       this.movingOrders = entities;
       this.dataSource = new MatTableDataSource(this.movingOrders);
     });

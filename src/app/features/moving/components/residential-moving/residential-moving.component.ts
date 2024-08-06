@@ -17,7 +17,6 @@ import {OrderDetailComponent} from "../order-detail/order-detail.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {TranslateModule} from "@ngx-translate/core";
-import {Event, Router} from "@angular/router";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
 import {ContactInfoComponent} from "../../../../shared/component/contact-info/contact-info.component";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
@@ -26,6 +25,7 @@ import {MovingType} from "../../enums/moving-type";
 import {OrderStatus} from "../../enums/order-status";
 import {Store} from "@ngrx/store";
 import {MovingOrderActions} from "../../../../core/store/moving-order/moving-order.actions";
+import {SCREEN_SIZE} from "../../../../shared/enums/screen-size";
 
 @Component({
   selector: 'app-moving-order',
@@ -37,7 +37,6 @@ import {MovingOrderActions} from "../../../../core/store/moving-order/moving-ord
 })
 export class ResidentialMovingComponent implements OnInit, AfterViewInit {
 
-  public isMobile=false;
   public formUpdated = false;
   movingType = MovingType.Residential;
   orientation: StepperOrientation = 'vertical';
@@ -67,25 +66,20 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
   propertyForm: FormGroup;
   movingDateForm: FormGroup;
   bulkyItemsForm: FormGroup;
-
-
   constructor(private _formBuilder: FormBuilder, private store: Store,
-              private rwd: ResponsiveDesignService, private movingOrderService: MovingOrderService, private router: Router) {
-    this.orientation = rwd.orientation;
+              private rwd: ResponsiveDesignService, private movingOrderService: MovingOrderService) {
+    rwd.onResize$.subscribe(size => {
+      if(size === SCREEN_SIZE.XS){
+        this.orientation = 'vertical';
+      }else{
+        this.orientation = 'horizontal';
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.isMobile = true;
-    this.propertyForm = this._formBuilder.group( {
-      residentialType: ['', [Validators.required]],
-      rooms: ['', [Validators.required]]
-    });
-    this.bulkyItemsForm = this._formBuilder.group({
-      piano: ['', [Validators.required]],
-      marbleFurniture: ['', [Validators.required]],
-      refrigerator: ['', [Validators.required]]
-    });
-
+    this.propertyForm = this.movingOrderService.createPropertyForm();
+    this.bulkyItemsForm = this.movingOrderService.createBulkItemsForm()
     this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
   }
 
@@ -107,23 +101,13 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
     this.contactInfoFormCompleted = true;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(event: Event) {
-    this.rwd.onWindowResize(event);
-    this.orientation = this.rwd.orientation;
-    this.isMobile = this.rwd.isMobile;
-  }
-
   onSubmit(){
     const order = this.movingOrderService.movingOrder;
     order["id"] = order['contact'].phone + '-' + new Date().toISOString().slice(0, 10);
     order["type"] = this.movingType;
     order['status'] = OrderStatus.Placed;
-
     this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: order}));
   }
-
-
   onDatePickComplete() {
     this.movingOrderService.updateDateForm(this.movingDateForm);
     this.formUpdated = true;

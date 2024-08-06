@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
-import {MatStepperModule} from "@angular/material/stepper";
+import {MatStepperModule, StepperOrientation} from "@angular/material/stepper";
 import {MatCardModule} from "@angular/material/card";
 import {BulkyItems} from "../../models/bulkyItems";
 import {TranslateModule} from "@ngx-translate/core";
@@ -20,6 +20,8 @@ import {
 import {SmallMovingDetailTableComponent} from "./small-moving-detail-table/small-moving-detail-table.component";
 import {MovingType} from "../../enums/moving-type";
 import {MovingOrder} from "../../models/moving-order";
+import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
+import {SCREEN_SIZE} from "../../../../shared/enums/screen-size";
 
 @Component({
   selector: 'app-order-detail',
@@ -34,13 +36,22 @@ export class OrderDetailComponent implements OnInit, OnChanges{
   @Input() movingType: MovingType;
 
   order: MovingOrder;
+  orientation: StepperOrientation = 'vertical';
 
   trip: Trip;
   property: Property;
   bulkyItems: BulkyItems;
   movingDate: Date;
 
-  constructor(private movingDetailService: MovingOrderService) {
+  constructor(private movingDetailService: MovingOrderService, private rwd: ResponsiveDesignService) {
+    this.rwd.onResize$.subscribe(size => {
+      if(size === SCREEN_SIZE.XS){
+        this.orientation = 'vertical';
+      }else{
+        this.orientation = 'horizontal';
+      }
+    });
+
   }
 
   ngOnInit(): void {

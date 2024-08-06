@@ -109,7 +109,7 @@
 <!--        Summary-->
         <mat-step>
           <ng-template matStepLabel>{{"MOVING.STEP.SUMMARY.LABEL" | translate }}</ng-template>
-          <app-order-detail [isMobile]="isMobile" [formUpdated]="formUpdated" [movingType] = "movingType"></app-order-detail>
+          <app-order-detail [formUpdated]="formUpdated" [movingType] = "movingType"></app-order-detail>
         </mat-step>
       </mat-stepper>
     </form>

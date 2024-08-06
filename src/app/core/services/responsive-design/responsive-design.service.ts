@@ -1,41 +1,22 @@
 import {HostListener, Injectable} from '@angular/core';
 import {StepperOrientation} from "@angular/material/stepper";
 import {Event} from "@angular/router";
+import {SCREEN_SIZE} from "../../../shared/enums/screen-size";
+import {distinctUntilChanged, Observable, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResponsiveDesignService {
-  private _isMobile=false;
 
-  public formUpdated = false;
-  orientation: StepperOrientation = 'vertical';
+  private resizeSubject: Subject<SCREEN_SIZE>;
   constructor() {
-    let screenWidth = window.innerWidth;
-    if(screenWidth>430){//use iphone 15 pro max as the breakpoint
-      this.orientation = 'horizontal';
-    }else{
-      this.orientation = 'vertical';
-    }
+    this.resizeSubject = new Subject();
   }
-  // @HostListener('window:resize', ['$event'])
-  onWindowResize(event: Event) {
-    let screenWidth = window.innerWidth;
-    if(screenWidth>443){
-      this.orientation = 'horizontal';
-      this._isMobile = false;
-    }else{
-      this.orientation = 'vertical';
-      this._isMobile = true;
-    }
+  onResize(size: SCREEN_SIZE) {
+    this.resizeSubject.next(size);
   }
-
-  get isMobile(): boolean {
-    return this._isMobile;
+  get onResize$(): Observable<SCREEN_SIZE> {
+    return this.resizeSubject.asObservable().pipe(distinctUntilChanged());
   }
-
-  set isMobile(value: boolean) {
-    this._isMobile = value;
-  }
-
 }

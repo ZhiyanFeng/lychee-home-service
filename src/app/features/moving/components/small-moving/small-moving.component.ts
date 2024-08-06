@@ -26,6 +26,7 @@ import {Store} from "@ngrx/store";
 import {MovingType} from "../../enums/moving-type";
 import {OrderStatus} from "../../enums/order-status";
 import {MovingOrderActions} from "../../../../core/store/moving-order/moving-order.actions";
+import {SCREEN_SIZE} from "../../../../shared/enums/screen-size";
 
 @Component({
   selector: 'app-small-moving',
@@ -64,11 +65,17 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
               private movingOrderService: MovingOrderService, private cd: ChangeDetectorRef) {
   }
 
+
   ngOnInit(): void {
-    this.orientation = this.rwd.orientation;
-    this.isMobile = this.rwd.isMobile;
     this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
     this.contactInfoForm = this.movingOrderService.createContactForm(this._formBuilder);
+    this.rwd.onResize$.subscribe(size => {
+      if(size === SCREEN_SIZE.XS){
+        this.orientation = 'vertical';
+      }else{
+        this.orientation = 'horizontal';
+      }
+    });
 
   }
   ngAfterViewInit(){
@@ -79,15 +86,14 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
       this.contactInfoForm = this.contactInfoComponent.contactInfoFrom;
     }
     this.cd.detectChanges();
-
   }
 
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(event: Event) {
-    this.rwd.onWindowResize(event);
-    this.orientation = this.rwd.orientation;
-    this.isMobile = this.rwd.isMobile;
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onWindowResize(event: Event) {
+  //   this.rwd.onWindowResize();
+  //   this.orientation = this.rwd.orientation;
+  //   this.isMobile = this.rwd.isMobile;
+  // }
   updateTripInfo(event: any){
     if(event === 'next'){
       this.directionsResults = this.movingOrderService.directionsResults ;}
@@ -122,8 +128,6 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
       payload: this._downloadURLS
     }
     this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: moving_order}));
-    // this.firestoreSevice.saveSmallMovingOrder(moving_order)
-    //   .then(response =>{ this.router.navigate(['/moving/thank-you'])});
   }
 
 }
