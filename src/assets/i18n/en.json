@@ -20,6 +20,7 @@
   "MOVING.STEP.SUMMARY.LABEL": "Moving summary",
   "MOVING.STEP.FROM.LABEL": "From",
   "MOVING.STEP.TO.LABEL": "To",
+  "MOVING.STEP.PAYLOAD.LABEL": "Payload",
   "MOVING.STEP.DETAIL.LABEL": "Details",
 
   "MOVING.ROOM.LABEL": "Number of Rooms",

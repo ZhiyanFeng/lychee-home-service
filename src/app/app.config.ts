@@ -1,14 +1,12 @@
 import {ApplicationConfig, importProvidersFrom, isDevMode} from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { routes } from './app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { HttpClient, provideHttpClient } from "@angular/common/http";
-import { provideStore } from '@ngrx/store';
-import {languageReducer} from "./core/store/languages/language.reducer";
+import {provideRouter} from '@angular/router';
+import {routes} from './app.routes';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {HttpClient, provideHttpClient} from "@angular/common/http";
+import {provideStore} from '@ngrx/store';
 import {httpInterceptorProviders} from "./core/interceptors";
 import {servicesProvider} from "./core/services";
 import {provideEffects} from "@ngrx/effects";
-import {LanguageEffects} from "./core/store/languages/language.effects";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
@@ -31,10 +29,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [servicesProvider, provideRouter(routes), provideAnimations(), provideAnimations(),
-     provideHttpClient(),
-    provideStore({payload: payloadReducer, image: imageReducer, movingOrder: MovingOrderReducer} ),
-    provideEffects([PayloadEffects, ImageEffects, MovingOrderEffects]),  httpInterceptorProviders,
+  providers: [servicesProvider, provideRouter(routes), provideAnimations(), provideAnimations(), provideHttpClient(),
+    provideStore({payload: payloadReducer, image: imageReducer, movingOrder: MovingOrderReducer}),
+    provideEffects([PayloadEffects, ImageEffects, MovingOrderEffects]), httpInterceptorProviders,
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en',
@@ -45,11 +42,11 @@ export const appConfig: ApplicationConfig = {
         },
       })
     ),
-      provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideFirestore(() => getFirestore()),
-      provideStorage(() => getStorage()),
-      provideAuth(() => getAuth()),
-    { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth()),
+    {provide: FIREBASE_OPTIONS, useValue: environment.firebase},
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

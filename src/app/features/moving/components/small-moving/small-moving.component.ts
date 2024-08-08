@@ -13,11 +13,9 @@ import {OrderDetailComponent} from "../order-detail/order-detail.component";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 import {TripInfoComponent} from "../trip-info/trip-info.component";
-import {FirestoreService} from "../../../../core/services/firestore-service/firestore.service";
-import {Event, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
 import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
-
 import {MovingOrder} from "../../models/moving-order";
 import {FileUploadComponent} from "../../../../shared/component/file-upload/file-upload.component";
 import {DataTableComponent} from "../data-table/data-table.component";
@@ -45,11 +43,13 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
   @ViewChild('stepper') stepper: MatStepper;
 
 
-  isMobile: Boolean;
+  order: MovingOrder;
   tripInfoForm: FormGroup;
   movingDateForm: FormGroup;
   contactInfoForm: FormGroup;
   movingDetail: any = {};
+  movingType = MovingType.Small;
+  formUpdated: boolean = false;
 
   directionsResults: google.maps.DirectionsResult;
   orientation: StepperOrientation = 'vertical';
@@ -64,19 +64,21 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
               private router: Router, private rwd: ResponsiveDesignService,
               private movingOrderService: MovingOrderService, private cd: ChangeDetectorRef) {
   }
-
-
   ngOnInit(): void {
     this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
     this.contactInfoForm = this.movingOrderService.createContactForm(this._formBuilder);
+    this.movingOrderService.order$.subscribe(order => {
+      debugger;
+      this.order = order;
+    })
     this.rwd.onResize$.subscribe(size => {
+      debugger;
       if(size === SCREEN_SIZE.XS){
         this.orientation = 'vertical';
       }else{
         this.orientation = 'horizontal';
       }
     });
-
   }
   ngAfterViewInit(){
     if(this.tripInfoComponent.isReady){
@@ -87,30 +89,23 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
     }
     this.cd.detectChanges();
   }
-
-  // @HostListener('window:resize', ['$event'])
-  // onWindowResize(event: Event) {
-  //   this.rwd.onWindowResize();
-  //   this.orientation = this.rwd.orientation;
-  //   this.isMobile = this.rwd.isMobile;
-  // }
   updateTripInfo(event: any){
     if(event === 'next'){
-      this.directionsResults = this.movingOrderService.directionsResults ;}
+      this.directionsResults = this.movingOrderService.directionsResults;
+    }
   }
 
   updateUploadPath(){
     this.uploadFilePath += this.movingOrderService.contactInfoForm.value['phone'] + '/';
   }
-
   onDatePick(){
+    debugger;
     this.movingOrderService.updateDateForm(this.movingDateForm);
   }
 
   uploadFileComplete(event: any){
-    // this.movingOrderService.initDetails();
-    this.movingDetail = this.movingOrderService.movingDetails;
     this.stepper.next();
+    console.log(this.order);
   }
 
   onSubmit(){

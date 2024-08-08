@@ -6,7 +6,6 @@ import {Payload} from "../../../features/moving/models/payload";
 export const payloadFeatureKey = 'payload';
 
 export interface State extends EntityState<Payload>{
-
 }
 
 export const adapter: EntityAdapter<Payload> = createEntityAdapter<Payload>();

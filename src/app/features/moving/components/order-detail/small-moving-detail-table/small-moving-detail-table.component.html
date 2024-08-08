@@ -1,1 +1,31 @@
-<p>small-moving-detail-table works!</p>
+<div class="row my-2 mx-1 justify-content-center">
+  <table class="table table-striped table-borderless" [hidden]="orientation==='vertical'">
+    <thead class="table-primary">
+    <tr>
+      <th scope="col">{{detail | translate}}</th>
+      <th scope="col">{{payload | translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{smallMoving | translate}}</td>
+      <ng-container *ngFor="let item of order.payload" >
+        <td>{{ item}}</td>
+      </ng-container>
+    </tr>
+    </tbody>
+  </table>
+  <!--          vertical table for mobile-->
+  <table class="table table-striped table-borderless" [hidden]="orientation!=='vertical'">
+    <tr>
+      <th scope="col">{{detail | translate}}</th>
+      <td>{{smallMoving | translate}}</td>
+    </tr>
+    <tr>
+      <th scope="col">{{ payload | translate}}</th>
+      <ng-container *ngFor="let item of order.payload" >
+        <td>{{ item}}</td>
+      </ng-container>
+    </tr>
+  </table>
+</div>

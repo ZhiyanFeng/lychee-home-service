@@ -12,7 +12,7 @@
         <ul class="list-unstyled">
           <li class="text-muted">From: {{trip.from}}</li>
           <li class="text-muted">To: {{trip.to}}</li>
-          <li class="text-muted">When: {{movingDate | date: 'fullDate'}}</li>
+          <li class="text-muted">When: {{order.movingDate | date: 'fullDate'}}</li>
         </ul>
       </div>
     </div>
@@ -21,7 +21,7 @@
                                          [order]="order" [orientation]="orientation">
     </app-residential-moving-detail-table>
     <ng-template #smallMovingDetailTable>
-      <app-small-moving-detail-table ></app-small-moving-detail-table>
+      <app-small-moving-detail-table [order] = "order" [orientation]="orientation"></app-small-moving-detail-table>
     </ng-template>
     <div class="row">
       <div class="col-xl-9">

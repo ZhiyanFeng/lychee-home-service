@@ -14,7 +14,6 @@ import {StepperOrientation} from "@angular/material/stepper";
 })
 export class ResidentialMovingDetailTableComponent {
   @Input() order: MovingOrder;
-  @Input() isMobile: boolean;
   @Input() orientation: StepperOrientation;
 
   propertyType: string = "MOVING.STEP.PROPERTY.LABEL";

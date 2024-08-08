@@ -6,7 +6,6 @@ import {MatButton} from "@angular/material/button";
 import {MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
 import {TranslateModule} from "@ngx-translate/core";
 import {MovingOrderService} from "../../../features/moving/services/moving-order-service/moving-order.service";
-import {FireStorageService} from "../../../core/services/fire-storage-service/fire-storage.service";
 import {Store} from "@ngrx/store";
 import {PayloadActions} from "../../../core/store/payload/payload.actions";
 import {Payload} from "../../../features/moving/models/payload";
@@ -53,6 +52,7 @@ export class FileUploadComponent implements OnInit{
     this.toUploadFiles.forEach(file=> {
       if(!this.uploadedFiles.has(file)){
         let phone = this.movingDetailService.contactInfoForm.get('phone').value;
+        debugger;
         this.store.dispatch(PayloadActions.uploadPayload({phone: phone, file: file}));
         this.uploadedFiles.add(file);
       }

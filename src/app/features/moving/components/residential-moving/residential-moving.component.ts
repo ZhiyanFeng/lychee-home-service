@@ -68,7 +68,7 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
   bulkyItemsForm: FormGroup;
   constructor(private _formBuilder: FormBuilder, private store: Store,
               private rwd: ResponsiveDesignService, private movingOrderService: MovingOrderService) {
-    rwd.onResize$.subscribe(size => {
+    this.rwd.onResize$.subscribe(size => {
       if(size === SCREEN_SIZE.XS){
         this.orientation = 'vertical';
       }else{

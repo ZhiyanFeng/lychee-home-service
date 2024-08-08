@@ -60,13 +60,7 @@
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>{{"MOVING.STEP.SUMMARY.LABEL" | translate }}</ng-template>
-          <div class="container step">
-            <app-data-table [detail]="movingDetail"></app-data-table>
-            <div class="button-row">
-              <button mat-raised-button matStepperPrevious color="primary" style="margin-right:10px">{{"BUTTON.BACK.LABEL" | translate}}</button>
-              <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" >{{"BUTTON.NEXT.LABEL" | translate}}</button>
-            </div>
-          </div>
+          <app-order-detail [formUpdated]="formUpdated" [movingType] = "movingType"></app-order-detail>
         </mat-step>
       </mat-stepper>
     </form>

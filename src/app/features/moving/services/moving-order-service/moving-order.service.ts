@@ -3,12 +3,14 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SmallMovingDetail} from "../../models/small-moving-detail";
 import {Store} from "@ngrx/store";
 import {MovingOrder} from "../../models/moving-order";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovingOrderService implements OnInit {
   private _directionsResults: google.maps.DirectionsResult | undefined;
+  orderSubject = new BehaviorSubject<MovingOrder>({} as MovingOrder);
   private _tripForm: FormGroup;
   private _contactInfoForm: FormGroup;
   private _movingDetails = {} as SmallMovingDetail;
@@ -59,10 +61,11 @@ export class MovingOrderService implements OnInit {
         refrigerator: ''
       },
       payload: []
-    }
+    };
   }
 
   ngOnInit(): void {
+    this.orderSubject.next(this.order);
   }
 
   setTripInfo(newTripInfo: google.maps.DirectionsResult) {
@@ -132,7 +135,7 @@ export class MovingOrderService implements OnInit {
   get contactInfoForm(): FormGroup {
     return this._contactInfoForm;
   }
-  get movingDetails(): any {
-    return this._movingDetails;
+  get order$(): Observable<MovingOrder> {
+    return this.orderSubject.asObservable();
   }
 }
