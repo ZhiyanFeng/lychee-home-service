@@ -7,6 +7,8 @@ export const selectPayloadById = (props: {id: string}) => createSelector(
   selectAllPayloadEntities, (payloads: EntityState<any>)=>{
     if(payloads.entities[props.id]){
       return payloads.entities[props.id]['payloadURLs'];
+    }else {
+      return [];
     }
   }
 );

@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener} from '@angular/core';
 import {SCREEN_SIZE} from "../../enums/screen-size";
 import {ResponsiveDesignService} from "../../../core/services/responsive-design/responsive-design.service";
 import {NgForOf} from "@angular/common";
@@ -12,8 +12,9 @@ import {NgForOf} from "@angular/common";
   templateUrl: './size-detector.component.html',
   styleUrl: './size-detector.component.css'
 })
-export class SizeDetectorComponent {
+export class SizeDetectorComponent implements AfterViewInit {
   prefix = 'is-';
+  currentSize: SCREEN_SIZE;
   sizes = [
     {
       id: SCREEN_SIZE.XS, name: 'xs', css: `d-block d-sm-none`
@@ -41,6 +42,7 @@ export class SizeDetectorComponent {
 
   ngAfterViewInit() {
     this.detectScreenSize();
+    this.resizeSvc.setSize(this.currentSize);
   }
 
   private detectScreenSize() {
@@ -49,7 +51,9 @@ export class SizeDetectorComponent {
       const isVisible = window.getComputedStyle(el).display != 'none';
       return isVisible;
     });
-
+    this.currentSize = currentSize.id;
     this.resizeSvc.onResize(currentSize.id);
   }
+
+
 }

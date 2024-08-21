@@ -11,6 +11,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {select, Store} from "@ngrx/store";
 import {ImageActions} from "../../../../core/store/images/image.actions";
 import { selectImage} from "../../../../core/store/images/image.selectors";
+import {ResponsiveDesignService} from "../../../../core/services/responsive-design/responsive-design.service";
 
 export interface TruckRateElement {
   length: string;
@@ -49,12 +50,13 @@ export class HomeComponent implements OnInit{
   smallMoving$ = this.store.pipe(select(selectImage('smallMoving.jpg')));
   fleet$ = this.store.pipe(select(selectImage('fleet.jpg')));
 
-  constructor(private router: Router, private store: Store) {
+  constructor(private router: Router, private store: Store, private rwd: ResponsiveDesignService) {
   }
 
   ngOnInit(): void {
     this.store.dispatch(ImageActions.loadImages());
   }
+
 
   toMakeAnAppointment() {
     this.router.navigate(['residential-moving-appointment']);

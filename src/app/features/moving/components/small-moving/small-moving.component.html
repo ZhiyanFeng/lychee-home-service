@@ -12,7 +12,7 @@
           <ng-template matStepLabel>{{"MOVING.STEP.MAP.LABEL" | translate }}</ng-template>
           <div class="container step">
 
-            <div class="row col-8">
+            <div class="row col-12">
             <google-map height="400px"
                         width="100%"
                         [center]="center"
@@ -49,13 +49,13 @@
         <!--contact information-->
         <mat-step [stepControl]="contactInfoForm">
           <ng-template matStepLabel>{{"MOVING.STEP.CONTACT.LABEL" | translate }}</ng-template>
-          <app-contact-info (contactStepEvent)="updateUploadPath()" #contactInfoComponent></app-contact-info>
+          <app-contact-info (contactStepEvent)="addContactInfo($event)" #contactInfoComponent></app-contact-info>
         </mat-step>
         <!--        Summary-->
         <mat-step>
           <ng-template matStepLabel>{{"MOVING.STEP.FILEUPLOAD.LABEL" | translate }}</ng-template>
           <div class="container step">
-            <app-payload-upload [filePath]="uploadFilePath" (uploadStepEvent)="uploadFileComplete($event)"></app-payload-upload>
+            <app-file-upload [filePath]="uploadFilePath" (uploadStepEvent)="uploadFileComplete($event)"></app-file-upload>
           </div>
         </mat-step>
         <mat-step>

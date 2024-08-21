@@ -9,9 +9,11 @@ import {MovingOrderService} from "../../../features/moving/services/moving-order
 import {Store} from "@ngrx/store";
 import {PayloadActions} from "../../../core/store/payload/payload.actions";
 import {Payload} from "../../../features/moving/models/payload";
+import {selectPayloadById} from "../../../core/store/payload/payload.selectors";
+import {MovingOrder} from "../../../features/moving/models/moving-order";
 
 @Component({
-  selector: 'app-payload-upload',
+  selector: 'app-file-upload',
   standalone: true,
   imports: [
     FileUploadModule,
@@ -33,13 +35,17 @@ export class FileUploadComponent implements OnInit{
   uploadedFiles:  Set<File>;
   payload: Payload;
   isButtonDisabled: boolean;
+  order: MovingOrder;
 
-  constructor(private storage: AngularFireStorage, private movingDetailService: MovingOrderService, private store: Store) {}
+
+  constructor(private storage: AngularFireStorage, private movingOrderService: MovingOrderService, private store: Store) {}
 
   ngOnInit() {
     this.toUploadFiles = new Set();
     this.uploadedFiles = new Set();
     this.isButtonDisabled = true;
+    this.order = this.movingOrderService.movingOrder;
+
   }
 
   onUpload($event: FileUploadHandlerEvent) {
@@ -51,19 +57,16 @@ export class FileUploadComponent implements OnInit{
     }
     this.toUploadFiles.forEach(file=> {
       if(!this.uploadedFiles.has(file)){
-        let phone = this.movingDetailService.contactInfoForm.get('phone').value;
-        debugger;
+        let phone = this.movingOrderService.contactInfoForm.get('phone').value;
         this.store.dispatch(PayloadActions.uploadPayload({phone: phone, file: file}));
         this.uploadedFiles.add(file);
       }
     })
-
     this.isButtonDisabled = false;
-
   }
 
   onNext() {
-    this.uploadStepEvent.emit('next');
+    this.uploadStepEvent.emit(this.order.id);
   }
 
 }

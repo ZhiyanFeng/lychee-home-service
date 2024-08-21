@@ -1,4 +1,4 @@
-// import { reducer, initialState } from './payload.reducer';
+// import { reducer, initialState } from './payloads.reducer';
 //
 // describe('FileApi Reducer', () => {
 //   describe('an unknown action', () => {

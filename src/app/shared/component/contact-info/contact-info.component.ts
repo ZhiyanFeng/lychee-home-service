@@ -31,6 +31,6 @@ export class ContactInfoComponent implements OnInit{
 
   updateContactInfo(){
     this.movingDetailService.updateContactInfo(this.contactInfoFrom);
-    this.contactStepEvent.emit('next');
+    // this.contactStepEvent.emit('next');
   }
 }

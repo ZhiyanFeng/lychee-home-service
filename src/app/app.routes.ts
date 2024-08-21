@@ -30,10 +30,6 @@ export const routes: Routes = [
     loadComponent: () => import('./shared/component/file-upload/file-upload.component').then(mod => mod.FileUploadComponent)
   },
   {
-    path: 'data-table',
-    loadComponent: () => import('./features/moving/components/data-table/data-table.component').then(mod => mod.DataTableComponent)
-  },
-  {
     path: 'moving-orders',
     loadComponent: () => import('./features/moving/components/moving-orders/moving-orders.component')
       .then(mod => mod.MovingOrdersComponent)

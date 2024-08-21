@@ -9,10 +9,14 @@
     <tbody>
     <tr>
       <td>{{smallMoving | translate}}</td>
-      <ng-container *ngFor="let item of order.payload" >
-        <td>{{ item}}</td>
-      </ng-container>
     </tr>
+    <ng-container *ngFor="let item of order.payloads" >
+    <tr>
+      <td>
+        <img src="{{item}}" [alt]="" (click)="openImagePopup(item)" />
+      </td>
+    </tr>
+    </ng-container>
     </tbody>
   </table>
   <!--          vertical table for mobile-->
@@ -21,11 +25,10 @@
       <th scope="col">{{detail | translate}}</th>
       <td>{{smallMoving | translate}}</td>
     </tr>
+    <ng-container *ngFor="let item of order.payloads" >
     <tr>
-      <th scope="col">{{ payload | translate}}</th>
-      <ng-container *ngFor="let item of order.payload" >
-        <td>{{ item}}</td>
-      </ng-container>
+        <img src="{{item}}" [alt]="" (click)="openImagePopup(item)" />
     </tr>
+    </ng-container>
   </table>
 </div>

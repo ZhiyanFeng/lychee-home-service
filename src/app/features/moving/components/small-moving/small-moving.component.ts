@@ -18,20 +18,19 @@ import {ResponsiveDesignService} from "../../../../core/services/responsive-desi
 import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
 import {MovingOrder} from "../../models/moving-order";
 import {FileUploadComponent} from "../../../../shared/component/file-upload/file-upload.component";
-import {DataTableComponent} from "../data-table/data-table.component";
-import {selectPayloadById} from "../../../../core/store/payload/payload.selectors";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {MovingType} from "../../enums/moving-type";
-import {OrderStatus} from "../../enums/order-status";
 import {MovingOrderActions} from "../../../../core/store/moving-order/moving-order.actions";
 import {SCREEN_SIZE} from "../../../../shared/enums/screen-size";
+import {setOrientation} from "../../../../../util/helper";
+import {selectPayloadById} from "../../../../core/store/payload/payload.selectors";
 
 @Component({
   selector: 'app-small-moving',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, FormsModule, GoogleMapsModule, ReactiveFormsModule,
     MatStepperModule, MatSelectModule, MatButtonModule, OrderDetailComponent, MatDatepickerModule,
-    MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent, FileUploadComponent, DataTableComponent],
+    MatNativeDateModule, TranslateModule, TripInfoComponent, ContactInfoComponent, FileUploadComponent],
   templateUrl: './small-moving.component.html',
   styleUrls: ['./small-moving.component.css']
 })
@@ -47,7 +46,6 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
   tripInfoForm: FormGroup;
   movingDateForm: FormGroup;
   contactInfoForm: FormGroup;
-  movingDetail: any = {};
   movingType = MovingType.Small;
   formUpdated: boolean = false;
 
@@ -55,7 +53,7 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
   orientation: StepperOrientation = 'vertical';
   isLinear = true;
   uploadFilePath = '/small-moving/';
-  _downloadURLS;
+  downloadURLs: string[] = [];
 
   center: google.maps.LatLngLiteral = {lat: 43.651070, lng: -79.347015};
   zoom = 4;
@@ -67,17 +65,13 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
     this.contactInfoForm = this.movingOrderService.createContactForm(this._formBuilder);
+
     this.movingOrderService.order$.subscribe(order => {
-      debugger;
       this.order = order;
     })
+    this.orientation = setOrientation(this.rwd.defaultSize);
     this.rwd.onResize$.subscribe(size => {
-      debugger;
-      if(size === SCREEN_SIZE.XS){
-        this.orientation = 'vertical';
-      }else{
-        this.orientation = 'horizontal';
-      }
+      this.orientation = setOrientation(size);
     });
   }
   ngAfterViewInit(){
@@ -89,40 +83,40 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
     }
     this.cd.detectChanges();
   }
+
+
   updateTripInfo(event: any){
     if(event === 'next'){
       this.directionsResults = this.movingOrderService.directionsResults;
     }
   }
 
+  addContactInfo(event: any){
+    this.movingOrderService.updateContactInfo(this.contactInfoForm);
+    this.stepper.next();
+  }
+
   updateUploadPath(){
     this.uploadFilePath += this.movingOrderService.contactInfoForm.value['phone'] + '/';
   }
   onDatePick(){
-    debugger;
     this.movingOrderService.updateDateForm(this.movingDateForm);
   }
 
   uploadFileComplete(event: any){
+    this.store.pipe(select(selectPayloadById({id: event}))).subscribe(
+      payloads => {
+        this.downloadURLs = payloads;
+        this.order['payloads'] = this.downloadURLs;
+      });
     this.stepper.next();
-    console.log(this.order);
   }
 
   onSubmit(){
-    this.store.select(selectPayloadById({id: this.contactInfoForm.value['phone']})).subscribe(
-      payload => {
-        this._downloadURLS = payload;
-      });
-    const moving_order:MovingOrder = {
-      id: this.movingOrderService.contactInfoForm.value['phone'],
-      type: MovingType.Small,
-      status: OrderStatus.Pending,
-      trip: this.movingOrderService.tripForm.value,
-      movingDate: this.movingDateForm.value.date,
-      contact: this.movingOrderService.contactInfoForm.value,
-      payload: this._downloadURLS
-    }
-    this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: moving_order}));
+    this.order["id"] = this.order['contact'].phone + '-' + new Date().toISOString().slice(0, 10);
+    this.order['type'] = MovingType.Small;
+    debugger;
+    this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: this.order}));
   }
 
 }

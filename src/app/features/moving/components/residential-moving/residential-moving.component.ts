@@ -25,7 +25,7 @@ import {MovingType} from "../../enums/moving-type";
 import {OrderStatus} from "../../enums/order-status";
 import {Store} from "@ngrx/store";
 import {MovingOrderActions} from "../../../../core/store/moving-order/moving-order.actions";
-import {SCREEN_SIZE} from "../../../../shared/enums/screen-size";
+import {setOrientation} from "../../../../../util/helper";
 
 @Component({
   selector: 'app-moving-order',
@@ -39,7 +39,7 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
 
   public formUpdated = false;
   movingType = MovingType.Residential;
-  orientation: StepperOrientation = 'vertical';
+  orientation: StepperOrientation;
 
   center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
   zoom = 4;
@@ -69,11 +69,7 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
   constructor(private _formBuilder: FormBuilder, private store: Store,
               private rwd: ResponsiveDesignService, private movingOrderService: MovingOrderService) {
     this.rwd.onResize$.subscribe(size => {
-      if(size === SCREEN_SIZE.XS){
-        this.orientation = 'vertical';
-      }else{
-        this.orientation = 'horizontal';
-      }
+      setOrientation(size);
     });
   }
 
@@ -81,6 +77,10 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
     this.propertyForm = this.movingOrderService.createPropertyForm();
     this.bulkyItemsForm = this.movingOrderService.createBulkItemsForm()
     this.movingDateForm = this.movingOrderService.createMovingDateForm(this._formBuilder);
+    this.orientation = setOrientation(this.rwd.defaultSize);
+    this.rwd.onResize$.subscribe(size => {
+      this.orientation = setOrientation(size);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -103,6 +103,7 @@ export class ResidentialMovingComponent implements OnInit, AfterViewInit {
 
   onSubmit(){
     const order = this.movingOrderService.movingOrder;
+
     order["id"] = order['contact'].phone + '-' + new Date().toISOString().slice(0, 10);
     order["type"] = this.movingType;
     order['status'] = OrderStatus.Placed;

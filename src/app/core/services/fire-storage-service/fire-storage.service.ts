@@ -72,7 +72,7 @@ export class FireStorageService {
     // storageRef.listAll().subscribe({
     //   next: (result) => {
     //     for (const item of result.items) {
-    //       // Download each item (payload)
+    //       // Download each item (payloads)
     //       this.downloadFile(item.fullPath);
     //     }
     //   },

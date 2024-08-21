@@ -1,19 +1,18 @@
 import {Injectable, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SmallMovingDetail} from "../../models/small-moving-detail";
-import {Store} from "@ngrx/store";
+import {select, Store} from "@ngrx/store";
 import {MovingOrder} from "../../models/moving-order";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {selectPayloadById} from "../../../../core/store/payload/payload.selectors";
 
 @Injectable({
   providedIn: 'root'
 })
-export class MovingOrderService implements OnInit {
+export class MovingOrderService {
   private _directionsResults: google.maps.DirectionsResult | undefined;
   orderSubject = new BehaviorSubject<MovingOrder>({} as MovingOrder);
   private _tripForm: FormGroup;
   private _contactInfoForm: FormGroup;
-  private _movingDetails = {} as SmallMovingDetail;
   private order: MovingOrder;
   // Regular expression for North American phone numbers (US and Canada)
   private _phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -60,14 +59,11 @@ export class MovingOrderService implements OnInit {
         marbleFurniture: '',
         refrigerator: ''
       },
-      payload: []
+      payloads: []
     };
-  }
 
-  ngOnInit(): void {
     this.orderSubject.next(this.order);
   }
-
   setTripInfo(newTripInfo: google.maps.DirectionsResult) {
     this.order.trip['from'] = newTripInfo.routes[0].legs[0].start_address;
     this.order.trip['to'] = newTripInfo.routes[0].legs[0].end_address;
@@ -81,6 +77,7 @@ export class MovingOrderService implements OnInit {
 
   updateContactInfo(contactInfoForm: FormGroup) {
     this.order.contact = contactInfoForm.value;
+    this.order.id = contactInfoForm.value['phone'];
   }
 
   updateDateForm(dateForm: FormGroup) {
@@ -129,9 +126,7 @@ export class MovingOrderService implements OnInit {
   set directionsResults(value: google.maps.DirectionsResult | undefined) {
     this._directionsResults = value;
   }
-  get tripForm(): FormGroup {
-    return this._tripForm;
-  }
+
   get contactInfoForm(): FormGroup {
     return this._contactInfoForm;
   }

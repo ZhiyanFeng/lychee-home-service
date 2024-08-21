@@ -1,10 +1,9 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepperModule} from "@angular/material/stepper";
 import {TranslateModule} from "@ngx-translate/core";
-import {map, Observable, tap} from "rxjs";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MapDirectionsService} from "@angular/google-maps";
 import {MovingOrderService} from "../../services/moving-order-service/moving-order.service";
@@ -16,7 +15,7 @@ import {MovingOrderService} from "../../services/moving-order-service/moving-ord
   templateUrl: './trip-info.component.html',
   styleUrls: ['./trip-info.component.css']
 })
-export class TripInfoComponent implements OnInit{
+export class TripInfoComponent implements OnInit, AfterViewInit {
   @Output() tripStepEvent = new EventEmitter<any>();
   @ViewChild('from') from: ElementRef;
   @ViewChild('to') to: ElementRef;
@@ -31,7 +30,7 @@ export class TripInfoComponent implements OnInit{
   destinationLocation: google.maps.places.Autocomplete | undefined;
   directionsService = new google.maps.DirectionsService();
 
-  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private movingDetailService: MovingOrderService) {
+  constructor(private _formBuilder: FormBuilder, private mapDirectionsService: MapDirectionsService, private movingOrderService: MovingOrderService) {
   }
   ngOnInit(): void {
     this.isReady = true;
@@ -64,8 +63,8 @@ export class TripInfoComponent implements OnInit{
 
     this.directionsService.route(request,  (result, status) => {
       if (status === 'OK') {
-        this.movingDetailService.directionsResults = result;
-        this.movingDetailService.setTripInfo(result);
+        this.movingOrderService.directionsResults = result;
+        this.movingOrderService.setTripInfo(result);
         this.tripStepEvent.emit('next');
       } else {
         //to implement

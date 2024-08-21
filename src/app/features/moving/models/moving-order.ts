@@ -5,7 +5,7 @@ import {Contact} from "../services/models/contact";
 import {Nullable} from "primeng/ts-helpers";
 
 export interface MovingOrder {
-  id: string
+  id: string;
   type: string;
   status:Nullable<string>;
   trip: Trip;
@@ -13,7 +13,7 @@ export interface MovingOrder {
   contact: Contact;
   property?: Nullable<Property>;
   bulkyItems?: Nullable<BulkyItems>;
-  payload?: Nullable<string[]>;
+  payloads?: Nullable<string[]>;
   createdAt?: Date;
 }
 

@@ -16,7 +16,7 @@ import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import {getAuth, provideAuth} from "@angular/fire/auth";
 import {FIREBASE_OPTIONS} from "@angular/fire/compat";
 import {PayloadEffects} from "./core/store/payload/payload.effects";
-import {payloadFeatureKey, payloadReducer} from "./core/store/payload/payload.reducer";
+import {payloadReducer} from "./core/store/payload/payload.reducer";
 import {imageReducer} from "./core/store/images/image.reducer";
 import {ImageEffects} from "./core/store/images/image.effects";
 import {getStorage, provideStorage} from "@angular/fire/storage";

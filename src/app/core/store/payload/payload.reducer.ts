@@ -16,24 +16,26 @@ export const payloadReducer = createReducer(
   initialState,
   on (PayloadActions.uploadPayloadSuccess, (state, {id,url}) =>
     {
+      let newState = {};
       if(!state.entities[id]){
         let newPayload = {
           id: id,
           payloadURLs: [url]
         } as Payload;
-        state = adapter.addOne(newPayload, state);
-        return state;
+        newState = adapter.addOne(newPayload, state);
+
+        return {...state, ...newState};
       }
 
       let payload = state.entities[id];
       if(!payload.payloadURLs.includes(url)){
         payload = {...payload, payloadURLs: [...payload.payloadURLs, url]};
-        state =  adapter.updateOne({
+        newState =  adapter.updateOne({
           id: id,
           changes: payload
         }, state);
       }
-      return state;
+      return {...state, ...newState};
     }
   )
 );

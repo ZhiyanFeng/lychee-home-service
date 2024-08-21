@@ -41,7 +41,7 @@ export class FirestoreService {
       contact: data.contact,
       property: data.property,
       bulkyItems: data.bulkyItems,
-      payload: data.payload,
+      payloads: data.payload,
       createdAt: data.createdAt.toDate()
     };
   }
