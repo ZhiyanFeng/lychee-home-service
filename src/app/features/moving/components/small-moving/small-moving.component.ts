@@ -115,7 +115,6 @@ export class SmallMovingComponent implements OnInit, AfterViewInit{
   onSubmit(){
     this.order["id"] = this.order['contact'].phone + '-' + new Date().toISOString().slice(0, 10);
     this.order['type'] = MovingType.Small;
-    debugger;
     this.store.dispatch(MovingOrderActions.saveMovingOrder({movingOrder: this.order}));
   }
 

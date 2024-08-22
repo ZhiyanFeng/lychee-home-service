@@ -3,9 +3,9 @@
   <mat-card-content>
     <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
       <h2>Log In</h2>
-      <mat-error *ngIf="!loginValid">
-        The username and password were not recognized
-      </mat-error>
+<!--      <mat-error *ngIf="!isLogined">-->
+<!--        The username and password were not recognized-->
+<!--      </mat-error>-->
       <mat-form-field>
         <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
         <mat-error>

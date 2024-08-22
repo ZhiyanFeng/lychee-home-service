@@ -28,6 +28,7 @@ export class FirestoreService {
         movingOrders = [...movingOrders, movingOrder];
       });
     })
+    debugger;
     return movingOrders;
   }
 
@@ -57,7 +58,8 @@ export class FirestoreService {
   }
 
   async sendEmail(movingOrder: MovingOrder, template: string) {
-    const emailRef = doc(this.db, "email");
+    debugger;
+    const emailRef = doc(this.db, environment.firebaseConstants.emailCollection, movingOrder.id);
     await setDoc(emailRef, {
       from: environment.companyEmail,
       to: movingOrder.contact.email,

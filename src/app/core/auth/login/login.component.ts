@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
@@ -19,17 +19,18 @@ export class LoginComponent {
 
   public email: string;
   public password: string;
-  public loginValid = true;
   private user: User ={
     email: '',
     password: ''
   };
 constructor(private authService: AuthService) {
 }
+
+
   onSubmit(){
     this.user.email = this.email;
     this.user.password = this.password;
-    this.loginValid = this.authService.login(this.user);
+    this.authService.login(this.user);
   }
 
   // loginWithGoogle() {

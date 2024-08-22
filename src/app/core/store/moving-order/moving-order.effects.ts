@@ -14,7 +14,7 @@ export class MovingOrderEffects {
       concatMap((action) => from(this.fireStoreService.loadMovingOrders())
         .pipe(
           map((response) => MovingOrderActions.loadMovingOrdersSuccess({movingOrders: response})),
-          catchError(() => EMPTY)
+          catchError((err) => {console.log(err); return EMPTY;})
         ))
     )
   );
