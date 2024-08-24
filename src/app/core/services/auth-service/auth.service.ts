@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import { getAuth, signInWithEmailAndPassword, Auth, browserLocalPersistence} from "firebase/auth";
 // import firebase from "firebase";
 import firebase from "firebase/app";
+import * as firebaseui from 'firebaseui';
+import 'firebase/auth';
 import {BehaviorSubject, Observable} from "rxjs";
 
 
