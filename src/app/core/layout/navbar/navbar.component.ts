@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, CommonModule} from '@angular/common';
-import {TranslatePipe} from "../../../shared/pipes/translate-pipe/translate.pipe";
 import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -9,14 +8,13 @@ import {MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
-import {languageActions} from "../../store/languages/language.actions";
 import {MatInputModule} from "@angular/material/input";
 import {AuthService} from "../../services/auth-service/auth.service";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, AsyncPipe, MatToolbarModule, FlexModule, MatMenuModule, MatIconModule, MatButtonModule, TranslateModule, MatInputModule],
+  imports: [CommonModule, AsyncPipe, MatToolbarModule, FlexModule, MatMenuModule, MatIconModule, MatButtonModule, TranslateModule, MatInputModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -44,7 +42,7 @@ export class NavbarComponent implements OnInit {
   }
 
   setLanguage(lan: string){
-    this.store.dispatch(languageActions.setLanguage({language: lan}));
+    // this.store.dispatch(languageActions.setLanguage({language: lan}));
     this.translate.use(lan);
     this.language = lan;
     this.onCollapsed();

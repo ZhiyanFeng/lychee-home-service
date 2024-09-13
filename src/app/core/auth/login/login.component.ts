@@ -36,75 +36,35 @@ constructor(private authService: AuthService) {
 }
 ngOnInit() {
   const uiConfig = {
+    callbacks: {
+      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        // User successfully signed in.
+        // Return type determines whether we continue the redirect automatically
+        // or whether we leave that to developer to handle.
+        debugger;
+        console.log(authResult);
+        return true;
+      },
+      uiShown: function() {
+        // The widget is rendered.
+        // Hide the loader.
+        document.getElementById('loader').style.display = 'none';
+      }
+    },
+    signInFlow: 'popup',
     signInSuccessUrl: '/',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID
     ],
   };
-
-  this.ui = new firebaseui.auth.AuthUI(firebase.auth());
+  this.ui = new firebaseui.auth.AuthUI(this.auth);
   this.ui.start('#firebaseui-auth-container', uiConfig);
-}
-
-// ngOnInit() {
-//   // Initialize the FirebaseUI Widget using Firebase.
-//   const ui = new firebaseui.auth.AuthUI(firebase.auth());
-//   const uiConfig = {
-//     callbacks: {
-//       signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-//         // User successfully signed in.
-//         // Return type determines whether we continue the redirect automatically
-//         // or whether we leave that to developer to handle.
-//         return true;
-//       },
-//       uiShown: function() {
-//         // The widget is rendered.
-//         // Hide the loader.
-//         document.getElementById('loader').style.display = 'none';
-//       }
-//     },
-//     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-//     signInFlow: 'popup',
-//     signInSuccessUrl: '/home',
-//     signInOptions: [
-//       // Leave the lines as is for the providers you want to offer your users.
-//       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-//       firebase.auth.EmailAuthProvider.PROVIDER_ID,
-//       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-//       firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-//       firebase.auth.GithubAuthProvider.PROVIDER_ID,
-//       firebase.auth.PhoneAuthProvider.PROVIDER_ID
-//     ],
-//     // Terms of service url.
-//     tosUrl: '<your-tos-url>',
-//     // Privacy policy url.
-//     privacyPolicyUrl: '<your-privacy-policy-url>'
-//   };
-//   // The start method will wait until the DOM is loaded.
-//   ui.start('#firebaseui-auth-container', uiConfig);
-// }
-//
+  }
 
   onSubmit(){
     this.user.email = this.email;
     this.user.password = this.password;
     this.authService.login(this.user);
   }
-
-  // loginWithGoogle() {
-  //   const provider = new GoogleAuthProvider();
-  //   signInWithPopup(this.afAuth.auth, provider)
-  //     .then((result) => {
-  //       // User successfully signed in
-  //       const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       const token = credential.accessToken;
-  //       console.log(result.user); // User data (including ID token)
-  //       // Send the access token to your backend for further processing
-  //       this.router.navigate(['/home']); // Redirect to home page after login
-  //     })
-  //     .catch((error) => {
-  //       console.error(error); // Handle errors
-  //     });
-  // }
 }

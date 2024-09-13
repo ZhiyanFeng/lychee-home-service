@@ -1,9 +1,8 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import {NavbarComponent} from "./core/layout/navbar/navbar.component";
 import {Store} from "@ngrx/store";
-import {languageActions} from "./core/store/languages/language.actions";
 import {FooterComponent} from "./core/layout/footer/footer.component";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {PrimeNGConfig} from "primeng/api";
@@ -28,7 +27,6 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.store.dispatch(languageActions.setLanguage({language: 'en'}));
     this.primengConfig.ripple = true;
     this.primengConfig.zIndex = {
       modal: 1100,    // dialog, sidebar
