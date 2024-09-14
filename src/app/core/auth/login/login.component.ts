@@ -55,7 +55,9 @@ ngOnInit() {
           picture: authResult.additionalUserInfo.profile.picture.toString(),
           role: ROLES.USER,
         }
-        this.store.dispatch(UserActions.saveUser({user: user}));
+        if(authResult.additionalUserInfo.isNewUser){
+          this.store.dispatch(UserActions.saveUser({user: user}));
+        }
         return false;
       }).bind(this),
     },
