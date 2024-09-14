@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   language = 'en';
   collapsed = '';
   isExpanded = false;
-  public isLogined = true;
+  public isLoggedIn = true;
 
   constructor(private router: Router, private translate: TranslateService, private store: Store, private authService: AuthService) {
   }
@@ -32,12 +32,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
   ngOnInit(): void {
-    this.authService.isLoginedChanged.subscribe((isLogined) => {
-      if(isLogined){
-        this.isLogined = true;
-      }else{
-        this.isLogined = false;
-      }
+    this.authService.isLoginedChanged.subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
     });
   }
 

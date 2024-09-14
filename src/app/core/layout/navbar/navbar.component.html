@@ -61,12 +61,12 @@
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #accountMenu="matMenu">
-          <button *ngIf="!isLogined" mat-menu-item (click)="onLogin()">
+          <button *ngIf="!isLoggedIn" mat-menu-item (click)="onLogin()">
             <mat-icon>login</mat-icon>
             <span>Login</span>
           </button>
 
-          <button *ngIf="isLogined" mat-menu-item (click)="onLogout()">
+          <button *ngIf="isLoggedIn" mat-menu-item (click)="onLogout()">
             <mat-icon>logout</mat-icon>
             <span>Logout</span>
           </button>

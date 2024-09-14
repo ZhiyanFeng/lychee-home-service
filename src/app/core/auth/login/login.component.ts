@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
@@ -26,9 +26,10 @@ import {UserActions} from "../../store/user/user.actions";
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy{
 
   ui: firebaseui.auth.AuthUI;
+  uiConfig: any;
   auth:Auth ;
 
   public email: string;
@@ -37,41 +38,20 @@ export class LoginComponent implements OnInit {
     email: '',
     password: ''
   };
-constructor(private authService: AuthService, private userService: UserService, private store:Store) {
-  this.auth = getAuth();
-}
-ngOnInit() {
-  const uiConfig = {
-    callbacks: {
-      signInSuccessWithAuthResult: (function(authResult, redirectUrl) {
-        // Credentials successfully signed in.
-        // Return type determines whether we continue the redirect automatically
-        // or whether we leave that to developer to handle.
-        let user = {
-          id: this.auth.currentUser.uid,
-          email: authResult.additionalUserInfo.profile.email,
-          firstName: authResult.additionalUserInfo.profile.given_name,
-          lastName: authResult.additionalUserInfo.profile.family_name,
-          picture: authResult.additionalUserInfo.profile.picture.toString(),
-          role: ROLES.USER,
-        }
-        if(authResult.additionalUserInfo.isNewUser){
-          this.store.dispatch(UserActions.saveUser({user: user}));
-        }
-        return false;
-      }).bind(this),
-    },
-    signInFlow: 'popup',
-    signInSuccessUrl: '/',
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ],
-  };
-  this.ui = new firebaseui.auth.AuthUI(this.auth);
-  this.ui.start('#firebaseui-auth-container', uiConfig);
+  constructor(private authService: AuthService, private userService: UserService, private store:Store) {
+    this.auth = getAuth();
   }
-
+  ngOnInit() {
+    debugger;
+    this.ui = this.authService.getFirebaseUi();
+    this.uiConfig = this.authService.getFirebaseUiConfig();
+    this.ui.start('#firebaseui-auth-container', this.uiConfig);
+  }
+  ngOnDestroy() {
+    if (this.ui) {
+      this.ui.delete();
+    }
+  }
   onSubmit(){
     this.user.email = this.email;
     this.user.password = this.password;
