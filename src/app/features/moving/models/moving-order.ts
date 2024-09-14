@@ -1,7 +1,7 @@
 import {Trip} from "./trip";
 import {Property} from "./property";
 import {BulkyItems} from "./bulkyItems";
-import {Contact} from "../services/models/contact";
+import {Contact} from "./contact";
 import {Nullable} from "primeng/ts-helpers";
 
 export interface MovingOrder {

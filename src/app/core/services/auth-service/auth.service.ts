@@ -1,5 +1,5 @@
 import {Injectable, Output} from '@angular/core';
-import {User} from "../../../features/moving/services/models/user";
+import {Credentials} from "../../../features/moving/models/credentials";
 import {Router} from "@angular/router";
 // import {AngularFireAuth, PERSISTENCE} from "@angular/fire/compat/auth";
 import { getAuth, signInWithEmailAndPassword, Auth, browserLocalPersistence} from "firebase/auth";
@@ -23,7 +23,7 @@ export class AuthService {
     this.isLogined$ = this.isLoginedChanged.asObservable();
   }
 
-  login(user: User): void {
+  login(user: Credentials): void {
     this.auth.setPersistence(browserLocalPersistence).then(() => {
       signInWithEmailAndPassword(this.auth, user.email, user.password).then((userCredential) => {
         // Signed in
@@ -50,5 +50,9 @@ export class AuthService {
 
   authSuccessfully(){
     this.router.navigate(["/moving-orders"]);
+  }
+
+  getUserId(){
+    return this.currentUser.uid;
   }
 }
