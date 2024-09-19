@@ -7,5 +7,8 @@ export const UserActions = createActionGroup({
     'Save User': props<{user: User}>(),
     'Save User Success': emptyProps(),
     'Save User Failure': props<{ error: unknown }>(),
+    'Get User': props<{id: string}>(),
+    'Get User Success': props<{user: User}>(),
+    'Get User Failure': props<{ error: unknown }>(),
   }
 });

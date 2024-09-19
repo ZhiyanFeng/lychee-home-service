@@ -4,8 +4,9 @@ import {FireStorageService} from "../../services/fire-storage-service/fire-stora
 import {Store} from "@ngrx/store";
 import {UserService} from "../../services/user-service/user.service";
 import {PayloadActions} from "../payload/payload.actions";
-import {catchError, concatMap, EMPTY, from, map} from "rxjs";
+import {catchError, concatMap, EMPTY, from, map, tap} from "rxjs";
 import {UserActions} from "./user.actions";
+import {Router} from "@angular/router";
 
 
 
@@ -13,17 +14,29 @@ import {UserActions} from "./user.actions";
 export class UserEffects {
 
 
-  constructor(private actions$: Actions, private userOrderService: UserService, private store: Store) {
+  constructor(private actions$: Actions, private userService: UserService, private store: Store, private router: Router) {
   }
 
   saveUser$ = createEffect(() => this.actions$.pipe(
       ofType(UserActions.saveUser),
-      concatMap((action) => from(this.userOrderService.saveUser(action.user))
+      concatMap((action) => from(this.userService.saveUser(action.user))
         .pipe(
-          map(url => UserActions.saveUserSuccess()),
+          map(url => UserActions.getUser({id: action.user.id})),
           catchError(() => EMPTY)
         ))
     )
   );
+
+  getUser$ = createEffect(() => this.actions$.pipe(
+      ofType(UserActions.getUser),
+      concatMap((action) => from(this.userService.getUser(action.id))
+        .pipe(
+          map(user => UserActions.getUserSuccess({user: user})),
+          tap(user => this.router.navigate(['/'])),
+          catchError(() => EMPTY)
+        ))
+    )
+  );
+
 
 }

@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy{
     this.auth = getAuth();
   }
   ngOnInit() {
-    debugger;
     this.ui = this.authService.getFirebaseUi();
     this.uiConfig = this.authService.getFirebaseUiConfig();
     this.ui.start('#firebaseui-auth-container', this.uiConfig);
@@ -57,5 +56,4 @@ export class LoginComponent implements OnInit, OnDestroy{
     this.user.password = this.password;
     this.authService.login(this.user);
   }
-
 }

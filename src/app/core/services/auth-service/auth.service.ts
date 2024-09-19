@@ -9,6 +9,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {ROLES} from "../../../shared/enums/roles";
 import {UserActions} from "../../store/user/user.actions";
 import {User} from "../../../shared/models/user";
+import {Store} from "@ngrx/store";
 
 
 @Injectable(
@@ -36,8 +37,10 @@ export class AuthService {
         debugger;
         if(authResult.additionalUserInfo.isNewUser){
           this.store.dispatch(UserActions.saveUser({user: user}));
+        }else {
+          this.store.dispatch(UserActions.getUser({id: user.id}));
         }
-        return true;
+        return false;
       }).bind(this),
     },
     signInFlow: 'popup',
@@ -48,7 +51,7 @@ export class AuthService {
     ],
   };
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private store: Store) {
     this.auth = getAuth();
     this.auth.onAuthStateChanged((user) => {
       this.isLoginedChanged.next(!!user);
